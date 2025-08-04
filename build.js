@@ -2168,8 +2168,7 @@ function getNextLanguage() {
             },
             // TEMPLATES
             {
-                hidden: true,
-                hidden: kiss.screen.isMobile,
+                hidden: true,//kiss.screen.isMobile,
                 text: t("Templates"),
                 href: kiss.global.pathAirProcess + `/client/airprocess/demo.html#ui=templates-list&language=${kiss.language.current}`,
                 target: "_new",
