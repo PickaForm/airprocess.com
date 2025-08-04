@@ -2161,6 +2161,7 @@ function getNextLanguage() {
             },
             // BLOG
             {
+                hidden: true,
                 text: "Blog",
                 href: `https://blog.airprocess.com/${kiss.language.current}`,
                 target: "_new",
