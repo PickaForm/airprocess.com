@@ -86,6 +86,7 @@ kiss.app.defineView({
             },
             // TEMPLATES
             {
+                hidden: true,
                 hidden: kiss.screen.isMobile,
                 text: t("Templates"),
                 href: kiss.global.pathAirProcess + `/client/airprocess/demo.html#ui=templates-list&language=${kiss.language.current}`,
