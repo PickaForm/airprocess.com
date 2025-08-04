@@ -18,7 +18,7 @@ kiss.templates.buttonCTA = function (text, page) {
                 window.open(link, "_new")
             }
             else {
-                const link = "https://app.airprocess.com/client/airprocess/index.html#ui=authentication-register&language=" + (kiss.language.current || "en")
+                const link = "https://app.airprocess.com/client/pickaform/index.html#ui=authentication-register&language=" + (kiss.language.current || "en")
                 window.open(link, "_new")
             }
         },

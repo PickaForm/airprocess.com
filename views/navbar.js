@@ -89,7 +89,7 @@ kiss.app.defineView({
             {
                 hidden: true,//kiss.screen.isMobile,
                 text: t("Templates"),
-                href: kiss.global.pathAirProcess + `/client/airprocess/demo.html#ui=templates-list&language=${kiss.language.current}`,
+                href: kiss.global.pathAirProcess + `/client/pickaform/demo.html#ui=templates-list&language=${kiss.language.current}`,
                 target: "_new",
                 view: ""
             },
@@ -97,7 +97,7 @@ kiss.app.defineView({
             {
                 hidden: kiss.screen.isMobile,
                 text: t("Get started"),
-                href: kiss.global.pathAirProcess + "/client/airprocess/index.html#ui=authentication-register",
+                href: kiss.global.pathAirProcess + "/client/pickaform/index.html#ui=authentication-register",
                 target: "_new",
                 view: ""
             },
@@ -105,7 +105,7 @@ kiss.app.defineView({
             {
                 // hidden: kiss.screen.isMobile,
                 text: t("Login"),
-                href: kiss.global.pathAirProcess + "/client/airprocess/index.html#ui=authentication-login",
+                href: kiss.global.pathAirProcess + "/client/pickaform/index.html#ui=authentication-login",
                 target: "_new",
                 view: ""
             }
@@ -244,7 +244,7 @@ kiss.app.defineView({
                             window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
                         } else if (element.innerHTML.includes("Templates") || element.innerHTML.includes("Modèles")) {
                             // TEMPLATES
-                            window.open(kiss.global.pathAirProcess + `/client/airprocess/demo.html#ui=templates-list&language=${kiss.language.current}`, "_new")
+                            window.open(kiss.global.pathAirProcess + `/client/pickaform/demo.html#ui=templates-list&language=${kiss.language.current}`, "_new")
                         } else if (view) {
                             kiss.router.navigateTo({
                                 content: view
