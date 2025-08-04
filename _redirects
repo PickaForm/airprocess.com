@@ -1,0 +1,10 @@
+/:language  /index.html#ui=start&content=landing&language=:language
+/:language/landing    /index.html#ui=start&content=landing&language=:language
+/:language/product    /index.html#ui=start&content=product&language=:language
+/:language/cases    /index.html#ui=start&content=cases&language=:language
+/:language/contact    /index.html#ui=start&content=contact&language=:language
+/:language/pricing    /index.html#ui=start&content=pricing&language=:language
+/:language/blog   /index.html#ui=start&content=blog&language=:language
+/:language/blog/:postId   /index.html#ui=start&content=blogPost&language=:language&postId=:postId
+/:language/blog/search/:category  /index.html#ui=start&content=blog&language=:language&category=:category
+/:language/artworks    /index.html#ui=start&content=artworks&language=:language

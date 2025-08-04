@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- MAIN -->
+  <url>
+    <loc>https://pickaform.fr/en/landing</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/landing" />
+  </url>
+  <url>
+    <loc>https://pickaform.fr/fr/landing</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/landing" />
+  </url>
+
+  <!-- PRODUCT -->
+  <url>
+    <loc>https://pickaform.fr/en/product</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/product" />
+  </url>
+  <url>
+    <loc>https://pickaform.fr/fr/product</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/product" />
+  </url>
+
+  <!-- CASES -->
+  <url>
+    <loc>https://pickaform.fr/en/cases</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/cases" />
+  </url>
+  <url>
+    <loc>https://pickaform.fr/fr/cases</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/cases" />
+  </url>
+
+  <!-- CONTACT -->
+  <url>
+    <loc>https://pickaform.fr/en/contact</loc>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/contact" />
+  </url>
+  <url>
+    <loc>https://pickaform.fr/fr/contact</loc>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/contact" />
+  </url>
+
+  <!-- PRICING -->
+  <url>
+    <loc>https://pickaform.fr/en/pricing</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/pricing" />
+  </url>
+  <url>
+    <loc>https://pickaform.fr/fr/pricing</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/pricing" />
+  </url>
+
+  <!-- BLOG -->
+  <!--
+    <url>
+    <loc>https://pickaform.fr/en/blog</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/blog" />
+  </url>
+  <url>
+    <loc>https://pickaform.fr/fr/blog</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/blog" />
+  </url>
+  -->
+  <url>
+    <loc>https://blog.pickaform.com/en/</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://blog.pickaform.com/fr/" />
+  </url>
+  <url>
+    <loc>https://blog.pickaform.com/fr/</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://blog.pickaform.com/en/" />
+  </url>
+
+  <!-- ARTWORKS -->
+  <url>
+    <loc>https://pickaform.fr/en/artworks</loc>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/artworks" />
+  </url>
+  <url>
+    <loc>https://pickaform.fr/fr/artworks</loc>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/artworks" />
+  </url>
+</urlset>

@@ -1,0 +1,240 @@
+/**
+* BASE CSS PARAMETERS
+*
+* 1. Components shouldn't set the external geometry and influence their environment.
+*    In short: AVOID USING MARGINS whenever it's possible.
+*    Instead of margins, use the PADDING of the container element.
+*
+* 2. Class names should be self-explanatory and be prefixed with the component name.
+*    Ex: panel, panel-header, panel-title, panel-icon, panel-body...
+* 
+* A word about performances:
+*    An important % of the page rendering time is spent figuring out what we call the "Computed Style" of elements (= how the elements look after all style rules have been applied)
+*    Despite the intrinsic (and convenient) cascading nature of CSS, we should limit the use of cascading classes because it takes a longer time to process the computed style.
+*    In short:
+*    - limit the global number of classes
+*    - avoid (or at least limit) nested or complex selectors
+*    - attach from 1 to 3 classes to elements, not more (when possible)
+*
+* 3. When possible, avoid using "pixels" as a unit of measure.
+*    Use "rem" instead so your interface can scale properly by adjusting the font-size of the root element.
+*/
+html {
+    
+    /* MOST IMPORTANT PARAMETER TO SCALE THE ENTIRE UI */
+    font-size: 62.5%;
+    
+    /* Reset default browser styles */
+    min-height: 100%;
+    box-sizing: border-box;
+    overscroll-behavior-y: none;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-size: var(--body-font-size);
+    margin: var(--body-margin);
+    min-height: var(--body-min-height);
+
+    color: var(--body);
+    background: var(--body-background);
+    font-family: var(--font-family);
+    overscroll-behavior-y: none;
+}
+
+a {
+    color: var(--link);
+}
+
+p {
+    font-family: inherit;
+    margin: var(--paragraph-margin);
+    padding: var(--paragraph-padding);
+}
+
+p:empty::before {
+    content: "\00a0";
+    display: block;
+    margin-top: var(--body-font-size);
+}
+
+pre {
+    font-family: inherit;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+}
+
+ul {
+    display: block;
+    line-height: var(--ul-line-height);
+    margin-block-start: var(--ul-margin-block-start);
+    margin-block-end: var(--ul-margin-block-end);
+    margin-inline-start: var(--ul-margin-inline-start);
+    margin-inline-end: var(--ul-margin-inline-end);
+    padding-inline-start: var(--ul-padding-inline-start);
+}
+
+/* Remove default field outline */
+input:focus, textarea:focus, select:focus {
+    outline: none;
+}
+
+/* Scrollbars (webkit only) */
+::-webkit-scrollbar {
+    height: var(--webkit-scrollbar-height);
+    width: var(--webkit-scrollbar-width);
+    background-color: var(--scrollbar-background);
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar);
+    border-radius: var(--webkit-scrollbar-thumb-border-radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-hover);
+}
+
+/* Scrollbars (Firefox) */
+* {
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--scrollbar);
+}
+
+/* Underline effects (currently used by form tabs) */
+.underline-effect {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    position: relative;
+    overflow: hidden;
+}
+
+.underline-effect:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 51%;
+    right: 51%;
+    bottom: 0;
+    background: var(--tab-underline-effect);
+    height: 2px;
+    -webkit-transition-property: left, right;
+    transition-property: left, right;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+.underline-effect:hover:before,
+.underline-effect:focus:before,
+.underline-effect:active:before {
+    left: 0;
+    right: 0;
+}
+
+/* Highlight UI elements - Used for onboarding quick tips */
+.highlight-overlay {
+    position: absolute;
+    background-color: rgba(0,0,0,0.5);
+    user-select: none;
+    z-index: 9999;
+}
+
+.highlight-arrow {
+    position: fixed;
+    color: #fff;
+    width: 0;
+    height: 0;
+}
+
+.highlight-label {
+    position: fixed;
+    padding: 2rem;
+    color: var(--body-background);
+    background: var(--body);
+    font-size: 1.8rem;
+    font-weight: bold;
+    border-style: solid;
+    border-color: var(--body-background);
+    border-width: 1px;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-4);
+    cursor: pointer;
+}
+
+@keyframes highlight-arrow-vertical {
+    0% {
+        transform: translateY(+1rem);
+    }
+
+    100% {
+        transform: translateY(-1rem);
+    }
+}
+
+@keyframes highlight-arrow-horizontal {
+    0% {
+        transform: translateX(+1rem);
+    }
+
+    100% {
+        transform: translateX(-1rem);
+    }
+}
+
+:root {
+    /* Base colors */
+    --yellow: #FFD139;
+    --alt-yellow: #CCA266;
+    --green: #09b626;
+    --alt-green: #008833;
+    --blue: #00aaee;
+    --alt-blue: #0075ff;
+    --purple: #ad77ee;
+    --alt-purple: #8833ee;
+    --red: #ED3757;
+    --alt-red: #B22222;
+    --orange: #FFAA00;
+    --alt-orange: #F77D05;
+    --pink: #FF8080;
+    --alt-pink: #EE77CC;
+    --gray: #cccccc;
+    --alt-gray: #7a7a7a;
+
+    /* Backgrounds */
+    --background-yellow: linear-gradient(120deg, var(--yellow) 0%, var(--alt-yellow) 100%);
+    --background-green: linear-gradient(120deg, var(--green) 0%, var(--alt-green) 100%);
+    --background-blue: linear-gradient(120deg, var(--blue) 0%, var(--alt-blue) 100%);
+    --background-purple: linear-gradient(120deg, var(--purple) 0%, var(--alt-purple) 100%);
+    --background-red: linear-gradient(120deg, var(--red) 0%, var(--alt-red) 100%);
+    --background-orange: linear-gradient(120deg, var(--orange) 0%, var(--alt-orange) 100%);
+    --background-pink: linear-gradient(120deg, var(--pink) 0%, var(--alt-pink) 100%);
+    --background-gray: linear-gradient(120deg, var(--gray) 0%, var(--alt-gray) 100%);
+
+    /* Animation transitions */
+    --transition-fast: all 0.1s;
+    --transition-medium: all 0.3s;
+    --transition-slow: all 0.6s;
+
+    /* Mask filter */
+    --backdrop-filter: blur(4px);
+    
+    /* Loading overlay */
+    --background-overlay: rgba(27, 11, 11, 0.3);
+}
+/* BASE CSS PARAMETERS */
