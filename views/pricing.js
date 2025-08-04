@@ -2,14 +2,14 @@ kiss.app.defineView({
     id: "pricing",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/pricing",
-            fr: "https://pickaform.fr/fr/pricing",
-            es: "https://pickaform.fr/es/pricing"
+            en: "https://airprocess.fr/en/pricing",
+            fr: "https://airprocess.fr/fr/pricing",
+            es: "https://airprocess.fr/es/pricing"
         },
         title: {
-            en: "Pricing | Pickaform",
-            fr: "Tarifs | Pickaform",
-            es: "Precios | Pickaform"
+            en: "Pricing | AirProcess",
+            fr: "Tarifs | AirProcess",
+            es: "Precios | AirProcess"
         },
         description: {
             en: `Get the Right Plan for Your Business Needs.`,
@@ -32,16 +32,16 @@ kiss.app.defineView({
             nocoders: {
                 en: `<br>
                 <br>
-                You are a <span class="text-highlight" style="background-color: #00aaee">Freelance NoCoder</span> or a <span class="text-highlight" style="background-color: #a1ed00">NoCode Agency</span>?
-                <br>Claim your special offer by scheduling an appointment <a href="https://calendly.com/pickaform/pickaform-live-demo">here</a>`,
+                You are a <span class="text-highlight" style="background-color: #00aaee">Freelance NoCoder</span> or a <span class="text-highlight" style="background-color: #aaee00">NoCode Agency</span>?
+                <br>Claim your special offer by scheduling an appointment <a href="https://calendly.com/airprocess/airprocess-live-demo">here</a>`,
                 fr: `<br>
                 <br>
-                Vous êtes un <span class="text-highlight" style="background-color: #00aaee">NoCodeur Freelance</span> ou une <span class="text-highlight" style="background-color: #a1ed00">Agence NoCode</span> ?
-                <br>Demandez votre offre spéciale en prenant RDV <a href="https://calendly.com/pickaform/pickaform-live-demo">ici</a>`,
+                Vous êtes un <span class="text-highlight" style="background-color: #00aaee">NoCodeur Freelance</span> ou une <span class="text-highlight" style="background-color: #aaee00">Agence NoCode</span> ?
+                <br>Demandez votre offre spéciale en prenant RDV <a href="https://calendly.com/airprocess/airprocess-live-demo">ici</a>`,
                 es: `<br>
                 <br>
-                ¿Eres un <span class="text-highlight" style="background-color: #00aaee">NoCoder Freelance</span> o una <span class="text-highlight" style="background-color: #a1ed00">Agencia NoCode</span>?
-                <br>Reclama tu oferta especial programando una cita <a href="https://calendly.com/pickaform/pickaform-live-demo">aquí</a>`
+                ¿Eres un <span class="text-highlight" style="background-color: #00aaee">NoCoder Freelance</span> o una <span class="text-highlight" style="background-color: #aaee00">Agencia NoCode</span>?
+                <br>Reclama tu oferta especial programando una cita <a href="https://calendly.com/airprocess/airprocess-live-demo">aquí</a>`
             },
             unlimitedForms: {
                 en: "unlimited forms",
@@ -66,13 +66,13 @@ kiss.app.defineView({
             enterprisePlan: {
                 en: `We have many other plans beyond that + on-premise versions beyond 100 users + a legacy HCL Domino version.
                 <br>
-                Please contact us for more informations: contact@pickaform.com`,
+                Please contact us for more informations: contact@airprocess.com`,
                 fr: `Nous avons des offres au-delà + des versions on-premise à partir de 100 utilisateurs + une version compatible HCL Domino.
                 <br>
-                Contactez-nous pour plus d'informations : contact@pickaform.com`,
+                Contactez-nous pour plus d'informations : contact@airprocess.com`,
                 es: `Tenemos muchas otras ofertas más allá de eso + versiones on-premise a partir de 100 usuarios + una versión HCL Domino heredada.
                 <br>
-                Contáctenos para obtener más información: contact@pickaform.`
+                Contáctenos para obtener más información: contact@airprocess.`
             },
             contactUs: {
                 en: "Contact us",
@@ -85,12 +85,12 @@ kiss.app.defineView({
                 es: `Reservo una demo`
             },
             faq0: {
-                en: "Why choose pickaform?",
-                fr: "Pourquoi choisir pickaform ?",
-                es: "¿Por qué elegir pickaform?"
+                en: "Why choose AirProcess?",
+                fr: "Pourquoi choisir AirProcess ?",
+                es: "¿Por qué elegir AirProcess?"
             },
             answer0: {
-                en: `Pickaform is not a cloud software born from a simple idea and created quickly to surf the wave of no-code.
+                en: `AirProcess is not a cloud software born from a simple idea and created quickly to surf the wave of no-code.
                 The story begins in 2009, long before "no-code" existed, and the design of the platform was 100% guided by the use of its users.
                 In 2019, ten years after the very first version, the platform is dedicated "IBM CHAMPION" in the category of Collaboration software.
                 From the outset, the platform has kept the same philosophy:
@@ -98,8 +98,8 @@ kiss.app.defineView({
                 <br>• a la carte functionalities integrated into forms
                 <br>• flexible and quick-to-implement workflow feature
                 <br>• simplicity
-                <br>Today, large companies use Pickaform on a daily basis for all types of use, and 95% of our users who adopt the platform use it for several years, guaranteeing maximum ROI.`,
-                fr: `Pickaform n'est pas un logiciel cloud issu d'une simple idée et créé rapidement pour surfer sur la vague du no-code.
+                <br>Today, large companies use AirProcess on a daily basis for all types of use, and 95% of our users who adopt the platform use it for several years, guaranteeing maximum ROI.`,
+                fr: `AirProcess n'est pas un logiciel cloud issu d'une simple idée et créé rapidement pour surfer sur la vague du no-code.
                 L'histoire commence en 2009, bien avant que le "no-code" existe, et la conception de la plateforme a été guidée à 100% par l'usage de ses utilisateurs.
                 En 2019, soit dix ans après la toute première version, la plateforme est consacrée "IBM CHAMPION" dans la categorie des logiciels de Collaboration.
                 Depuis l'origine, la plateforme a conservé la même philosophie :
@@ -107,8 +107,8 @@ kiss.app.defineView({
                 <br>• fonctionnalités à la carte intégrées aux formulaires
                 <br>• fonctionnalité de workflow flexible et rapide à mettre en place
                 <br>• simplicité
-                <br>Aujourd'hui, de grandes entreprises utilisent Pickaform au quotidien pour tous types d'usages, et 95% de nos utilisateurs qui adoptent la plateforme l'utilisent plusieurs années, garantissant un ROI maximal.`,
-                es: `Pickaform no es un software en la nube nacido de una idea simple y creado rápidamente para surfear la ola del no-code.
+                <br>Aujourd'hui, de grandes entreprises utilisent AirProcess au quotidien pour tous types d'usages, et 95% de nos utilisateurs qui adoptent la plateforme l'utilisent plusieurs années, garantissant un ROI maximal.`,
+                es: `AirProcess no es un software en la nube nacido de una idea simple y creado rápidamente para surfear la ola del no-code.
                 La historia comienza en 2009, mucho antes de que existiera el "no-code", y el diseño de la plataforma fue 100% guiado por el uso de sus usuarios.
                 En 2019, diez años después de la primera versión, la plataforma es consagrada "IBM CHAMPION" en la categoría de software de colaboración.
                 Desde el principio, la plataforma ha mantenido la misma filosofía:
@@ -116,20 +116,20 @@ kiss.app.defineView({
                 <br>• funcionalidades a la carta integradas en los formularios
                 <br>• característica de flujo de trabajo flexible y rápida de implementar
                 <br>• simplicidad
-                <br>Hoy en día, grandes empresas utilizan Pickaform a diario para todo tipo de usos, y el 95% de nuestros usuarios que adoptan la plataforma la utilizan durante varios años, garantizando un ROI máximo`
+                <br>Hoy en día, grandes empresas utilizan AirProcess a diario para todo tipo de usos, y el 95% de nuestros usuarios que adoptan la plataforma la utilizan durante varios años, garantizando un ROI máximo`
             },
             faq1: {
-                en: "Who uses Pickaform?",
-                fr: "A qui s'adresse Pickaform ?",
-                es: "¿Quién usa Pickaform?"
+                en: "Who uses AirProcess?",
+                fr: "A qui s'adresse AirProcess ?",
+                es: "¿Quién usa AirProcess?"
             },
             answer1: {
-                en: `Pickaform is made for: companies, associations, the public sector, digital companies who want to accelerate their projects and deliver faster, no-coders & makers who are looking to work with larger clients.
-                More generally, pickaform is useful for any person or organization wishing to organize their data and/or set up business processes to streamline collaboration.`,
-                fr: `Pickaform est fait pour : les entreprises, les associations, le secteur public, les entreprises du numérique qui veulent accélérer leurs projets et livrer plus vite, les no-coders & makers qui cherchent à travailler avec des clients plus gros.
-                Plus généralement, pickaform est utile à toute personne ou organisation souhaitant organiser ses données et/ou mettre en place des processus métier pour fluidifier la collaboration.`,
-                es: `Pickaform está hecho para: empresas, asociaciones, el sector público, empresas digitales que desean acelerar sus proyectos y entregar más rápido, no-coders y makers que buscan trabajar con clientes más grandes.
-                Más generalmente, pickaform es útil para cualquier persona u organización que desee organizar sus datos y/o establecer procesos comerciales para agilizar la colaboración.`
+                en: `AirProcess is made for: companies, associations, the public sector, digital companies who want to accelerate their projects and deliver faster, no-coders & makers who are looking to work with larger clients.
+                More generally, AirProcess is useful for any person or organization wishing to organize their data and/or set up business processes to streamline collaboration.`,
+                fr: `AirProcess est fait pour : les entreprises, les associations, le secteur public, les entreprises du numérique qui veulent accélérer leurs projets et livrer plus vite, les no-coders & makers qui cherchent à travailler avec des clients plus gros.
+                Plus généralement, AirProcess est utile à toute personne ou organisation souhaitant organiser ses données et/ou mettre en place des processus métier pour fluidifier la collaboration.`,
+                es: `AirProcess está hecho para: empresas, asociaciones, el sector público, empresas digitales que desean acelerar sus proyectos y entregar más rápido, no-coders y makers que buscan trabajar con clientes más grandes.
+                Más generalmente, AirProcess es útil para cualquier persona u organización que desee organizar sus datos y/o establecer procesos comerciales para agilizar la colaboración.`
             },
             faq2: {
                 en: "How can I take a subscription?",
@@ -138,11 +138,11 @@ kiss.app.defineView({
             },
             answer2: {
                 en: `First, sign up and enjoy your free trial including up to 20 users!
-                If you need to upgrade before the end of your free period, you'll do it directly from your Pickaform account management.`,
+                If you need to upgrade before the end of your free period, you'll do it directly from your AirProcess account management.`,
                 fr: `Inscrivez-vous et profitez d'abord de votre période d'essai, incluant jusqu'à 20 utilisateurs !
-                Si vous souhaitez changer d'offre avant la fin de votre essai, vous pourrez le faire directement dans Pickaform depuis votre rubrique "Compte".`,
+                Si vous souhaitez changer d'offre avant la fin de votre essai, vous pourrez le faire directement dans AirProcess depuis votre rubrique "Compte".`,
                 es: `Primero, regístrese y disfrute de su período de prueba gratuito, incluyendo hasta 20 usuarios.
-                Si necesita actualizar antes de que finalice su período gratuito, lo hará directamente desde la gestión de su cuenta de Pickaform.`
+                Si necesita actualizar antes de que finalice su período gratuito, lo hará directamente desde la gestión de su cuenta de AirProcess.`
             },
             faq3: {
                 en: "When will I be able to stop my subscription?",
@@ -219,16 +219,16 @@ kiss.app.defineView({
                 Para ser claros, tenemos mejores precios si nos comparamos con productos con características similares.`
             },
             faq8: {
-                en: "How much data can I store on Pickaform?",
+                en: "How much data can I store on AirProcess?",
                 fr: "A quel volume de données ai-je le droit ?",
-                es: "¿Cuántos datos puedo almacenar en Pickaform?"
+                es: "¿Cuántos datos puedo almacenar en AirProcess?"
             },
             answer8: {
-                en: `Pickaform allows you to attach files to your form data, but its goal is not to replace a file management or a virtual drive (like Google Drive, One Drive, DropBox ...), so, we calculated that an average volume of 100MB of attachments per user was sufficient for standard use of our platform. For example, this represents 2GB of data for 20 users.
+                en: `AirProcess allows you to attach files to your form data, but its goal is not to replace a file management or a virtual drive (like Google Drive, One Drive, DropBox ...), so, we calculated that an average volume of 100MB of attachments per user was sufficient for standard use of our platform. For example, this represents 2GB of data for 20 users.
                 Contact us if you think your needs will exceed this usage. In that case, there is an option to connect your own storage compatible with S3 and store without any limit.`,
-                fr: `Pickaform vous permet bien de joindre des fichiers à vos données de formulaire, mais sa fonction n'est pas de venir en remplacement d'une gestion de fichiers ou d'un drive (Google Drive, One Drive, DropBox...), aussi, nous avons calculé qu'un volume moyen de 100Mo de pièces jointes par utilisateur était suffisant pour un usage standard de notre plateforme. Cela représente 2Go de données pour 20 utilisateurs.
+                fr: `AirProcess vous permet bien de joindre des fichiers à vos données de formulaire, mais sa fonction n'est pas de venir en remplacement d'une gestion de fichiers ou d'un drive (Google Drive, One Drive, DropBox...), aussi, nous avons calculé qu'un volume moyen de 100Mo de pièces jointes par utilisateur était suffisant pour un usage standard de notre plateforme. Cela représente 2Go de données pour 20 utilisateurs.
                 Nous consulter si vous pensez que vos besoins dépasseront cet usage, vous pouvez connecter votre propre stockage compatible S3 et stocker sans aucune limite.`,
-                es: `Pickaform le permite adjuntar archivos a sus datos de formulario, pero su objetivo no es reemplazar una gestión de archivos o una unidad virtual (como Google Drive, One Drive, DropBox ...), por lo que calculamos que un volumen promedio de 100 MB de archivos adjuntos por usuario era suficiente para el uso estándar de nuestra plataforma. Por ejemplo, esto representa 2 GB de datos para 20 usuarios.
+                es: `AirProcess le permite adjuntar archivos a sus datos de formulario, pero su objetivo no es reemplazar una gestión de archivos o una unidad virtual (como Google Drive, One Drive, DropBox ...), por lo que calculamos que un volumen promedio de 100 MB de archivos adjuntos por usuario era suficiente para el uso estándar de nuestra plataforma. Por ejemplo, esto representa 2 GB de datos para 20 usuarios.
                 Contáctenos si cree que sus necesidades superarán este uso. En ese caso, hay una opción para conectar su propio almacenamiento compatible con S3 y almacenar sin ningún límite.`
             }
         })
@@ -317,7 +317,7 @@ kiss.app.defineView({
                 click: (event) => {
                     const target = event.target.closest("div")
                     if (target && target.classList.contains("pricing-plan-CTA")) {
-                        document.location = kiss.global.pathPickaform + "/client/pickaform/index.html#ui=authentication-register"
+                        document.location = kiss.global.pathAirProcess + "/client/airprocess/index.html#ui=authentication-register"
                     }
                 }
             },

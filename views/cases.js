@@ -2,14 +2,14 @@ kiss.app.defineView({
     id: "cases",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/cases",
-            fr: "https://pickaform.fr/fr/cases",
-            es: "https://pickaform.fr/es/cases"
+            en: "https://airprocess.fr/en/cases",
+            fr: "https://airprocess.fr/fr/cases",
+            es: "https://airprocess.fr/es/cases"
         },
         title: {
-            en: "Case studies | Pickaform",
-            fr: "Etudes de cas | Pickaform",
-            es: "Casos de estudio | Pickaform"
+            en: "Case studies | AirProcess",
+            fr: "Etudes de cas | AirProcess",
+            es: "Casos de estudio | AirProcess"
         },
         description: {
             en: `With no-code, combine your custom forms and workflows to create an infinite number of different tools.`,
@@ -32,13 +32,13 @@ kiss.app.defineView({
             title: {
                 en: `What you can <span class="text-highlight" style="background-color: #00aaee">build</span>
                 <br>
-                is up to your <span class="text-highlight" style="background-color: #a1ed00">imagination</span>`,
+                is up to your <span class="text-highlight" style="background-color: #aaee00">imagination</span>`,
                 fr: `Ce que vous pouvez <span class="text-highlight" style="background-color: #00aaee">créer</span>
                 <br>
-                dépend de votre <span class="text-highlight" style="background-color: #a1ed00">imagination</span>`,
+                dépend de votre <span class="text-highlight" style="background-color: #aaee00">imagination</span>`,
                 es: `Lo que puedes <span class="text-highlight" style="background-color: #00aaee">construir</span>
                 <br>
-                depende de tu <span class="text-highlight" style="background-color: #a1ed00">imaginación</span>`
+                depende de tu <span class="text-highlight" style="background-color: #aaee00">imaginación</span>`
             },
             subtitle: {
                 en: "With no-code, combine your custom forms and workflows to create an infinite number of different tools.",
@@ -122,9 +122,9 @@ kiss.app.defineView({
                 es: "negociación amistosa, litigio, recuperación"
             },
             descriptionRecovery: {
-                en: "Some of our clients use pickaform to manage their amicable negotiation, litigation and recovery workflows in order to have a cross-sectional view of all the files in progress.",
-                fr: "Certains de nos clients utilisent pickaform pour gérer leurs workflows de négociation amiable, contentieux, et recouvrement afin d'avoir une vision transversale de tous les dossiers en cours.",
-                es: "Algunos de nuestros clientes utilizan pickaform para gestionar sus flujos de trabajo de negociación amistosa, litigio y recuperación con el fin de tener una visión transversal de todos los expedientes en curso."
+                en: "Some of our clients use airprocess to manage their amicable negotiation, litigation and recovery workflows in order to have a cross-sectional view of all the files in progress.",
+                fr: "Certains de nos clients utilisent airprocess pour gérer leurs workflows de négociation amiable, contentieux, et recouvrement afin d'avoir une vision transversale de tous les dossiers en cours.",
+                es: "Algunos de nuestros clientes utilizan airprocess para gestionar sus flujos de trabajo de negociación amistosa, litigio y recuperación con el fin de tener una visión transversal de todos los expedientes en curso."
             },
             titleProduct: {
                 en: "Product design",
@@ -132,9 +132,9 @@ kiss.app.defineView({
                 es: "Diseño de producto"
             },
             descriptionProduct: {
-                en: "If you design products, you have to collaborate with your teams on many different aspects, from design to marketing. Pickaform allows you to federate and share all the information you need.",
-                fr: "Si vous concevez des produits, vous devez collaborer avec vos équipes sur plein d'aspects différents, du design jusqu'au marketing. Pickaform vous permet de féréder et partager toutes les informations dont vous avez besoin.",
-                es: "Si diseña productos, debe colaborar con sus equipos en muchos aspectos diferentes, desde el diseño hasta el marketing. Pickaform le permite federar y compartir toda la información que necesita."
+                en: "If you design products, you have to collaborate with your teams on many different aspects, from design to marketing. AirProcess allows you to federate and share all the information you need.",
+                fr: "Si vous concevez des produits, vous devez collaborer avec vos équipes sur plein d'aspects différents, du design jusqu'au marketing. AirProcess vous permet de féréder et partager toutes les informations dont vous avez besoin.",
+                es: "Si diseña productos, debe colaborar con sus equipos en muchos aspectos diferentes, desde el diseño hasta el marketing. AirProcess le permite federar y compartir toda la información que necesita."
             },
             titleInventory: {
                 en: "Inventory management",
@@ -142,9 +142,9 @@ kiss.app.defineView({
                 es: "Gestión de inventario"
             },
             descriptionInventory: {
-                en: "Whether you manage a computer park, construction equipment, or something else, pickaform allows you to build a simple and tailor-made solution to track all your equipment.",
-                fr: "Que vous gériez un parc informatique, du matériel de chantier, ou autre chose, pickaform permet de construire une solution simple et sur mesure pour traquer tous vos matériels.",
-                es: "Ya sea que gestione un parque informático, equipos de construcción, u otra cosa, pickaform le permite construir una solución simple y a medida para rastrear todo su equipo."
+                en: "Whether you manage a computer park, construction equipment, or something else, airprocess allows you to build a simple and tailor-made solution to track all your equipment.",
+                fr: "Que vous gériez un parc informatique, du matériel de chantier, ou autre chose, airprocess permet de construire une solution simple et sur mesure pour traquer tous vos matériels.",
+                es: "Ya sea que gestione un parque informático, equipos de construcción, u otra cosa, airprocess le permite construir una solución simple y a medida para rastrear todo su equipo."
             },
             titleDonation: {
                 en: "Donation management",
@@ -162,9 +162,9 @@ kiss.app.defineView({
                 es: "Gestión de..."
             },
             descriptionAnything: {
-                en: "The examples above are given as an example, but you manage exactly what you want with pickaform, and the only limit is your imagination!",
-                fr: "Les exemples ci-dessus sont donnés à titre d'exemple, mais vous gérez exactement ce que vous voulez avec pickaform, et la seule limite est votre imagination !",
-                es: "Los ejemplos anteriores se dan a modo de ejemplo, pero usted gestiona exactamente lo que desea con pickaform, ¡y el único límite es su imaginación!"
+                en: "The examples above are given as an example, but you manage exactly what you want with airprocess, and the only limit is your imagination!",
+                fr: "Les exemples ci-dessus sont donnés à titre d'exemple, mais vous gérez exactement ce que vous voulez avec airprocess, et la seule limite est votre imagination !",
+                es: "Los ejemplos anteriores se dan a modo de ejemplo, pero usted gestiona exactamente lo que desea con airprocess, ¡y el único límite es su imaginación!"
             },
             titleBookDemo: {
                 en: `Not convinced?`,
@@ -177,9 +177,9 @@ kiss.app.defineView({
                 es: `¡Cuéntenos sobre su proyecto, y le mostraremos cómo hacerlo realidad en <span class="text-highlight" style="background-color: #00aaee">20 minutos!</span>`
             },
             titleVideos: {
-                en: `Pickaform in action`,
-                fr: `Pickaform en action`,
-                es: `Pickaform en acción`
+                en: `AirProcess in action`,
+                fr: `AirProcess en action`,
+                es: `AirProcess en acción`
             },
             subtitleVideos: {
                 en: `See directly how to build and use applications with workflows, without coding`,
@@ -232,9 +232,9 @@ kiss.app.defineView({
                 es: "Crear un flujo de trabajo en 3 minutos"
             },
             descriptionWorkflow3mn: {
-                en: "Pickaform is the simplest platform in the world for creating your personalized workflows: guaranteed return on investment!",
-                fr: "Pickaform est la plateforme la plus simple au monde pour créer vos workflows personnalisés: retour sur investissement garanti !",
-                es: "Pickaform es la plataforma más simple del mundo para crear sus flujos de trabajo personalizados: ¡retorno de inversión garantizado!"
+                en: "AirProcess is the simplest platform in the world for creating your personalized workflows: guaranteed return on investment!",
+                fr: "AirProcess est la plateforme la plus simple au monde pour créer vos workflows personnalisés: retour sur investissement garanti !",
+                es: "AirProcess es la plataforma más simple del mundo para crear sus flujos de trabajo personalizados: ¡retorno de inversión garantizado!"
             },
             titleView: {
                 en: "Creating a view for your data",
@@ -242,9 +242,9 @@ kiss.app.defineView({
                 es: "Crear una vista para sus datos"
             },
             descriptionView: {
-                en: "Organize your data as you see fit thanks to pickaform's ergonomic views: sort, filter, group, and aggregate in just a few clicks!",
-                fr: "Organisez vos données comme bon vous semble grâce aux vues ergonomiques de pickaform: triez, filtrez, regroupez, et aggrégez en quelques clics !",
-                es: "¡Organice sus datos como desee gracias a las vistas ergonómicas de pickaform: ordene, filtre, agrupe y agregue en solo unos clics!"
+                en: "Organize your data as you see fit thanks to airprocess's ergonomic views: sort, filter, group, and aggregate in just a few clicks!",
+                fr: "Organisez vos données comme bon vous semble grâce aux vues ergonomiques de airprocess: triez, filtrez, regroupez, et aggrégez en quelques clics !",
+                es: "¡Organice sus datos como desee gracias a las vistas ergonómicas de airprocess: ordene, filtre, agrupe y agregue en solo unos clics!"
             }
         })
 
@@ -259,13 +259,13 @@ kiss.app.defineView({
                     title: t("title"),
                     subtitle: t("subtitle")
                 }),
-                kiss.templates.screenshot("workflow - contrat - pickaform.webp"),
+                kiss.templates.screenshot("workflow - contrat - airprocess.webp"),
 
                 // CRM
                 kiss.templates.feature({
                     title: "CRM",
                     description: t("descriptionCRM"),
-                    screenshot: "example - CRM - pickaform.webp",
+                    screenshot: "example - CRM - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -278,7 +278,7 @@ kiss.app.defineView({
                 kiss.templates.feature({
                     title: t("titleHR"),
                     description: t("descriptionHR"),
-                    screenshot: "example - HR onboarding - pickaform.webp",
+                    screenshot: "example - HR onboarding - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -289,7 +289,7 @@ kiss.app.defineView({
                 kiss.templates.feature({
                     title: t("titleProjects"),
                     description: t("descriptionProjects"),
-                    screenshot: "example - project management - pickaform.webp",
+                    screenshot: "example - project management - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -302,7 +302,7 @@ kiss.app.defineView({
                 kiss.templates.feature({
                     title: t("titleLegal"),
                     description: t("descriptionLegal"),
-                    screenshot: "example - Legal contract - pickaform.webp",
+                    screenshot: "example - Legal contract - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -326,7 +326,7 @@ kiss.app.defineView({
                 kiss.templates.feature({
                     title: t("titleRequests"),
                     description: t("descriptionRequests"),
-                    screenshot: "example - purchase request - pickaform.webp",
+                    screenshot: "example - purchase request - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -337,7 +337,7 @@ kiss.app.defineView({
                 kiss.templates.feature({
                     title: t("titleSupport"),
                     description: t("descriptionSupport"),
-                    screenshot: "a la carte form features - pickaform.webp",
+                    screenshot: "a la carte form features - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -350,7 +350,7 @@ kiss.app.defineView({
                 kiss.templates.feature({
                     title: t("titleRecovery"),
                     description: t("descriptionRecovery"),
-                    screenshot: "navigate through your data with tabs - pickaform.webp",
+                    screenshot: "navigate through your data with tabs - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -361,7 +361,7 @@ kiss.app.defineView({
                 kiss.templates.feature({
                     title: t("titleInventory"),
                     description: t("descriptionInventory"),
-                    screenshot: "example - inventory - pickaform.webp",
+                    screenshot: "example - inventory - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -374,7 +374,7 @@ kiss.app.defineView({
                 kiss.templates.feature({
                     title: t("titleProduct"),
                     description: t("descriptionProduct"),
-                    screenshot: "example - product design - pickaform.webp",
+                    screenshot: "example - product design - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -385,7 +385,7 @@ kiss.app.defineView({
                 kiss.templates.feature({
                     title: t("titleDonation"),
                     description: t("descriptionDonation"),
-                    screenshot: "example - donation - pickaform.webp",
+                    screenshot: "example - donation - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -398,7 +398,7 @@ kiss.app.defineView({
                 kiss.templates.feature({
                     title: t("titleAnything"),
                     description: t("descriptionAnything"),
-                    screenshot: "example - midjourney collection - pickaform.webp",
+                    screenshot: "example - midjourney collection - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -426,42 +426,42 @@ kiss.app.defineView({
                             kiss.templates.featureVideo({
                                 title: t("titleAppFromTemplate"),
                                 description: t("descriptionAppFromTemplate"),
-                                screenshot: "creating an application from a template - pickaform.webp",
+                                screenshot: "creating an application from a template - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=3joHKZOH_zA"
                             }),
                             // Creating an app from a template
                             kiss.templates.featureVideo({
                                 title: t("titleAppFromXLS"),
                                 description: t("descriptionAppFromXLS"),
-                                screenshot: "creating an application from an XLS file - pickaform.webp",
+                                screenshot: "creating an application from an XLS file - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=KS7nOiDW9eE"
                             }),
                             // Discovering the form designer
                             kiss.templates.featureVideo({
                                 title: t("titleFormDesigner"),
                                 description: t("descriptionFormDesigner"),
-                                screenshot: "discovering the form designer - pickaform.webp",
+                                screenshot: "discovering the form designer - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=T992n1m_bII"
                             }),
                             // Discovering the workflow
                             kiss.templates.featureVideo({
                                 title: t("titleWorkflow"),
                                 description: t("descriptionWorkflow"),
-                                screenshot: "discovering the workflow - pickaform.webp",
+                                screenshot: "discovering the workflow - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=As992YkHbu8"
                             }),
                             // Creating a workflow in 3mn
                             kiss.templates.featureVideo({
                                 title: t("titleWorkflow3mn"),
                                 description: t("descriptionWorkflow3mn"),
-                                screenshot: "creating a workflow - pickaform.webp",
+                                screenshot: "creating a workflow - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=hCZ5gbu7gMs"
                             }),
                             // Creating a view
                             kiss.templates.featureVideo({
                                 title: t("titleView"),
                                 description: t("descriptionView"),
-                                screenshot: "creating a view - pickaform.webp",
+                                screenshot: "creating a view - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=3ALIi2OS5eQ"
                             })
                         ]

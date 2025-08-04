@@ -2,14 +2,14 @@ kiss.app.defineView({
     id: "contact",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/contact",
-            fr: "https://pickaform.fr/fr/contact",
-            es: "https://pickaform.fr/es/contact"
+            en: "https://airprocess.fr/en/contact",
+            fr: "https://airprocess.fr/fr/contact",
+            es: "https://airprocess.fr/es/contact"
         },
         title: {
-            en: "Contact & FAQ | Pickaform",
-            fr: "Contact & FAQ | Pickaform",
-            es: "Contacto y FAQ | Pickaform"
+            en: "Contact & FAQ | AirProcess",
+            fr: "Contact & FAQ | AirProcess",
+            es: "Contacto y FAQ | AirProcess"
         },
         description: {
             en: `Request a demo or check the Frequently Asked Questions.`,
@@ -169,7 +169,7 @@ kiss.app.defineView({
                                 formData.useLabels = true
 
                                 await kiss.ajax.request({
-                                    url: kiss.global.pathPickaform + "/command/publicForm/post/" + kiss.global.contactModelId,
+                                    url: kiss.global.pathAirProcess + "/command/publicForm/post/" + kiss.global.contactModelId,
                                     method: "post",
                                     body: JSON.stringify(formData)
                                 })

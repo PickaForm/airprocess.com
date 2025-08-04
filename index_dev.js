@@ -44,7 +44,7 @@ kiss.loader.loadStyles([
 window.onload = async function () {
     await kiss.app.init({
         debug: true,
-        name: "pickaform.com",
+        name: "airprocess.com",
         mode: "memory",
         startRoute: {
             ui: "start",

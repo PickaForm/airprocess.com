@@ -2,14 +2,14 @@ kiss.app.defineView({
     id: "landing",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/landing",
-            fr: "https://pickaform.fr/fr/landing",
-            es: "https://pickaform.fr/es/landing"
+            en: "https://airprocess.fr/en/landing",
+            fr: "https://airprocess.fr/fr/landing",
+            es: "https://airprocess.fr/es/landing"
         },
         title: {
-            en: "Pickaform | Best no-code platform for your processes",
-            fr: "Pickaform | Meilleure plateforme no-code pour vos process",
-            es: "Pickaform | Mejor plataforma no-code para sus procesos"
+            en: "AirProcess | Best no-code platform for your processes",
+            fr: "AirProcess | Meilleure plateforme no-code pour vos process",
+            es: "AirProcess | Mejor plataforma no-code para sus procesos"
         },
         description: {
             en: `Boost all your business processes by combining no-code, forms, workflows and AI.`,
@@ -22,13 +22,13 @@ kiss.app.defineView({
             titlePitchline: {
                 en: `Best <span class="text-highlight" style="background-color: #00aaee">no-code</span> platform
                 <br>
-                for your <span class="text-highlight" style="background-color: #a1ed00">processes</span>`,
+                for your <span class="text-highlight" style="background-color: #aaee00">processes</span>`,
                 fr: `La meilleure plateforme <span class="text-highlight" style="background-color: #00aaee">no-code</span>
                 <br>
-                pour vos <span class="text-highlight" style="background-color: #a1ed00">process</span>`,
+                pour vos <span class="text-highlight" style="background-color: #aaee00">process</span>`,
                 es: `La mejor plataforma <span class="text-highlight" style="background-color: #00aaee">no-code</span>
                 <br>
-                para sus <span class="text-highlight" style="background-color: #a1ed00">procesos</span>`
+                para sus <span class="text-highlight" style="background-color: #aaee00">procesos</span>`
             },
             subtitlePitchline: {
                 en: "Build your processes in minutes.<br>Collaborate instantly.",
@@ -148,7 +148,7 @@ kiss.app.defineView({
                 <h2>✔ we coach you on NoCode design best practices</h2>
 
                 <center>
-                    <a href="https://calendly.com/pickaform/pickaform-live-demo">
+                    <a href="https://calendly.com/airprocess/airprocess-live-demo">
                         <div class="a-button button-booking">Book your private demo now to benefit from this unique offer!</div>
                     </a>
                 </center>`,
@@ -162,7 +162,7 @@ kiss.app.defineView({
                 <h2>✔ nous vous coachons sur les best practices de la conception NoCode</h2>
                               
                 <center>
-                    <a href="https://calendly.com/pickaform/pickaform-live-demo">
+                    <a href="https://calendly.com/airprocess/airprocess-live-demo">
                         <div class="a-button button-booking">Réservez votre démo privée dès maintenant pour bénéficier de cette offre unique !</div>
                     </a>
                 </center>`,
@@ -176,15 +176,15 @@ kiss.app.defineView({
                 <h2>✔ le asesoramos sobre las mejores prácticas de diseño NoCode</h2>
 
                 <center>
-                    <a href="https://calendly.com/pickaform/pickaform-live-demo">
+                    <a href="https://calendly.com/airprocess/airprocess-live-demo">
                         <div class="a-button button-booking">¡Reserve su demostración privada ahora para beneficiarse de esta oferta única!</div>
                     </a>
                 </center>`
             },
             titleWhy: {
-                en: `Why Pickaform?`,
-                fr: `Pourquoi Pickaform ?`,
-                es: `¿Por qué Pickaform?`
+                en: `Why AirProcess?`,
+                fr: `Pourquoi AirProcess ?`,
+                es: `¿Por qué AirProcess?`
             },
             subtitleWhy: {
                 en: `Simply the no-code solution best suited for
@@ -199,7 +199,7 @@ kiss.app.defineView({
                 fr: `Comparer à`,
                 es: `Comparar con`
             },
-            pickaform: {
+            airprocess: {
                 en: `
                     <br>✅ Cloud and on-premise
                     <br>✅ Security model with precise access control
@@ -446,35 +446,35 @@ kiss.app.defineView({
                     title: t("titleNocodeWorkflow"),
                     subtitle: t("subtitleNocodeWorkflow")
                 }),
-                kiss.templates.screenshot("workflow - business contracts - pickaform.webp"),
+                kiss.templates.screenshot("workflow - business contracts - airprocess.webp"),
 
                 // STRIP - Incredible forms in minutes
                 kiss.templates.title({
                     title: t("titleForms"),
                     subtitle: t("subtitleForms")
                 }),
-                kiss.templates.screenshot("incredible forms out-of-the-box - pickaform.webp"),
+                kiss.templates.screenshot("incredible forms out-of-the-box - airprocess.webp"),
 
                 // STRIP - Beautiful dashboards for your data
                 kiss.templates.title({
                     title: t("titleDashboard"),
                     subtitle: t("subtitleDashboard")
                 }),
-                kiss.templates.screenshot("example - dashboard - pickaform.webp"),
+                kiss.templates.screenshot("example - dashboard - airprocess.webp"),
 
                 // STRIP - Generative AI for your apps
                 kiss.templates.title({
                     title: t("titleGenerativeAI"),
                     subtitle: t("subtitleGenerativeAI")
                 }),
-                kiss.templates.screenshot("generative ai to build applications - pickaform.webp"),
+                kiss.templates.screenshot("generative ai to build applications - airprocess.webp"),
 
                 // STRIP - NoCode = Flexibility
                 kiss.templates.title({
                     title: t("titleFlexibility"),
                     subtitle: t("subtitleFlexibility")
                 }),
-                kiss.templates.screenshot("ai art gallery - gallery view - pickaform.webp"),
+                kiss.templates.screenshot("ai art gallery - gallery view - airprocess.webp"),
 
                 // STRIP - Comparison with competitors
                 kiss.templates.title({
@@ -491,11 +491,11 @@ kiss.app.defineView({
                             items: [
                                 {
                                     type: "html",
-                                    html: `<img src="./resources/img/pickaform.webp" alt="pickaform logo" class="image-content" loading="lazy" style="width: 256px; height: 60px;">`
+                                    html: `<img src="./resources/img/airprocess.webp" alt="airprocess logo" class="image-content" loading="lazy" style="width: 256px; height: 60px;">`
                                 },
                                 {
                                     type: "html",
-                                    html: t("pickaform")
+                                    html: t("airprocess")
                                 }
                             ]
                         },
@@ -569,7 +569,7 @@ kiss.app.defineView({
                 kiss.templates.buttonCTA(t("bookDemo"), "booking"),
 
                 // CUSTOMERS
-                kiss.templates.screenshot("customer references - pickaform.webp"),
+                kiss.templates.screenshot("customer references - airprocess.webp"),
             ],
 
             methods: {

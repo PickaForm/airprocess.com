@@ -79,7 +79,7 @@ kiss.app.defineView({
                         // action: () => kiss.router.navigateTo({
                         //     content: "blog"
                         // })
-                        action: () => window.open(`https://blog.pickaform.com/${kiss.language.current}/`, "_new")
+                        action: () => window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
                     },
                     {
                         label: t("Pricing"),
@@ -94,18 +94,18 @@ kiss.app.defineView({
                 title: "Social",
                 items: [{
                         label: "LinkedIn",
-                        action: () => window.open("https://www.linkedin.com/company/pickaform-cloud/", "_new")
+                        action: () => window.open("https://www.linkedin.com/company/airprocess-cloud/", "_new")
                     }, {
                         label: "YouTube",
-                        action: () => window.open("https://www.youtube.com/@pickaform", "_new")
+                        action: () => window.open("https://www.youtube.com/@airprocess", "_new")
                     },
                     {
                         label: "Facebook",
-                        action: () => window.open("https://www.facebook.com/pickaform.applications", "_new")
+                        action: () => window.open("https://www.facebook.com/airprocess.applications", "_new")
                     },
                     {
                         label: "Twitter",
-                        action: () => window.open("https://twitter.com/PickaForm", "_new")
+                        action: () => window.open("https://twitter.com/AirProcess", "_new")
                     }
                 ]
             },
@@ -129,11 +129,11 @@ kiss.app.defineView({
                 title: "Archives",
                 items: [{
                         label: "Blog (English)",
-                        action: () => window.open("https://blog.pickaform.com/en/", "_new")
+                        action: () => window.open("https://blog.airprocess.com/en/", "_new")
                     },
                     {
                         label: "Blog (Français)",
-                        action: () => window.open("https://blog.pickaform.com/fr/", "_new")
+                        action: () => window.open("https://blog.airprocess.com/fr/", "_new")
                     }
                 ]
             },

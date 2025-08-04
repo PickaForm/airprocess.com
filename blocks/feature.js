@@ -37,7 +37,7 @@ kiss.templates.feature = function ({
                     </div>
                     <div class="feature-CTA">
                         <p>
-                            <a class="feature-CTA" href='https://calendly.com/pickaform/pickaform-live-demo'>
+                            <a class="feature-CTA" href='https://calendly.com/airprocess/airprocess-live-demo'>
                                 ${CTA}
                             </a>
                         </p>

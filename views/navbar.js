@@ -80,7 +80,7 @@ kiss.app.defineView({
             // BLOG
             {
                 text: "Blog",
-                href: `https://blog.pickaform.com/${kiss.language.current}`,
+                href: `https://blog.airprocess.com/${kiss.language.current}`,
                 target: "_new",
                 view: ""
             },
@@ -88,7 +88,7 @@ kiss.app.defineView({
             {
                 hidden: kiss.screen.isMobile,
                 text: t("Templates"),
-                href: kiss.global.pathPickaform + `/client/pickaform/demo.html#ui=templates-list&language=${kiss.language.current}`,
+                href: kiss.global.pathAirProcess + `/client/airprocess/demo.html#ui=templates-list&language=${kiss.language.current}`,
                 target: "_new",
                 view: ""
             },
@@ -96,7 +96,7 @@ kiss.app.defineView({
             {
                 hidden: kiss.screen.isMobile,
                 text: t("Get started"),
-                href: kiss.global.pathPickaform + "/client/pickaform/index.html#ui=authentication-register",
+                href: kiss.global.pathAirProcess + "/client/airprocess/index.html#ui=authentication-register",
                 target: "_new",
                 view: ""
             },
@@ -104,7 +104,7 @@ kiss.app.defineView({
             {
                 // hidden: kiss.screen.isMobile,
                 text: t("Login"),
-                href: kiss.global.pathPickaform + "/client/pickaform/index.html#ui=authentication-login",
+                href: kiss.global.pathAirProcess + "/client/airprocess/index.html#ui=authentication-login",
                 target: "_new",
                 view: ""
             }
@@ -162,8 +162,8 @@ kiss.app.defineView({
                 // LOGO
                 {
                     type: "image",
-                    alt: "pickaform logo",
-                    src: "./resources/img/pickaform.webp",
+                    alt: "airprocess logo",
+                    src: "./resources/img/airprocess.webp",
                     width: 256,
                     height: 60
                 },
@@ -240,10 +240,10 @@ kiss.app.defineView({
 
                         if (element.innerHTML.includes("Blog")) {
                             // BLOG
-                            window.open(`https://blog.pickaform.com/${kiss.language.current}/`, "_new")
+                            window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
                         } else if (element.innerHTML.includes("Templates") || element.innerHTML.includes("Modèles")) {
                             // TEMPLATES
-                            window.open(kiss.global.pathPickaform + `/client/pickaform/demo.html#ui=templates-list&language=${kiss.language.current}`, "_new")
+                            window.open(kiss.global.pathAirProcess + `/client/airprocess/demo.html#ui=templates-list&language=${kiss.language.current}`, "_new")
                         } else if (view) {
                             kiss.router.navigateTo({
                                 content: view

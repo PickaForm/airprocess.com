@@ -3,97 +3,97 @@
 
   <!-- MAIN -->
   <url>
-    <loc>https://pickaform.fr/en/landing</loc>
+    <loc>https://airprocess.fr/en/landing</loc>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/landing" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.fr/fr/landing" />
   </url>
   <url>
-    <loc>https://pickaform.fr/fr/landing</loc>
+    <loc>https://airprocess.fr/fr/landing</loc>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/landing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.fr/en/landing" />
   </url>
 
   <!-- PRODUCT -->
   <url>
-    <loc>https://pickaform.fr/en/product</loc>
+    <loc>https://airprocess.fr/en/product</loc>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/product" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.fr/fr/product" />
   </url>
   <url>
-    <loc>https://pickaform.fr/fr/product</loc>
+    <loc>https://airprocess.fr/fr/product</loc>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/product" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.fr/en/product" />
   </url>
 
   <!-- CASES -->
   <url>
-    <loc>https://pickaform.fr/en/cases</loc>
+    <loc>https://airprocess.fr/en/cases</loc>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/cases" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.fr/fr/cases" />
   </url>
   <url>
-    <loc>https://pickaform.fr/fr/cases</loc>
+    <loc>https://airprocess.fr/fr/cases</loc>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/cases" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.fr/en/cases" />
   </url>
 
   <!-- CONTACT -->
   <url>
-    <loc>https://pickaform.fr/en/contact</loc>
+    <loc>https://airprocess.fr/en/contact</loc>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/contact" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.fr/fr/contact" />
   </url>
   <url>
-    <loc>https://pickaform.fr/fr/contact</loc>
+    <loc>https://airprocess.fr/fr/contact</loc>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.fr/en/contact" />
   </url>
 
   <!-- PRICING -->
   <url>
-    <loc>https://pickaform.fr/en/pricing</loc>
+    <loc>https://airprocess.fr/en/pricing</loc>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/pricing" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.fr/fr/pricing" />
   </url>
   <url>
-    <loc>https://pickaform.fr/fr/pricing</loc>
+    <loc>https://airprocess.fr/fr/pricing</loc>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/pricing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.fr/en/pricing" />
   </url>
 
   <!-- BLOG -->
   <!--
     <url>
-    <loc>https://pickaform.fr/en/blog</loc>
+    <loc>https://airprocess.fr/en/blog</loc>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/blog" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.fr/fr/blog" />
   </url>
   <url>
-    <loc>https://pickaform.fr/fr/blog</loc>
+    <loc>https://airprocess.fr/fr/blog</loc>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.fr/en/blog" />
   </url>
   -->
   <url>
-    <loc>https://blog.pickaform.com/en/</loc>
+    <loc>https://blog.airprocess.com/en/</loc>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://blog.pickaform.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://blog.airprocess.com/fr/" />
   </url>
   <url>
-    <loc>https://blog.pickaform.com/fr/</loc>
+    <loc>https://blog.airprocess.com/fr/</loc>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://blog.pickaform.com/en/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://blog.airprocess.com/en/" />
   </url>
 
   <!-- ARTWORKS -->
   <url>
-    <loc>https://pickaform.fr/en/artworks</loc>
+    <loc>https://airprocess.fr/en/artworks</loc>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://pickaform.fr/fr/artworks" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.fr/fr/artworks" />
   </url>
   <url>
-    <loc>https://pickaform.fr/fr/artworks</loc>
+    <loc>https://airprocess.fr/fr/artworks</loc>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://pickaform.fr/en/artworks" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.fr/en/artworks" />
   </url>
 </urlset>
