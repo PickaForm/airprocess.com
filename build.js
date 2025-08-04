@@ -59,10 +59,10 @@ kiss.theme.set({
 // Paths
 kiss.global.path = `https://${window.location.host}`
 kiss.global.pathImg = "./resources/img"
-kiss.global.pathPickaform = `https://app.pickaform.com`
+kiss.global.pathAirProcess = `https://app.airprocess.com`
 
 // Blog
-kiss.global.blogEndPoint = "https://app.pickaform.com/command/blog"
+kiss.global.blogEndPoint = "https://app.airprocess.com/command/blog"
 kiss.global.blogModelId = "0187ed51-d3a5-70ea-869c-6c538d786fb7"
 kiss.global.blogPostTitle = "y9yVRPEQ"
 kiss.global.blogPostDescription = "BedquzD8"
@@ -73,7 +73,7 @@ kiss.global.blogPostPublished = "rhI4E1iH"
 kiss.global.contactModelId = "0187b40b-0061-7f65-af86-982a361afcf3"
 
 // AI Art
-kiss.global.artEndPoint = "https://beta.pickaform.com/command/product"
+kiss.global.artEndPoint = "https://beta.airprocess.com/command/product"
 kiss.global.artModelId = "01889cf0-5878-7352-93b5-3a0fb88c852f"
 kiss.global.artTitle = "pJZ5QvWL"
 kiss.global.artPulished = "DgllE0KD"
@@ -157,14 +157,14 @@ function getNextLanguage() {
     id: "artworks",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/artworks",
-            fr: "https://pickaform.fr/fr/artworks",
-            es: "https://pickaform.fr/es/artworks",
+            en: "https://airprocess.fr/en/artworks",
+            fr: "https://airprocess.fr/fr/artworks",
+            es: "https://airprocess.fr/es/artworks",
         },
         title: {
-            en: "Pickaform | Midjourney integration",
-            fr: "Pickaform | Integration Midjourney",
-            es: "Pickaform | Integración Midjourney"
+            en: "AirProcess | Midjourney integration",
+            fr: "AirProcess | Integration Midjourney",
+            es: "AirProcess | Integración Midjourney"
         },
         description: {
             en: `Get Inspired by our AI Art Collection.`,
@@ -181,9 +181,9 @@ function getNextLanguage() {
                 es: `Déjate inspirar por nuestra colección de arte de IA`
             },
             subtitle: {
-                en: "We used pickaform to streamline the process of creating Midjourney images",
-                fr: "Nous avons utilisé pickaform pour rationaliser le processus de création d'images Midjourney",
-                es: "Utilizamos pickaform para agilizar el proceso de creación de imágenes de Midjourney"
+                en: "We used airprocess to streamline the process of creating Midjourney images",
+                fr: "Nous avons utilisé airprocess pour rationaliser le processus de création d'images Midjourney",
+                es: "Utilizamos airprocess para agilizar el proceso de creación de imágenes de Midjourney"
             },
             titleArtworks: {
                 en: "Midjourney ++",
@@ -191,13 +191,13 @@ function getNextLanguage() {
                 es: "Midjourney ++"
             },
             descriptionArtworks: {
-                en: `You can prompt your images from Pickaform.
+                en: `You can prompt your images from AirProcess.
                     The images are directly stored in a database.
                     You can find all your original prompts and your images are classified and searchable as in a real database.`,
-                fr: `Vous pouvez prompter vos images depuis Pickaform.
+                fr: `Vous pouvez prompter vos images depuis AirProcess.
                     Les images sont directement stockées dans une base de données.
                     Vous pouvez retrouver tous vos prompts d'origine et vos images sont classées et recherchables comme avec une vraie base de données.`,
-                es: `Puede solicitar sus imágenes desde Pickaform.
+                es: `Puede solicitar sus imágenes desde AirProcess.
                     Las imágenes se almacenan directamente en una base de datos.
                     Puede encontrar todos sus prompts originales y sus imágenes están clasificadas y son buscables como en una base de datos real.`
             },
@@ -231,7 +231,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleArtworks"),
                     description: t("descriptionArtworks"),
-                    screenshot: "example - midjourney collection - pickaform.webp",
+                    screenshot: "example - midjourney collection - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -608,14 +608,14 @@ function getNextLanguage() {
     id: "cases",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/cases",
-            fr: "https://pickaform.fr/fr/cases",
-            es: "https://pickaform.fr/es/cases"
+            en: "https://airprocess.fr/en/cases",
+            fr: "https://airprocess.fr/fr/cases",
+            es: "https://airprocess.fr/es/cases"
         },
         title: {
-            en: "Case studies | Pickaform",
-            fr: "Etudes de cas | Pickaform",
-            es: "Casos de estudio | Pickaform"
+            en: "Case studies | AirProcess",
+            fr: "Etudes de cas | AirProcess",
+            es: "Casos de estudio | AirProcess"
         },
         description: {
             en: `With no-code, combine your custom forms and workflows to create an infinite number of different tools.`,
@@ -638,13 +638,13 @@ function getNextLanguage() {
             title: {
                 en: `What you can <span class="text-highlight" style="background-color: #00aaee">build</span>
                 <br>
-                is up to your <span class="text-highlight" style="background-color: #a1ed00">imagination</span>`,
+                is up to your <span class="text-highlight" style="background-color: #aaee00">imagination</span>`,
                 fr: `Ce que vous pouvez <span class="text-highlight" style="background-color: #00aaee">créer</span>
                 <br>
-                dépend de votre <span class="text-highlight" style="background-color: #a1ed00">imagination</span>`,
+                dépend de votre <span class="text-highlight" style="background-color: #aaee00">imagination</span>`,
                 es: `Lo que puedes <span class="text-highlight" style="background-color: #00aaee">construir</span>
                 <br>
-                depende de tu <span class="text-highlight" style="background-color: #a1ed00">imaginación</span>`
+                depende de tu <span class="text-highlight" style="background-color: #aaee00">imaginación</span>`
             },
             subtitle: {
                 en: "With no-code, combine your custom forms and workflows to create an infinite number of different tools.",
@@ -728,9 +728,9 @@ function getNextLanguage() {
                 es: "negociación amistosa, litigio, recuperación"
             },
             descriptionRecovery: {
-                en: "Some of our clients use pickaform to manage their amicable negotiation, litigation and recovery workflows in order to have a cross-sectional view of all the files in progress.",
-                fr: "Certains de nos clients utilisent pickaform pour gérer leurs workflows de négociation amiable, contentieux, et recouvrement afin d'avoir une vision transversale de tous les dossiers en cours.",
-                es: "Algunos de nuestros clientes utilizan pickaform para gestionar sus flujos de trabajo de negociación amistosa, litigio y recuperación con el fin de tener una visión transversal de todos los expedientes en curso."
+                en: "Some of our clients use airprocess to manage their amicable negotiation, litigation and recovery workflows in order to have a cross-sectional view of all the files in progress.",
+                fr: "Certains de nos clients utilisent airprocess pour gérer leurs workflows de négociation amiable, contentieux, et recouvrement afin d'avoir une vision transversale de tous les dossiers en cours.",
+                es: "Algunos de nuestros clientes utilizan airprocess para gestionar sus flujos de trabajo de negociación amistosa, litigio y recuperación con el fin de tener una visión transversal de todos los expedientes en curso."
             },
             titleProduct: {
                 en: "Product design",
@@ -738,9 +738,9 @@ function getNextLanguage() {
                 es: "Diseño de producto"
             },
             descriptionProduct: {
-                en: "If you design products, you have to collaborate with your teams on many different aspects, from design to marketing. Pickaform allows you to federate and share all the information you need.",
-                fr: "Si vous concevez des produits, vous devez collaborer avec vos équipes sur plein d'aspects différents, du design jusqu'au marketing. Pickaform vous permet de féréder et partager toutes les informations dont vous avez besoin.",
-                es: "Si diseña productos, debe colaborar con sus equipos en muchos aspectos diferentes, desde el diseño hasta el marketing. Pickaform le permite federar y compartir toda la información que necesita."
+                en: "If you design products, you have to collaborate with your teams on many different aspects, from design to marketing. AirProcess allows you to federate and share all the information you need.",
+                fr: "Si vous concevez des produits, vous devez collaborer avec vos équipes sur plein d'aspects différents, du design jusqu'au marketing. AirProcess vous permet de féréder et partager toutes les informations dont vous avez besoin.",
+                es: "Si diseña productos, debe colaborar con sus equipos en muchos aspectos diferentes, desde el diseño hasta el marketing. AirProcess le permite federar y compartir toda la información que necesita."
             },
             titleInventory: {
                 en: "Inventory management",
@@ -748,9 +748,9 @@ function getNextLanguage() {
                 es: "Gestión de inventario"
             },
             descriptionInventory: {
-                en: "Whether you manage a computer park, construction equipment, or something else, pickaform allows you to build a simple and tailor-made solution to track all your equipment.",
-                fr: "Que vous gériez un parc informatique, du matériel de chantier, ou autre chose, pickaform permet de construire une solution simple et sur mesure pour traquer tous vos matériels.",
-                es: "Ya sea que gestione un parque informático, equipos de construcción, u otra cosa, pickaform le permite construir una solución simple y a medida para rastrear todo su equipo."
+                en: "Whether you manage a computer park, construction equipment, or something else, airprocess allows you to build a simple and tailor-made solution to track all your equipment.",
+                fr: "Que vous gériez un parc informatique, du matériel de chantier, ou autre chose, airprocess permet de construire une solution simple et sur mesure pour traquer tous vos matériels.",
+                es: "Ya sea que gestione un parque informático, equipos de construcción, u otra cosa, airprocess le permite construir una solución simple y a medida para rastrear todo su equipo."
             },
             titleDonation: {
                 en: "Donation management",
@@ -768,9 +768,9 @@ function getNextLanguage() {
                 es: "Gestión de..."
             },
             descriptionAnything: {
-                en: "The examples above are given as an example, but you manage exactly what you want with pickaform, and the only limit is your imagination!",
-                fr: "Les exemples ci-dessus sont donnés à titre d'exemple, mais vous gérez exactement ce que vous voulez avec pickaform, et la seule limite est votre imagination !",
-                es: "Los ejemplos anteriores se dan a modo de ejemplo, pero usted gestiona exactamente lo que desea con pickaform, ¡y el único límite es su imaginación!"
+                en: "The examples above are given as an example, but you manage exactly what you want with airprocess, and the only limit is your imagination!",
+                fr: "Les exemples ci-dessus sont donnés à titre d'exemple, mais vous gérez exactement ce que vous voulez avec airprocess, et la seule limite est votre imagination !",
+                es: "Los ejemplos anteriores se dan a modo de ejemplo, pero usted gestiona exactamente lo que desea con airprocess, ¡y el único límite es su imaginación!"
             },
             titleBookDemo: {
                 en: `Not convinced?`,
@@ -783,9 +783,9 @@ function getNextLanguage() {
                 es: `¡Cuéntenos sobre su proyecto, y le mostraremos cómo hacerlo realidad en <span class="text-highlight" style="background-color: #00aaee">20 minutos!</span>`
             },
             titleVideos: {
-                en: `Pickaform in action`,
-                fr: `Pickaform en action`,
-                es: `Pickaform en acción`
+                en: `AirProcess in action`,
+                fr: `AirProcess en action`,
+                es: `AirProcess en acción`
             },
             subtitleVideos: {
                 en: `See directly how to build and use applications with workflows, without coding`,
@@ -838,9 +838,9 @@ function getNextLanguage() {
                 es: "Crear un flujo de trabajo en 3 minutos"
             },
             descriptionWorkflow3mn: {
-                en: "Pickaform is the simplest platform in the world for creating your personalized workflows: guaranteed return on investment!",
-                fr: "Pickaform est la plateforme la plus simple au monde pour créer vos workflows personnalisés: retour sur investissement garanti !",
-                es: "Pickaform es la plataforma más simple del mundo para crear sus flujos de trabajo personalizados: ¡retorno de inversión garantizado!"
+                en: "AirProcess is the simplest platform in the world for creating your personalized workflows: guaranteed return on investment!",
+                fr: "AirProcess est la plateforme la plus simple au monde pour créer vos workflows personnalisés: retour sur investissement garanti !",
+                es: "AirProcess es la plataforma más simple del mundo para crear sus flujos de trabajo personalizados: ¡retorno de inversión garantizado!"
             },
             titleView: {
                 en: "Creating a view for your data",
@@ -848,9 +848,9 @@ function getNextLanguage() {
                 es: "Crear una vista para sus datos"
             },
             descriptionView: {
-                en: "Organize your data as you see fit thanks to pickaform's ergonomic views: sort, filter, group, and aggregate in just a few clicks!",
-                fr: "Organisez vos données comme bon vous semble grâce aux vues ergonomiques de pickaform: triez, filtrez, regroupez, et aggrégez en quelques clics !",
-                es: "¡Organice sus datos como desee gracias a las vistas ergonómicas de pickaform: ordene, filtre, agrupe y agregue en solo unos clics!"
+                en: "Organize your data as you see fit thanks to airprocess's ergonomic views: sort, filter, group, and aggregate in just a few clicks!",
+                fr: "Organisez vos données comme bon vous semble grâce aux vues ergonomiques de airprocess: triez, filtrez, regroupez, et aggrégez en quelques clics !",
+                es: "¡Organice sus datos como desee gracias a las vistas ergonómicas de airprocess: ordene, filtre, agrupe y agregue en solo unos clics!"
             }
         })
 
@@ -865,13 +865,13 @@ function getNextLanguage() {
                     title: t("title"),
                     subtitle: t("subtitle")
                 }),
-                kiss.templates.screenshot("workflow - contrat - pickaform.webp"),
+                kiss.templates.screenshot("workflow - contrat - airprocess.webp"),
 
                 // CRM
                 kiss.templates.feature({
                     title: "CRM",
                     description: t("descriptionCRM"),
-                    screenshot: "example - CRM - pickaform.webp",
+                    screenshot: "example - CRM - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -884,7 +884,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleHR"),
                     description: t("descriptionHR"),
-                    screenshot: "example - HR onboarding - pickaform.webp",
+                    screenshot: "example - HR onboarding - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -895,7 +895,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleProjects"),
                     description: t("descriptionProjects"),
-                    screenshot: "example - project management - pickaform.webp",
+                    screenshot: "example - project management - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -908,7 +908,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleLegal"),
                     description: t("descriptionLegal"),
-                    screenshot: "example - Legal contract - pickaform.webp",
+                    screenshot: "example - Legal contract - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -932,7 +932,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleRequests"),
                     description: t("descriptionRequests"),
-                    screenshot: "example - purchase request - pickaform.webp",
+                    screenshot: "example - purchase request - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -943,7 +943,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleSupport"),
                     description: t("descriptionSupport"),
-                    screenshot: "a la carte form features - pickaform.webp",
+                    screenshot: "a la carte form features - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -956,7 +956,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleRecovery"),
                     description: t("descriptionRecovery"),
-                    screenshot: "navigate through your data with tabs - pickaform.webp",
+                    screenshot: "navigate through your data with tabs - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -967,7 +967,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleInventory"),
                     description: t("descriptionInventory"),
-                    screenshot: "example - inventory - pickaform.webp",
+                    screenshot: "example - inventory - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -980,7 +980,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleProduct"),
                     description: t("descriptionProduct"),
-                    screenshot: "example - product design - pickaform.webp",
+                    screenshot: "example - product design - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -991,7 +991,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleDonation"),
                     description: t("descriptionDonation"),
-                    screenshot: "example - donation - pickaform.webp",
+                    screenshot: "example - donation - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -1004,7 +1004,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleAnything"),
                     description: t("descriptionAnything"),
-                    screenshot: "example - midjourney collection - pickaform.webp",
+                    screenshot: "example - midjourney collection - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -1032,42 +1032,42 @@ function getNextLanguage() {
                             kiss.templates.featureVideo({
                                 title: t("titleAppFromTemplate"),
                                 description: t("descriptionAppFromTemplate"),
-                                screenshot: "creating an application from a template - pickaform.webp",
+                                screenshot: "creating an application from a template - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=3joHKZOH_zA"
                             }),
                             // Creating an app from a template
                             kiss.templates.featureVideo({
                                 title: t("titleAppFromXLS"),
                                 description: t("descriptionAppFromXLS"),
-                                screenshot: "creating an application from an XLS file - pickaform.webp",
+                                screenshot: "creating an application from an XLS file - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=KS7nOiDW9eE"
                             }),
                             // Discovering the form designer
                             kiss.templates.featureVideo({
                                 title: t("titleFormDesigner"),
                                 description: t("descriptionFormDesigner"),
-                                screenshot: "discovering the form designer - pickaform.webp",
+                                screenshot: "discovering the form designer - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=T992n1m_bII"
                             }),
                             // Discovering the workflow
                             kiss.templates.featureVideo({
                                 title: t("titleWorkflow"),
                                 description: t("descriptionWorkflow"),
-                                screenshot: "discovering the workflow - pickaform.webp",
+                                screenshot: "discovering the workflow - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=As992YkHbu8"
                             }),
                             // Creating a workflow in 3mn
                             kiss.templates.featureVideo({
                                 title: t("titleWorkflow3mn"),
                                 description: t("descriptionWorkflow3mn"),
-                                screenshot: "creating a workflow - pickaform.webp",
+                                screenshot: "creating a workflow - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=hCZ5gbu7gMs"
                             }),
                             // Creating a view
                             kiss.templates.featureVideo({
                                 title: t("titleView"),
                                 description: t("descriptionView"),
-                                screenshot: "creating a view - pickaform.webp",
+                                screenshot: "creating a view - airprocess.webp",
                                 video: "https://www.youtube.com/watch?v=3ALIi2OS5eQ"
                             })
                         ]
@@ -1114,14 +1114,14 @@ function getNextLanguage() {
     id: "contact",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/contact",
-            fr: "https://pickaform.fr/fr/contact",
-            es: "https://pickaform.fr/es/contact"
+            en: "https://airprocess.fr/en/contact",
+            fr: "https://airprocess.fr/fr/contact",
+            es: "https://airprocess.fr/es/contact"
         },
         title: {
-            en: "Contact & FAQ | Pickaform",
-            fr: "Contact & FAQ | Pickaform",
-            es: "Contacto y FAQ | Pickaform"
+            en: "Contact & FAQ | AirProcess",
+            fr: "Contact & FAQ | AirProcess",
+            es: "Contacto y FAQ | AirProcess"
         },
         description: {
             en: `Request a demo or check the Frequently Asked Questions.`,
@@ -1281,7 +1281,7 @@ function getNextLanguage() {
                                 formData.useLabels = true
 
                                 await kiss.ajax.request({
-                                    url: kiss.global.pathPickaform + "/command/publicForm/post/" + kiss.global.contactModelId,
+                                    url: kiss.global.pathAirProcess + "/command/publicForm/post/" + kiss.global.contactModelId,
                                     method: "post",
                                     body: JSON.stringify(formData)
                                 })
@@ -1401,7 +1401,7 @@ function getNextLanguage() {
                         // action: () => kiss.router.navigateTo({
                         //     content: "blog"
                         // })
-                        action: () => window.open(`https://blog.pickaform.com/${kiss.language.current}/`, "_new")
+                        action: () => window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
                     },
                     {
                         label: t("Pricing"),
@@ -1416,18 +1416,18 @@ function getNextLanguage() {
                 title: "Social",
                 items: [{
                         label: "LinkedIn",
-                        action: () => window.open("https://www.linkedin.com/company/pickaform-cloud/", "_new")
+                        action: () => window.open("https://www.linkedin.com/company/airprocess-cloud/", "_new")
                     }, {
                         label: "YouTube",
-                        action: () => window.open("https://www.youtube.com/@pickaform", "_new")
+                        action: () => window.open("https://www.youtube.com/@airprocess", "_new")
                     },
                     {
                         label: "Facebook",
-                        action: () => window.open("https://www.facebook.com/pickaform.applications", "_new")
+                        action: () => window.open("https://www.facebook.com/airprocess.applications", "_new")
                     },
                     {
                         label: "Twitter",
-                        action: () => window.open("https://twitter.com/PickaForm", "_new")
+                        action: () => window.open("https://twitter.com/AirProcess", "_new")
                     }
                 ]
             },
@@ -1451,11 +1451,11 @@ function getNextLanguage() {
                 title: "Archives",
                 items: [{
                         label: "Blog (English)",
-                        action: () => window.open("https://blog.pickaform.com/en/", "_new")
+                        action: () => window.open("https://blog.airprocess.com/en/", "_new")
                     },
                     {
                         label: "Blog (Français)",
-                        action: () => window.open("https://blog.pickaform.com/fr/", "_new")
+                        action: () => window.open("https://blog.airprocess.com/fr/", "_new")
                     }
                 ]
             },
@@ -1497,14 +1497,14 @@ function getNextLanguage() {
     id: "landing",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/landing",
-            fr: "https://pickaform.fr/fr/landing",
-            es: "https://pickaform.fr/es/landing"
+            en: "https://airprocess.fr/en/landing",
+            fr: "https://airprocess.fr/fr/landing",
+            es: "https://airprocess.fr/es/landing"
         },
         title: {
-            en: "Pickaform | Best no-code platform for your processes",
-            fr: "Pickaform | Meilleure plateforme no-code pour vos process",
-            es: "Pickaform | Mejor plataforma no-code para sus procesos"
+            en: "AirProcess | Best no-code platform for your processes",
+            fr: "AirProcess | Meilleure plateforme no-code pour vos process",
+            es: "AirProcess | Mejor plataforma no-code para sus procesos"
         },
         description: {
             en: `Boost all your business processes by combining no-code, forms, workflows and AI.`,
@@ -1517,13 +1517,13 @@ function getNextLanguage() {
             titlePitchline: {
                 en: `Best <span class="text-highlight" style="background-color: #00aaee">no-code</span> platform
                 <br>
-                for your <span class="text-highlight" style="background-color: #a1ed00">processes</span>`,
+                for your <span class="text-highlight" style="background-color: #aaee00">processes</span>`,
                 fr: `La meilleure plateforme <span class="text-highlight" style="background-color: #00aaee">no-code</span>
                 <br>
-                pour vos <span class="text-highlight" style="background-color: #a1ed00">process</span>`,
+                pour vos <span class="text-highlight" style="background-color: #aaee00">process</span>`,
                 es: `La mejor plataforma <span class="text-highlight" style="background-color: #00aaee">no-code</span>
                 <br>
-                para sus <span class="text-highlight" style="background-color: #a1ed00">procesos</span>`
+                para sus <span class="text-highlight" style="background-color: #aaee00">procesos</span>`
             },
             subtitlePitchline: {
                 en: "Build your processes in minutes.<br>Collaborate instantly.",
@@ -1643,7 +1643,7 @@ function getNextLanguage() {
                 <h2>✔ we coach you on NoCode design best practices</h2>
 
                 <center>
-                    <a href="https://calendly.com/pickaform/pickaform-live-demo">
+                    <a href="https://calendly.com/airprocess/airprocess-live-demo">
                         <div class="a-button button-booking">Book your private demo now to benefit from this unique offer!</div>
                     </a>
                 </center>`,
@@ -1657,7 +1657,7 @@ function getNextLanguage() {
                 <h2>✔ nous vous coachons sur les best practices de la conception NoCode</h2>
                               
                 <center>
-                    <a href="https://calendly.com/pickaform/pickaform-live-demo">
+                    <a href="https://calendly.com/airprocess/airprocess-live-demo">
                         <div class="a-button button-booking">Réservez votre démo privée dès maintenant pour bénéficier de cette offre unique !</div>
                     </a>
                 </center>`,
@@ -1671,15 +1671,15 @@ function getNextLanguage() {
                 <h2>✔ le asesoramos sobre las mejores prácticas de diseño NoCode</h2>
 
                 <center>
-                    <a href="https://calendly.com/pickaform/pickaform-live-demo">
+                    <a href="https://calendly.com/airprocess/airprocess-live-demo">
                         <div class="a-button button-booking">¡Reserve su demostración privada ahora para beneficiarse de esta oferta única!</div>
                     </a>
                 </center>`
             },
             titleWhy: {
-                en: `Why Pickaform?`,
-                fr: `Pourquoi Pickaform ?`,
-                es: `¿Por qué Pickaform?`
+                en: `Why AirProcess?`,
+                fr: `Pourquoi AirProcess ?`,
+                es: `¿Por qué AirProcess?`
             },
             subtitleWhy: {
                 en: `Simply the no-code solution best suited for
@@ -1694,7 +1694,7 @@ function getNextLanguage() {
                 fr: `Comparer à`,
                 es: `Comparar con`
             },
-            pickaform: {
+            airprocess: {
                 en: `
                     <br>✅ Cloud and on-premise
                     <br>✅ Security model with precise access control
@@ -1941,35 +1941,35 @@ function getNextLanguage() {
                     title: t("titleNocodeWorkflow"),
                     subtitle: t("subtitleNocodeWorkflow")
                 }),
-                kiss.templates.screenshot("workflow - business contracts - pickaform.webp"),
+                kiss.templates.screenshot("workflow - business contracts - airprocess.webp"),
 
                 // STRIP - Incredible forms in minutes
                 kiss.templates.title({
                     title: t("titleForms"),
                     subtitle: t("subtitleForms")
                 }),
-                kiss.templates.screenshot("incredible forms out-of-the-box - pickaform.webp"),
+                kiss.templates.screenshot("incredible forms out-of-the-box - airprocess.webp"),
 
                 // STRIP - Beautiful dashboards for your data
                 kiss.templates.title({
                     title: t("titleDashboard"),
                     subtitle: t("subtitleDashboard")
                 }),
-                kiss.templates.screenshot("example - dashboard - pickaform.webp"),
+                kiss.templates.screenshot("example - dashboard - airprocess.webp"),
 
                 // STRIP - Generative AI for your apps
                 kiss.templates.title({
                     title: t("titleGenerativeAI"),
                     subtitle: t("subtitleGenerativeAI")
                 }),
-                kiss.templates.screenshot("generative ai to build applications - pickaform.webp"),
+                kiss.templates.screenshot("generative ai to build applications - airprocess.webp"),
 
                 // STRIP - NoCode = Flexibility
                 kiss.templates.title({
                     title: t("titleFlexibility"),
                     subtitle: t("subtitleFlexibility")
                 }),
-                kiss.templates.screenshot("ai art gallery - gallery view - pickaform.webp"),
+                kiss.templates.screenshot("ai art gallery - gallery view - airprocess.webp"),
 
                 // STRIP - Comparison with competitors
                 kiss.templates.title({
@@ -1986,11 +1986,11 @@ function getNextLanguage() {
                             items: [
                                 {
                                     type: "html",
-                                    html: `<img src="./resources/img/pickaform.webp" alt="pickaform logo" class="image-content" loading="lazy" style="width: 256px; height: 60px;">`
+                                    html: `<img src="./resources/img/airprocess.webp" alt="airprocess logo" class="image-content" loading="lazy" style="width: 256px; height: 60px;">`
                                 },
                                 {
                                     type: "html",
-                                    html: t("pickaform")
+                                    html: t("airprocess")
                                 }
                             ]
                         },
@@ -2064,7 +2064,7 @@ function getNextLanguage() {
                 kiss.templates.buttonCTA(t("bookDemo"), "booking"),
 
                 // CUSTOMERS
-                kiss.templates.screenshot("customer references - pickaform.webp"),
+                kiss.templates.screenshot("customer references - airprocess.webp"),
             ],
 
             methods: {
@@ -2162,15 +2162,16 @@ function getNextLanguage() {
             // BLOG
             {
                 text: "Blog",
-                href: `https://blog.pickaform.com/${kiss.language.current}`,
+                href: `https://blog.airprocess.com/${kiss.language.current}`,
                 target: "_new",
                 view: ""
             },
             // TEMPLATES
             {
+                hidden: true,
                 hidden: kiss.screen.isMobile,
                 text: t("Templates"),
-                href: kiss.global.pathPickaform + `/client/pickaform/demo.html#ui=templates-list&language=${kiss.language.current}`,
+                href: kiss.global.pathAirProcess + `/client/airprocess/demo.html#ui=templates-list&language=${kiss.language.current}`,
                 target: "_new",
                 view: ""
             },
@@ -2178,7 +2179,7 @@ function getNextLanguage() {
             {
                 hidden: kiss.screen.isMobile,
                 text: t("Get started"),
-                href: kiss.global.pathPickaform + "/client/pickaform/index.html#ui=authentication-register",
+                href: kiss.global.pathAirProcess + "/client/airprocess/index.html#ui=authentication-register",
                 target: "_new",
                 view: ""
             },
@@ -2186,7 +2187,7 @@ function getNextLanguage() {
             {
                 // hidden: kiss.screen.isMobile,
                 text: t("Login"),
-                href: kiss.global.pathPickaform + "/client/pickaform/index.html#ui=authentication-login",
+                href: kiss.global.pathAirProcess + "/client/airprocess/index.html#ui=authentication-login",
                 target: "_new",
                 view: ""
             }
@@ -2244,8 +2245,8 @@ function getNextLanguage() {
                 // LOGO
                 {
                     type: "image",
-                    alt: "pickaform logo",
-                    src: "./resources/img/pickaform.webp",
+                    alt: "airprocess logo",
+                    src: "./resources/img/airprocess.webp",
                     width: 256,
                     height: 60
                 },
@@ -2322,10 +2323,10 @@ function getNextLanguage() {
 
                         if (element.innerHTML.includes("Blog")) {
                             // BLOG
-                            window.open(`https://blog.pickaform.com/${kiss.language.current}/`, "_new")
+                            window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
                         } else if (element.innerHTML.includes("Templates") || element.innerHTML.includes("Modèles")) {
                             // TEMPLATES
-                            window.open(kiss.global.pathPickaform + `/client/pickaform/demo.html#ui=templates-list&language=${kiss.language.current}`, "_new")
+                            window.open(kiss.global.pathAirProcess + `/client/airprocess/demo.html#ui=templates-list&language=${kiss.language.current}`, "_new")
                         } else if (view) {
                             kiss.router.navigateTo({
                                 content: view
@@ -2403,14 +2404,14 @@ function getNextLanguage() {
     id: "pricing",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/pricing",
-            fr: "https://pickaform.fr/fr/pricing",
-            es: "https://pickaform.fr/es/pricing"
+            en: "https://airprocess.fr/en/pricing",
+            fr: "https://airprocess.fr/fr/pricing",
+            es: "https://airprocess.fr/es/pricing"
         },
         title: {
-            en: "Pricing | Pickaform",
-            fr: "Tarifs | Pickaform",
-            es: "Precios | Pickaform"
+            en: "Pricing | AirProcess",
+            fr: "Tarifs | AirProcess",
+            es: "Precios | AirProcess"
         },
         description: {
             en: `Get the Right Plan for Your Business Needs.`,
@@ -2433,16 +2434,16 @@ function getNextLanguage() {
             nocoders: {
                 en: `<br>
                 <br>
-                You are a <span class="text-highlight" style="background-color: #00aaee">Freelance NoCoder</span> or a <span class="text-highlight" style="background-color: #a1ed00">NoCode Agency</span>?
-                <br>Claim your special offer by scheduling an appointment <a href="https://calendly.com/pickaform/pickaform-live-demo">here</a>`,
+                You are a <span class="text-highlight" style="background-color: #00aaee">Freelance NoCoder</span> or a <span class="text-highlight" style="background-color: #aaee00">NoCode Agency</span>?
+                <br>Claim your special offer by scheduling an appointment <a href="https://calendly.com/airprocess/airprocess-live-demo">here</a>`,
                 fr: `<br>
                 <br>
-                Vous êtes un <span class="text-highlight" style="background-color: #00aaee">NoCodeur Freelance</span> ou une <span class="text-highlight" style="background-color: #a1ed00">Agence NoCode</span> ?
-                <br>Demandez votre offre spéciale en prenant RDV <a href="https://calendly.com/pickaform/pickaform-live-demo">ici</a>`,
+                Vous êtes un <span class="text-highlight" style="background-color: #00aaee">NoCodeur Freelance</span> ou une <span class="text-highlight" style="background-color: #aaee00">Agence NoCode</span> ?
+                <br>Demandez votre offre spéciale en prenant RDV <a href="https://calendly.com/airprocess/airprocess-live-demo">ici</a>`,
                 es: `<br>
                 <br>
-                ¿Eres un <span class="text-highlight" style="background-color: #00aaee">NoCoder Freelance</span> o una <span class="text-highlight" style="background-color: #a1ed00">Agencia NoCode</span>?
-                <br>Reclama tu oferta especial programando una cita <a href="https://calendly.com/pickaform/pickaform-live-demo">aquí</a>`
+                ¿Eres un <span class="text-highlight" style="background-color: #00aaee">NoCoder Freelance</span> o una <span class="text-highlight" style="background-color: #aaee00">Agencia NoCode</span>?
+                <br>Reclama tu oferta especial programando una cita <a href="https://calendly.com/airprocess/airprocess-live-demo">aquí</a>`
             },
             unlimitedForms: {
                 en: "unlimited forms",
@@ -2467,13 +2468,13 @@ function getNextLanguage() {
             enterprisePlan: {
                 en: `We have many other plans beyond that + on-premise versions beyond 100 users + a legacy HCL Domino version.
                 <br>
-                Please contact us for more informations: contact@pickaform.com`,
+                Please contact us for more informations: contact@airprocess.com`,
                 fr: `Nous avons des offres au-delà + des versions on-premise à partir de 100 utilisateurs + une version compatible HCL Domino.
                 <br>
-                Contactez-nous pour plus d'informations : contact@pickaform.com`,
+                Contactez-nous pour plus d'informations : contact@airprocess.com`,
                 es: `Tenemos muchas otras ofertas más allá de eso + versiones on-premise a partir de 100 usuarios + una versión HCL Domino heredada.
                 <br>
-                Contáctenos para obtener más información: contact@pickaform.`
+                Contáctenos para obtener más información: contact@airprocess.`
             },
             contactUs: {
                 en: "Contact us",
@@ -2486,12 +2487,12 @@ function getNextLanguage() {
                 es: `Reservo una demo`
             },
             faq0: {
-                en: "Why choose pickaform?",
-                fr: "Pourquoi choisir pickaform ?",
-                es: "¿Por qué elegir pickaform?"
+                en: "Why choose AirProcess?",
+                fr: "Pourquoi choisir AirProcess ?",
+                es: "¿Por qué elegir AirProcess?"
             },
             answer0: {
-                en: `Pickaform is not a cloud software born from a simple idea and created quickly to surf the wave of no-code.
+                en: `AirProcess is not a cloud software born from a simple idea and created quickly to surf the wave of no-code.
                 The story begins in 2009, long before "no-code" existed, and the design of the platform was 100% guided by the use of its users.
                 In 2019, ten years after the very first version, the platform is dedicated "IBM CHAMPION" in the category of Collaboration software.
                 From the outset, the platform has kept the same philosophy:
@@ -2499,8 +2500,8 @@ function getNextLanguage() {
                 <br>• a la carte functionalities integrated into forms
                 <br>• flexible and quick-to-implement workflow feature
                 <br>• simplicity
-                <br>Today, large companies use Pickaform on a daily basis for all types of use, and 95% of our users who adopt the platform use it for several years, guaranteeing maximum ROI.`,
-                fr: `Pickaform n'est pas un logiciel cloud issu d'une simple idée et créé rapidement pour surfer sur la vague du no-code.
+                <br>Today, large companies use AirProcess on a daily basis for all types of use, and 95% of our users who adopt the platform use it for several years, guaranteeing maximum ROI.`,
+                fr: `AirProcess n'est pas un logiciel cloud issu d'une simple idée et créé rapidement pour surfer sur la vague du no-code.
                 L'histoire commence en 2009, bien avant que le "no-code" existe, et la conception de la plateforme a été guidée à 100% par l'usage de ses utilisateurs.
                 En 2019, soit dix ans après la toute première version, la plateforme est consacrée "IBM CHAMPION" dans la categorie des logiciels de Collaboration.
                 Depuis l'origine, la plateforme a conservé la même philosophie :
@@ -2508,8 +2509,8 @@ function getNextLanguage() {
                 <br>• fonctionnalités à la carte intégrées aux formulaires
                 <br>• fonctionnalité de workflow flexible et rapide à mettre en place
                 <br>• simplicité
-                <br>Aujourd'hui, de grandes entreprises utilisent Pickaform au quotidien pour tous types d'usages, et 95% de nos utilisateurs qui adoptent la plateforme l'utilisent plusieurs années, garantissant un ROI maximal.`,
-                es: `Pickaform no es un software en la nube nacido de una idea simple y creado rápidamente para surfear la ola del no-code.
+                <br>Aujourd'hui, de grandes entreprises utilisent AirProcess au quotidien pour tous types d'usages, et 95% de nos utilisateurs qui adoptent la plateforme l'utilisent plusieurs années, garantissant un ROI maximal.`,
+                es: `AirProcess no es un software en la nube nacido de una idea simple y creado rápidamente para surfear la ola del no-code.
                 La historia comienza en 2009, mucho antes de que existiera el "no-code", y el diseño de la plataforma fue 100% guiado por el uso de sus usuarios.
                 En 2019, diez años después de la primera versión, la plataforma es consagrada "IBM CHAMPION" en la categoría de software de colaboración.
                 Desde el principio, la plataforma ha mantenido la misma filosofía:
@@ -2517,20 +2518,20 @@ function getNextLanguage() {
                 <br>• funcionalidades a la carta integradas en los formularios
                 <br>• característica de flujo de trabajo flexible y rápida de implementar
                 <br>• simplicidad
-                <br>Hoy en día, grandes empresas utilizan Pickaform a diario para todo tipo de usos, y el 95% de nuestros usuarios que adoptan la plataforma la utilizan durante varios años, garantizando un ROI máximo`
+                <br>Hoy en día, grandes empresas utilizan AirProcess a diario para todo tipo de usos, y el 95% de nuestros usuarios que adoptan la plataforma la utilizan durante varios años, garantizando un ROI máximo`
             },
             faq1: {
-                en: "Who uses Pickaform?",
-                fr: "A qui s'adresse Pickaform ?",
-                es: "¿Quién usa Pickaform?"
+                en: "Who uses AirProcess?",
+                fr: "A qui s'adresse AirProcess ?",
+                es: "¿Quién usa AirProcess?"
             },
             answer1: {
-                en: `Pickaform is made for: companies, associations, the public sector, digital companies who want to accelerate their projects and deliver faster, no-coders & makers who are looking to work with larger clients.
-                More generally, pickaform is useful for any person or organization wishing to organize their data and/or set up business processes to streamline collaboration.`,
-                fr: `Pickaform est fait pour : les entreprises, les associations, le secteur public, les entreprises du numérique qui veulent accélérer leurs projets et livrer plus vite, les no-coders & makers qui cherchent à travailler avec des clients plus gros.
-                Plus généralement, pickaform est utile à toute personne ou organisation souhaitant organiser ses données et/ou mettre en place des processus métier pour fluidifier la collaboration.`,
-                es: `Pickaform está hecho para: empresas, asociaciones, el sector público, empresas digitales que desean acelerar sus proyectos y entregar más rápido, no-coders y makers que buscan trabajar con clientes más grandes.
-                Más generalmente, pickaform es útil para cualquier persona u organización que desee organizar sus datos y/o establecer procesos comerciales para agilizar la colaboración.`
+                en: `AirProcess is made for: companies, associations, the public sector, digital companies who want to accelerate their projects and deliver faster, no-coders & makers who are looking to work with larger clients.
+                More generally, AirProcess is useful for any person or organization wishing to organize their data and/or set up business processes to streamline collaboration.`,
+                fr: `AirProcess est fait pour : les entreprises, les associations, le secteur public, les entreprises du numérique qui veulent accélérer leurs projets et livrer plus vite, les no-coders & makers qui cherchent à travailler avec des clients plus gros.
+                Plus généralement, AirProcess est utile à toute personne ou organisation souhaitant organiser ses données et/ou mettre en place des processus métier pour fluidifier la collaboration.`,
+                es: `AirProcess está hecho para: empresas, asociaciones, el sector público, empresas digitales que desean acelerar sus proyectos y entregar más rápido, no-coders y makers que buscan trabajar con clientes más grandes.
+                Más generalmente, AirProcess es útil para cualquier persona u organización que desee organizar sus datos y/o establecer procesos comerciales para agilizar la colaboración.`
             },
             faq2: {
                 en: "How can I take a subscription?",
@@ -2539,11 +2540,11 @@ function getNextLanguage() {
             },
             answer2: {
                 en: `First, sign up and enjoy your free trial including up to 20 users!
-                If you need to upgrade before the end of your free period, you'll do it directly from your Pickaform account management.`,
+                If you need to upgrade before the end of your free period, you'll do it directly from your AirProcess account management.`,
                 fr: `Inscrivez-vous et profitez d'abord de votre période d'essai, incluant jusqu'à 20 utilisateurs !
-                Si vous souhaitez changer d'offre avant la fin de votre essai, vous pourrez le faire directement dans Pickaform depuis votre rubrique "Compte".`,
+                Si vous souhaitez changer d'offre avant la fin de votre essai, vous pourrez le faire directement dans AirProcess depuis votre rubrique "Compte".`,
                 es: `Primero, regístrese y disfrute de su período de prueba gratuito, incluyendo hasta 20 usuarios.
-                Si necesita actualizar antes de que finalice su período gratuito, lo hará directamente desde la gestión de su cuenta de Pickaform.`
+                Si necesita actualizar antes de que finalice su período gratuito, lo hará directamente desde la gestión de su cuenta de AirProcess.`
             },
             faq3: {
                 en: "When will I be able to stop my subscription?",
@@ -2620,16 +2621,16 @@ function getNextLanguage() {
                 Para ser claros, tenemos mejores precios si nos comparamos con productos con características similares.`
             },
             faq8: {
-                en: "How much data can I store on Pickaform?",
+                en: "How much data can I store on AirProcess?",
                 fr: "A quel volume de données ai-je le droit ?",
-                es: "¿Cuántos datos puedo almacenar en Pickaform?"
+                es: "¿Cuántos datos puedo almacenar en AirProcess?"
             },
             answer8: {
-                en: `Pickaform allows you to attach files to your form data, but its goal is not to replace a file management or a virtual drive (like Google Drive, One Drive, DropBox ...), so, we calculated that an average volume of 100MB of attachments per user was sufficient for standard use of our platform. For example, this represents 2GB of data for 20 users.
+                en: `AirProcess allows you to attach files to your form data, but its goal is not to replace a file management or a virtual drive (like Google Drive, One Drive, DropBox ...), so, we calculated that an average volume of 100MB of attachments per user was sufficient for standard use of our platform. For example, this represents 2GB of data for 20 users.
                 Contact us if you think your needs will exceed this usage. In that case, there is an option to connect your own storage compatible with S3 and store without any limit.`,
-                fr: `Pickaform vous permet bien de joindre des fichiers à vos données de formulaire, mais sa fonction n'est pas de venir en remplacement d'une gestion de fichiers ou d'un drive (Google Drive, One Drive, DropBox...), aussi, nous avons calculé qu'un volume moyen de 100Mo de pièces jointes par utilisateur était suffisant pour un usage standard de notre plateforme. Cela représente 2Go de données pour 20 utilisateurs.
+                fr: `AirProcess vous permet bien de joindre des fichiers à vos données de formulaire, mais sa fonction n'est pas de venir en remplacement d'une gestion de fichiers ou d'un drive (Google Drive, One Drive, DropBox...), aussi, nous avons calculé qu'un volume moyen de 100Mo de pièces jointes par utilisateur était suffisant pour un usage standard de notre plateforme. Cela représente 2Go de données pour 20 utilisateurs.
                 Nous consulter si vous pensez que vos besoins dépasseront cet usage, vous pouvez connecter votre propre stockage compatible S3 et stocker sans aucune limite.`,
-                es: `Pickaform le permite adjuntar archivos a sus datos de formulario, pero su objetivo no es reemplazar una gestión de archivos o una unidad virtual (como Google Drive, One Drive, DropBox ...), por lo que calculamos que un volumen promedio de 100 MB de archivos adjuntos por usuario era suficiente para el uso estándar de nuestra plataforma. Por ejemplo, esto representa 2 GB de datos para 20 usuarios.
+                es: `AirProcess le permite adjuntar archivos a sus datos de formulario, pero su objetivo no es reemplazar una gestión de archivos o una unidad virtual (como Google Drive, One Drive, DropBox ...), por lo que calculamos que un volumen promedio de 100 MB de archivos adjuntos por usuario era suficiente para el uso estándar de nuestra plataforma. Por ejemplo, esto representa 2 GB de datos para 20 usuarios.
                 Contáctenos si cree que sus necesidades superarán este uso. En ese caso, hay una opción para conectar su propio almacenamiento compatible con S3 y almacenar sin ningún límite.`
             }
         })
@@ -2718,7 +2719,7 @@ function getNextLanguage() {
                 click: (event) => {
                     const target = event.target.closest("div")
                     if (target && target.classList.contains("pricing-plan-CTA")) {
-                        document.location = kiss.global.pathPickaform + "/client/pickaform/index.html#ui=authentication-register"
+                        document.location = kiss.global.pathAirProcess + "/client/airprocess/index.html#ui=authentication-register"
                     }
                 }
             },
@@ -2740,19 +2741,19 @@ function getNextLanguage() {
     id: "product",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/product",
-            fr: "https://pickaform.fr/fr/product",
-            es: "https://pickaform.fr/es/product"
+            en: "https://airprocess.fr/en/product",
+            fr: "https://airprocess.fr/fr/product",
+            es: "https://airprocess.fr/es/product"
         },
         title: {
-            en: "Product features | Pickaform",
-            fr: "Fonctionnalités du produit | Pickaform",
-            es: "Características del producto | Pickaform"
+            en: "Product features | AirProcess",
+            fr: "Fonctionnalités du produit | AirProcess",
+            es: "Características del producto | AirProcess"
         },
         description: {
-            en: `The full list of Pickaform product features. Combine no-code, workflows and AI to build the most flexible tools for your company!`,
-            fr: `Liste des fonctionnalités du produit Pickaform. Combinez no-code, workflows et IA pour créer les outils les plus flexibles pour votre entreprise !`,
-            es: `Lista completa de las características del producto Pickaform. ¡Combine no-code, flujos de trabajo e IA para crear las herramientas más flexibles para su empresa!`
+            en: `The full list of AirProcess product features. Combine no-code, workflows and AI to build the most flexible tools for your company!`,
+            fr: `Liste des fonctionnalités du produit AirProcess. Combinez no-code, workflows et IA pour créer les outils les plus flexibles pour votre entreprise !`,
+            es: `Lista completa de las características del producto AirProcess. ¡Combine no-code, flujos de trabajo e IA para crear las herramientas más flexibles para su empresa!`
         }
     },
     renderer: function (id, target) {
@@ -2770,13 +2771,13 @@ function getNextLanguage() {
             title: {
                 en: `Super <span class="text-highlight" style="background-color: #00aaee">simple</span>
                 <br>
-                Really <span class="text-highlight" style="background-color: #a1ed00">powerful</span>`,
+                Really <span class="text-highlight" style="background-color: #aaee00">powerful</span>`,
                 fr: `Super <span class="text-highlight" style="background-color: #00aaee">simple</span>
                 <br>
-                Vraiment <span class="text-highlight" style="background-color: #a1ed00">puissant</span>`,
+                Vraiment <span class="text-highlight" style="background-color: #aaee00">puissant</span>`,
                 es: `Súper <span class="text-highlight" style="background-color: #00aaee">simple</span>
                 <br>
-                Realmente <span class="text-highlight" style="background-color: #a1ed00">poderoso</span>`
+                Realmente <span class="text-highlight" style="background-color: #aaee00">poderoso</span>`
             },
             subtitle: {
                 en: "Create your own business tool and start saving time.",
@@ -3272,7 +3273,7 @@ function getNextLanguage() {
                     title: t("title"),
                     subtitle: t("subtitle")
                 }),
-                kiss.templates.screenshot("dashboard - incidents - pickaform.webp"),
+                kiss.templates.screenshot("dashboard - incidents - airprocess.webp"),
 
                 // FORMS
                 kiss.templates.feature({
@@ -3291,7 +3292,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleViews"),
                     description: t("descriptionViews"),
-                    screenshot: "business contract management - flexible views - pickaform.webp",
+                    screenshot: "business contract management - flexible views - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -3315,7 +3316,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleFormDesigner"),
                     description: t("descriptionFormDesigner"),
-                    screenshot: "integrated simple and powerful form designer - pickaform.webp",
+                    screenshot: "integrated simple and powerful form designer - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -3326,7 +3327,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleFormFeatures"),
                     description: t("descriptionFormFeatures"),
-                    screenshot: "a la carte form features - pickaform.webp",
+                    screenshot: "a la carte form features - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -3350,7 +3351,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleLeftNavigation"),
                     description: t("descriptionLeftNavigation"),
-                    screenshot: "navigate through your data with left pane - pickaform.webp",
+                    screenshot: "navigate through your data with left pane - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "left"
                 }),
@@ -3363,7 +3364,7 @@ function getNextLanguage() {
                 kiss.templates.feature({
                     title: t("titleTabsNavigation"),
                     description: t("descriptionTabsNavigation"),
-                    screenshot: "navigate through your data with tabs - pickaform.webp",
+                    screenshot: "navigate through your data with tabs - airprocess.webp",
                     CTA: t("bookDemo"),
                     textPosition: "right",
                     color: "#555555",
@@ -3390,145 +3391,145 @@ function getNextLanguage() {
                             kiss.templates.featureDetails({
                                 title: t("text"),
                                 description: t("textDescription"),
-                                screenshot: "field type - text - pickaform.webp"
+                                screenshot: "field type - text - airprocess.webp"
                             }),
                             // Number
                             kiss.templates.featureDetails({
                                 title: t("number"),
                                 description: t("numberDescription"),
-                                screenshot: "field type - number - pickaform.webp"
+                                screenshot: "field type - number - airprocess.webp"
                             }),
                             // Date
                             kiss.templates.featureDetails({
                                 title: t("date"),
                                 description: t("dateDescription"),
-                                screenshot: "field type - date - pickaform.webp"
+                                screenshot: "field type - date - airprocess.webp"
                             }),
                             // Time
                             kiss.templates.featureDetails({
                                 title: t("time"),
                                 description: t("timeDescription"),
-                                screenshot: "field type - time - pickaform.webp"
+                                screenshot: "field type - time - airprocess.webp"
                             }),
                             // Paragraph
                             kiss.templates.featureDetails({
                                 title: t("paragraph"),
                                 description: t("paragraphDescription"),
-                                screenshot: "field type - paragraph - pickaform.webp"
+                                screenshot: "field type - paragraph - airprocess.webp"
                             }),
                             // AI paragraph
                             kiss.templates.featureDetails({
                                 title: t("aiParagraph"),
                                 description: t("aiParagraphDescription"),
-                                screenshot: "field type - AI paragraph - pickaform.webp"
+                                screenshot: "field type - AI paragraph - airprocess.webp"
                             }),
                             // Select
                             kiss.templates.featureDetails({
                                 title: t("select"),
                                 description: t("selectDescription"),
-                                screenshot: "field type - select - pickaform.webp"
+                                screenshot: "field type - select - airprocess.webp"
                             }),
                             // Multiple select
                             kiss.templates.featureDetails({
                                 title: t("multipleSelect"),
                                 description: t("multipleSelectDescription"),
-                                screenshot: "field type - multiple select - pickaform.webp"
+                                screenshot: "field type - multiple select - airprocess.webp"
                             }),
                             // Checkbox
                             kiss.templates.featureDetails({
                                 title: t("checkbox"),
                                 description: t("checkboxDescription"),
-                                screenshot: "field type - checkbox - pickaform.webp"
+                                screenshot: "field type - checkbox - airprocess.webp"
                             }),
                             // Progress bar
                             kiss.templates.featureDetails({
                                 title: t("progressBar"),
                                 description: t("progressBarDescription"),
-                                screenshot: "field type - progress bar - pickaform.webp"
+                                screenshot: "field type - progress bar - airprocess.webp"
                             }),
                             // Rating
                             kiss.templates.featureDetails({
                                 title: t("rating"),
                                 description: t("ratingDescription"),
-                                screenshot: "field type - ranking - pickaform.webp"
+                                screenshot: "field type - ranking - airprocess.webp"
                             }),
                             // Attachment
                             kiss.templates.featureDetails({
                                 title: t("attachment"),
                                 description: t("attachmentDescription"),
-                                screenshot: "field type - attachment - pickaform.webp"
+                                screenshot: "field type - attachment - airprocess.webp"
                             }),
                             // Select from view column
                             kiss.templates.featureDetails({
                                 title: t("selectColumn"),
                                 description: t("selectColumnDescription"),
-                                screenshot: "field type - select from column - pickaform.webp"
+                                screenshot: "field type - select from column - airprocess.webp"
                             }),
                             // Select from view
                             kiss.templates.featureDetails({
                                 title: t("selectView"),
                                 description: t("selectViewDescription"),
-                                screenshot: "field type - select from view - pickaform.webp"
+                                screenshot: "field type - select from view - airprocess.webp"
                             }),
                             // Collaborators
                             kiss.templates.featureDetails({
                                 title: t("collaborators"),
                                 description: t("collaboratorsDescription"),
-                                screenshot: "field type - collaborators - pickaform.webp"
+                                screenshot: "field type - collaborators - airprocess.webp"
                             }),
                             // Color
                             kiss.templates.featureDetails({
                                 title: t("color"),
                                 description: t("colorDescription"),
-                                screenshot: "field type - color - pickaform.webp"
+                                screenshot: "field type - color - airprocess.webp"
                             }),
                             // Icon
                             kiss.templates.featureDetails({
                                 title: t("icon"),
                                 description: t("iconDescription"),
-                                screenshot: "field type - icon - pickaform.webp"
+                                screenshot: "field type - icon - airprocess.webp"
                             }),
                             // Password
                             kiss.templates.featureDetails({
                                 title: t("password"),
                                 description: t("passwordDescription"),
-                                screenshot: "field type - password - pickaform.webp"
+                                screenshot: "field type - password - airprocess.webp"
                             }),
                             // Link
                             kiss.templates.featureDetails({
                                 title: t("link"),
                                 description: t("linkDescription"),
-                                screenshot: "field type - link - pickaform.webp"
+                                screenshot: "field type - link - airprocess.webp"
                             }),
                             // Lookup
                             kiss.templates.featureDetails({
                                 title: t("lookup"),
                                 description: t("lookupDescription"),
-                                screenshot: "field type - lookup - pickaform.webp"
+                                screenshot: "field type - lookup - airprocess.webp"
                             }),
                             // Summary
                             kiss.templates.featureDetails({
                                 title: t("summary"),
                                 description: t("summaryDescription"),
-                                screenshot: "field type - summary - pickaform.webp"
+                                screenshot: "field type - summary - airprocess.webp"
                             }),
                             // IA image
                             kiss.templates.featureDetails({
                                 title: t("iaImage"),
                                 description: t("iaImageDescription"),
-                                screenshot: "field type - aiImage - pickaform.webp"
+                                screenshot: "field type - aiImage - airprocess.webp"
                             }),
                             // Map
                             kiss.templates.featureDetails({
                                 title: t("map"),
                                 description: t("mapDescription"),
-                                screenshot: "field type - map - pickaform.webp"
+                                screenshot: "field type - map - airprocess.webp"
                             }),
                             // Rich text field
                             kiss.templates.featureDetails({
                                 title: t("richtext"),
                                 description: t("richtextDescription"),
-                                screenshot: "field type - richtext - pickaform.webp"
+                                screenshot: "field type - richtext - airprocess.webp"
                             })
                         ]
                     }]
@@ -3554,73 +3555,73 @@ function getNextLanguage() {
                             kiss.templates.featureDetails({
                                 title: t("columnSelection"),
                                 description: t("columnSelectionDescription"),
-                                screenshot: "views - select columns - pickaform.webp"
+                                screenshot: "views - select columns - airprocess.webp"
                             }),
                             // Sorting
                             kiss.templates.featureDetails({
                                 title: t("sorting"),
                                 description: t("sortingDescription"),
-                                screenshot: "views - multi-column sorting - pickaform.webp"
+                                screenshot: "views - multi-column sorting - airprocess.webp"
                             }),
                             // Filtering
                             kiss.templates.featureDetails({
                                 title: t("filtering"),
                                 description: t("filteringDescription"),
-                                screenshot: "views - filter data - pickaform.webp"
+                                screenshot: "views - filter data - airprocess.webp"
                             }),
                             // One level grouping
                             kiss.templates.featureDetails({
                                 title: t("grouping"),
                                 description: t("groupingDescription"),
-                                screenshot: "views - group data - pickaform.webp"
+                                screenshot: "views - group data - airprocess.webp"
                             }),
                             // Multi-level grouping
                             kiss.templates.featureDetails({
                                 title: t("multiGrouping"),
                                 description: t("multiGroupingDescription"),
-                                screenshot: "views - multi-level grouping data - pickaform.webp"
+                                screenshot: "views - multi-level grouping data - airprocess.webp"
                             }),
                             // Aggregations
                             kiss.templates.featureDetails({
                                 title: t("aggregations"),
                                 description: t("aggregationsDescription"),
-                                screenshot: "views - data aggregation - pickaform.webp"
+                                screenshot: "views - data aggregation - airprocess.webp"
                             }),
                             // Calendar
                             kiss.templates.featureDetails({
                                 title: t("calendar"),
                                 description: t("calendarDescription"),
-                                screenshot: "views - calendar - pickaform.webp"
+                                screenshot: "views - calendar - airprocess.webp"
                             }),                        
                             // Kanban
                             kiss.templates.featureDetails({
                                 title: t("kanban"),
                                 description: t("kanbanDescription"),
-                                screenshot: "views - kanban - pickaform.webp"
+                                screenshot: "views - kanban - airprocess.webp"
                             }),
                             // Timeline
                             kiss.templates.featureDetails({
                                 title: t("timeline"),
                                 description: t("timelineDescription"),
-                                screenshot: "views - timeline - pickaform.webp"
+                                screenshot: "views - timeline - airprocess.webp"
                             }),
                             // Gallery
                             kiss.templates.featureDetails({
                                 title: t("gallery"),
                                 description: t("galleryDescription"),
-                                screenshot: "views - gallery - pickaform.webp"
+                                screenshot: "views - gallery - airprocess.webp"
                             }),
                             // Map
                             kiss.templates.featureDetails({
                                 title: t("map"),
                                 description: t("mapDescription"),
-                                screenshot: "views - map - pickaform.webp"
+                                screenshot: "views - map - airprocess.webp"
                             }),
                             // Dashboard
                             kiss.templates.featureDetails({
                                 title: t("dashboard"),
                                 description: t("dashboardDescription"),
-                                screenshot: "views - dashboard - pickaform.webp"
+                                screenshot: "views - dashboard - airprocess.webp"
                             })
                         ]
                     }]
@@ -3721,19 +3722,19 @@ function getNextLanguage() {
     id: "whoCanUse",
     meta: {
         url: {
-            en: "https://pickaform.fr/en/whoCanUse",
-            fr: "https://pickaform.fr/fr/whoCanUse",
-            es: "https://pickaform.fr/es/whoCanUse"
+            en: "https://airprocess.fr/en/whoCanUse",
+            fr: "https://airprocess.fr/fr/whoCanUse",
+            es: "https://airprocess.fr/es/whoCanUse"
         },
         title: {
-            en: "Who can use | Pickaform",
-            fr: "Qui peut utiliser | Pickaform",
-            es: "Quién puede usar | Pickaform"
+            en: "Who can use | AirProcess",
+            fr: "Qui peut utiliser | AirProcess",
+            es: "Quién puede usar | AirProcess"
         },
         description: {
-            en: `Pickaform is great for enterprises, public sector, associations, IT companies and no-coders.`,
-            fr: `Pickaform est pour les entreprises, le secteur public, les associations, les ESN et les no-coders.`,
-            es: `Pickaform es ideal para empresas, sector público, asociaciones, empresas de servicios de TI y no-coders.`
+            en: `AirProcess is great for enterprises, public sector, associations, IT companies and no-coders.`,
+            fr: `AirProcess est pour les entreprises, le secteur public, les associations, les ESN et les no-coders.`,
+            es: `AirProcess es ideal para empresas, sector público, asociaciones, empresas de servicios de TI y no-coders.`
         }
     },
     renderer: function (id, target) {
@@ -3744,9 +3745,9 @@ function getNextLanguage() {
                 es: "Empezar"
             },
             title: {
-                en: `<span class="text-highlight" style="background-color: #00aaee">Who</span> can use pickaform?`,
-                fr: `<span class="text-highlight" style="background-color: #00aaee">Qui</span> peut utiliser pickaform ?`,
-                es: `<span class="text-highlight" style="background-color: #00aaee">Quién</span> puede usar pickaform ?`
+                en: `<span class="text-highlight" style="background-color: #00aaee">Who</span> can use airprocess?`,
+                fr: `<span class="text-highlight" style="background-color: #00aaee">Qui</span> peut utiliser airprocess ?`,
+                es: `<span class="text-highlight" style="background-color: #00aaee">Quién</span> puede usar airprocess ?`
             },
             subtitle: {
                 en: "No-code is for everyone, but everyone finds their own benefits.",
@@ -3759,25 +3760,25 @@ function getNextLanguage() {
                 es: "Empresas, sector público, asociaciones"
             },
             descriptionB2C: {
-                en: `Pickaform allows you to create your tailor-made applications, without coding.
+                en: `AirProcess allows you to create your tailor-made applications, without coding.
                 <br>You can start from an existing application template, an Excel file, or the blank page.
                 <br>You go from idea to prototype during the day, and then refine your application for use.
-                <br>Pickaform allows you to create all types of applications to manage your activity, and excels in the implementation of your business processes (file monitoring, business monitoring, monitoring of internal or external requests, etc.)
+                <br>AirProcess allows you to create all types of applications to manage your activity, and excels in the implementation of your business processes (file monitoring, business monitoring, monitoring of internal or external requests, etc.)
                 <br>To go even faster, we support you in the implementation by transforming your needs into concrete and testable applications very quickly (within a day).
-                <br>Finally, pickaform is very transversal, so you can use it for a wide variety of needs to ensure a maximum return on investment.`,
-                fr: `Pickaform vous permet de créer vos applications sur mesure, sans coder.
+                <br>Finally, airprocess is very transversal, so you can use it for a wide variety of needs to ensure a maximum return on investment.`,
+                fr: `AirProcess vous permet de créer vos applications sur mesure, sans coder.
                 <br>Vous pouvez partir d'un modèle d'application existant, d'un fichier Excel, ou de la page blanche.
                 <br>Vous passez de l'idée au prototype dans la journée, et vous affinez ensuite votre application à l'usage.
-                <br>Pickaform vous permet de créer tous types d'applications pour gérer votre activité, et excèle dans la mise en oeuvre de vos processus métier (suivi de dossiers, suivi d'affaires, suivi des demandes internes ou externes…)
+                <br>AirProcess vous permet de créer tous types d'applications pour gérer votre activité, et excèle dans la mise en oeuvre de vos processus métier (suivi de dossiers, suivi d'affaires, suivi des demandes internes ou externes…)
                 <br>Pour aller encore plus vite, nous vous accompagnons dans la mise oeuvre en transformant vos besoins en applications concrètes et testables très rapidement (dans la journée).
-                <br>Enfin, pickaform est très transversal, donc vous pourrez l'utiliser pour des besoins très variés afin d'assurer un retour sur l'investissement maximal.
+                <br>Enfin, airprocess est très transversal, donc vous pourrez l'utiliser pour des besoins très variés afin d'assurer un retour sur l'investissement maximal.
                 `,
-                es: `Pickaform le permite crear sus aplicaciones a medida, sin codificación.
+                es: `AirProcess le permite crear sus aplicaciones a medida, sin codificación.
                 <br>Puede partir de una plantilla de aplicación existente, de un archivo de Excel, o de la página en blanco.
                 <br>Pasa de la idea al prototipo durante el día, y luego perfecciona su aplicación para su uso.
-                <br>Pickaform le permite crear todo tipo de aplicaciones para gestionar su actividad, y destaca en la implementación de sus procesos comerciales (seguimiento de archivos, seguimiento de negocios, seguimiento de solicitudes internas o externas, etc.)
+                <br>AirProcess le permite crear todo tipo de aplicaciones para gestionar su actividad, y destaca en la implementación de sus procesos comerciales (seguimiento de archivos, seguimiento de negocios, seguimiento de solicitudes internas o externas, etc.)
                 <br>Para ir aún más rápido, le apoyamos en la implementación transformando sus necesidades en aplicaciones concretas y testables muy rápidamente (en un día).
-                <br>Por último, pickaform es muy transversal, por lo que puede utilizarlo para una amplia variedad de necesidades para garantizar un retorno de la inversión máximo.
+                <br>Por último, airprocess es muy transversal, por lo que puede utilizarlo para una amplia variedad de necesidades para garantizar un retorno de la inversión máximo.
                 `
             },
             titleB2B2C: {
@@ -3787,18 +3788,18 @@ function getNextLanguage() {
             },
             descriptionB2B2C: {
                 en: `Do you need to go faster than your competitors on certain projects?
-                <br>Pickaform brings you 80% of the standard needs of a back office on an integrated platform: database, authentication, security, forms, views, workflows, PDF generation, API, etc…
-                <br>By building your solution on pickaform, you multiply your productivity by 2, 3, 5 or even 10 compared to specific development.
-                <br>Finally, in 2024, we are already planning a version of pickaform dedicated to IT Services Companies so that you can host applications for your clients yourself, with an applications supervisor similar to the one that webmasters have to manage their client's websites.`,
+                <br>AirProcess brings you 80% of the standard needs of a back office on an integrated platform: database, authentication, security, forms, views, workflows, PDF generation, API, etc…
+                <br>By building your solution on airprocess, you multiply your productivity by 2, 3, 5 or even 10 compared to specific development.
+                <br>Finally, in 2024, we are already planning a version of airprocess dedicated to IT Services Companies so that you can host applications for your clients yourself, with an applications supervisor similar to the one that webmasters have to manage their client's websites.`,
                 fr: `Vous avez besoin d'aller plus vite que vos concurrents sur certains projets ?
-                <br>Pickaform vous apporte 80% des besoins standards d'un back-office sur une plateforme intégrée : base de données, authentification, sécurité, formulaires, vues, workflows, génération de PDF, API, etc…
-                <br>En construisant votre solution sur pickaform, vous multipliez votre productivité par 2, 3, 5 voire 10 par rapport au développement spécifique.
-                <br>Enfin, en 2024, nous prévoyons déjà une version de pickaform dédiée aux ESN pour que vous puissiez héberger vous-même les applications pour vos clients, avec un superviseur d'applications similaire à celui qu'ont les webmasters pour gérer les sites Internet de leurs clients.
+                <br>AirProcess vous apporte 80% des besoins standards d'un back-office sur une plateforme intégrée : base de données, authentification, sécurité, formulaires, vues, workflows, génération de PDF, API, etc…
+                <br>En construisant votre solution sur airprocess, vous multipliez votre productivité par 2, 3, 5 voire 10 par rapport au développement spécifique.
+                <br>Enfin, en 2024, nous prévoyons déjà une version de airprocess dédiée aux ESN pour que vous puissiez héberger vous-même les applications pour vos clients, avec un superviseur d'applications similaire à celui qu'ont les webmasters pour gérer les sites Internet de leurs clients.
                 `,
                 es: `¿Necesita ir más rápido que sus competidores en ciertos proyectos?
-                <br>Pickaform le ofrece el 80% de las necesidades estándar de un back office en una plataforma integrada: base de datos, autenticación, seguridad, formularios, vistas, flujos de trabajo, generación de PDF, API, etc...
-                <br>Al construir su solución en pickaform, multiplica su productividad por 2, 3, 5 o incluso 10 en comparación con el desarrollo específico.
-                <br>Por último, en 2024, ya estamos planeando una versión de pickaform dedicada a las Empresas de Servicios de TI para que pueda alojar aplicaciones para sus clientes usted mismo, con un supervisor de aplicaciones similar al que tienen los webmasters para administrar los sitios web de sus clientes.
+                <br>AirProcess le ofrece el 80% de las necesidades estándar de un back office en una plataforma integrada: base de datos, autenticación, seguridad, formularios, vistas, flujos de trabajo, generación de PDF, API, etc...
+                <br>Al construir su solución en airprocess, multiplica su productividad por 2, 3, 5 o incluso 10 en comparación con el desarrollo específico.
+                <br>Por último, en 2024, ya estamos planeando una versión de airprocess dedicada a las Empresas de Servicios de TI para que pueda alojar aplicaciones para sus clientes usted mismo, con un supervisor de aplicaciones similar al que tienen los webmasters para administrar los sitios web de sus clientes.
                 `
             },
             titleB2M2C: {
@@ -3808,15 +3809,15 @@ function getNextLanguage() {
             },
             descriptionB2M2C: {
                 en: `You already know no-code tools and you have already used them to create MVPs, business tools for VSEs or small SMEs, and you really like the Freemium model but you realize that these tools will be too limiting for creating large applications in production with larger customers.
-                <br>With pickaform, you can create real business applications, turnkey, with structured forms, fine security, and above all the key component requested by all companies of a certain size: the workflow engine (BPM).
-                <br>Pickaform has already been deployed within entities of BNP PARIBAS, GROUPAMA, GROUPE SAUR, GROUPE HEINEKEN, ORANGE, CANAL+, and you can confidently consider approaching customers with greater potential for the growth of your business.`,
+                <br>With airprocess, you can create real business applications, turnkey, with structured forms, fine security, and above all the key component requested by all companies of a certain size: the workflow engine (BPM).
+                <br>AirProcess has already been deployed within entities of BNP PARIBAS, GROUPAMA, GROUPE SAUR, GROUPE HEINEKEN, ORANGE, CANAL+, and you can confidently consider approaching customers with greater potential for the growth of your business.`,
                 fr: `Vous connaissez déjà les outils no-code et vous les avez déjà utilisés pour créer des MVP, des outils métiers pour des TPE ou petites PME, et vous aimez beaucoup le modèle Freemium mais vous réalisez que ces outils seront trop limitatifs pour créer de grosses applications en production chez clients d'une taille plus importante.
-                <br>Avec pickaform, vous pouvez créer de vraies applications métier, clé-en-main, avec des formulaires structurés, une sécurité fine, et surtout le composant clé demandé par toutes les entreprises d'une certaine taille : le moteur de workflow (BPM).
-                <br>Pickaform a déjà été déployé au sein d'entités des groupes BNP PARIBAS, GROUPAMA, GROUPE SAUR, GROUPE HEINEKEN, ORANGE, CANAL+, et vous pouvez sereinement envisager de démarcher des clients à plus fort potentiel pour la croissance de votre entreprise.
+                <br>Avec airprocess, vous pouvez créer de vraies applications métier, clé-en-main, avec des formulaires structurés, une sécurité fine, et surtout le composant clé demandé par toutes les entreprises d'une certaine taille : le moteur de workflow (BPM).
+                <br>AirProcess a déjà été déployé au sein d'entités des groupes BNP PARIBAS, GROUPAMA, GROUPE SAUR, GROUPE HEINEKEN, ORANGE, CANAL+, et vous pouvez sereinement envisager de démarcher des clients à plus fort potentiel pour la croissance de votre entreprise.
                 `,
                 es: `Ya conoces las herramientas no-code y ya las has utilizado para crear MVP, herramientas comerciales para VSEs o pequeñas PYMEs, y realmente te gusta el modelo Freemium pero te das cuenta de que estas herramientas serán demasiado limitadas para crear grandes aplicaciones en producción con clientes más grandes.
-                <br>Con pickaform, puedes crear aplicaciones comerciales reales, llave en mano, con formularios estructurados, seguridad fina, y sobre todo el componente clave solicitado por todas las empresas de cierto tamaño: el motor de flujo de trabajo (BPM).
-                <br>Pickaform ya ha sido desplegado dentro de entidades de BNP PARIBAS, GROUPAMA, GROUPE SAUR, GROUPE HEINEKEN, ORANGE, CANAL+, y puedes considerar con confianza acercarte a clientes con un mayor potencial para el crecimiento de tu negocio.
+                <br>Con airprocess, puedes crear aplicaciones comerciales reales, llave en mano, con formularios estructurados, seguridad fina, y sobre todo el componente clave solicitado por todas las empresas de cierto tamaño: el motor de flujo de trabajo (BPM).
+                <br>AirProcess ya ha sido desplegado dentro de entidades de BNP PARIBAS, GROUPAMA, GROUPE SAUR, GROUPE HEINEKEN, ORANGE, CANAL+, y puedes considerar con confianza acercarte a clientes con un mayor potencial para el crecimiento de tu negocio.
                 `
             },
             titleBookDemo: {
@@ -3998,19 +3999,19 @@ kiss.templates.buttonCTA = function (text, page) {
                 })
             }
             else if (page == "booking") {
-                const link = "https://calendly.com/pickaform/pickaform-live-demo"
+                const link = "https://calendly.com/airprocess/airprocess-live-demo"
                 window.open(link, "_new")
             }
             else {
-                const link = "https://app.pickaform.com/client/pickaform/index.html#ui=authentication-register&language=" + (kiss.language.current || "en")
+                const link = "https://app.airprocess.com/client/airprocess/index.html#ui=authentication-register&language=" + (kiss.language.current || "en")
                 window.open(link, "_new")
             }
         },
 
         type: "button",
         backgroundColor: "#00aaee",
-        backgroundColorHover: "#a1ed00",
-        boxShadowHover: "0 0 32px #a1ed00",
+        backgroundColorHover: "#aaee00",
+        boxShadowHover: "0 0 32px #aaee00",
         color: "#ffffff",
         colorHover: "#000000",
         fontSize: "2vh",
@@ -4060,7 +4061,7 @@ kiss.templates.buttonCTA = function (text, page) {
                     </div>
                     <div class="feature-CTA">
                         <p>
-                            <a class="feature-CTA" href='https://calendly.com/pickaform/pickaform-live-demo'>
+                            <a class="feature-CTA" href='https://calendly.com/airprocess/airprocess-live-demo'>
                                 ${CTA}
                             </a>
                         </p>
