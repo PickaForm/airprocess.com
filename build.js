@@ -1420,11 +1420,11 @@ function getNextLanguage() {
                     },
                     {
                         label: "Facebook",
-                        action: () => window.open("https://www.facebook.com/airprocess.applications", "_new")
+                        action: () => window.open("https://www.facebook.com/AirProcessApps", "_new")
                     },
                     {
                         label: "Twitter",
-                        action: () => window.open("https://twitter.com/AirProcess", "_new")
+                        action: () => window.open("https://x.com/AirProcessApps", "_new")
                     }
                 ]
             },
