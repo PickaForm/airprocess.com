@@ -506,50 +506,53 @@ kiss.app.defineView({
                         {
                             layout: "vertical",
                             class: "vs-content",
+                            minHeight: "46rem",
                             items: [
                                 {
-                                    type: "select",
-                                    class: "vs-select",
-                                    label: t("compareTo"),
-                                    labelPosition: "top",
-                                    fieldWidth: "100%",
-                                    labelWidth: "100%",
-                                    value: "airtable",
-                                    autocomplete: "off",
-                                    options: [
-                                        {
-                                            label: "Airtable",
-                                            value: "airtable",
-                                            color: "#39CAFF"
-                                        },
-                                        {
-                                            label: "Nocodb",
-                                            value: "nocodb",
-                                            color: "#322EBA"
-                                        },
-                                        {
-                                            label: "Baserow",
-                                            value: "baserow",
-                                            color: "#5186D7"
-                                        },
-                                        {
-                                            label: "Google Sheets",
-                                            value: "googlesheets",
-                                            color: "#34A853"
-                                        },
-                                        {
-                                            label: "Microsoft Excel",
-                                            value: "excelsheets",
-                                            color: "#107C41"
-                                        }
-                                    ],
-                                    events: {
-                                        change: function() {
-                                            const value = this.getValue()
+                                    display: "inline-flex",
+                                    flexWrap: "wrap",
+                                    defaultConfig: {
+                                        type: "button",
+                                        color: "white",
+                                        borderRadius: "5rem",
+                                        borderColorHover: "white",
+                                        action: function() {
                                             const targetProduct = document.getElementById("target-product")
-                                            targetProduct.innerHTML = t(value)
+                                            targetProduct.innerHTML = t(this.id.replace("btn-", ""))
                                         }
-                                    }
+                                    },
+                                    items: [
+                                        {
+                                            text: "Airtable",
+                                            id: "btn-airtable",
+                                            backgroundColor: "#39CAFF",
+                                            backgroundColorHover: "#2A9FD6"
+                                        },
+                                        {
+                                            text: "Nocodb",
+                                            id: "btn-nocodb",
+                                            backgroundColor: "#322EBA",
+                                            backgroundColorHover: "#2A2A9F"
+                                        },
+                                        {
+                                            text: "Baserow",
+                                            id: "btn-baserow",
+                                            backgroundColor: "#5186D7",
+                                            backgroundColorHover: "#3B5B8A"
+                                        },
+                                        {
+                                            text: "Google Sheets",
+                                            id: "btn-googlesheets",
+                                            backgroundColor: "#34A853",
+                                            backgroundColorHover: "#2C9B45"
+                                        },
+                                        {
+                                            text: "Microsoft Excel",
+                                            id: "btn-excelsheets",
+                                            backgroundColor: "#107C41",
+                                            backgroundColorHover: "#0E6B35"
+                                        }
+                                    ]
                                 },                        
                                 {
                                     id: "target-product",
