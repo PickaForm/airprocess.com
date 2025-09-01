@@ -21,7 +21,7 @@ kiss.app.defineView({
             },
             "Pricing": {
                 en: "Pricing",
-                fr: "Pricing",
+                fr: "Tarifs",
                 es: "Precios"
             },
             "Privacy": {
@@ -68,19 +68,16 @@ kiss.app.defineView({
                             content: "cases"
                         })
                     },
-                    {
-                        label: "Contact",
-                        action: () => kiss.router.navigateTo({
-                            content: "contact"
-                        })
-                    },
-                    {
-                        label: "Blog",
-                        // action: () => kiss.router.navigateTo({
-                        //     content: "blog"
-                        // })
-                        action: () => window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
-                    },
+                    // {
+                    //     label: "Contact",
+                    //     action: () => kiss.router.navigateTo({
+                    //         content: "contact"
+                    //     })
+                    // },
+                    // {
+                    //     label: "Blog",
+                    //     action: () => window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
+                    // },
                     {
                         label: t("Pricing"),
                         action: () => kiss.router.navigateTo({
@@ -94,7 +91,7 @@ kiss.app.defineView({
                 title: "Social",
                 items: [{
                         label: "LinkedIn",
-                        action: () => window.open("https://www.linkedin.com/company/airprocess-cloud/", "_new")
+                        action: () => window.open("https://www.linkedin.com/company/airprocess/", "_new")
                     }, {
                         label: "YouTube",
                         action: () => window.open("https://www.youtube.com/@airprocess", "_new")
@@ -116,27 +113,27 @@ kiss.app.defineView({
                         label: "Powered by KissJS",
                         action: () => window.open("https://kissjs.net", "_new")
                     },
-                    {
-                        label: t("AI Art"),
-                        action: () => kiss.router.navigateTo({
-                            content: "artworks"
-                        })
-                    }
+                    // {
+                    //     label: t("AI Art"),
+                    //     action: () => kiss.router.navigateTo({
+                    //         content: "artworks"
+                    //     })
+                    // }
                 ]
             },
             // ARCHIVES
-            {
-                title: "Archives",
-                items: [{
-                        label: "Blog (English)",
-                        action: () => window.open("https://blog.airprocess.com/en/", "_new")
-                    },
-                    {
-                        label: "Blog (Français)",
-                        action: () => window.open("https://blog.airprocess.com/fr/", "_new")
-                    }
-                ]
-            },
+            // {
+            //     title: "Archives",
+            //     items: [{
+            //             label: "Blog (English)",
+            //             action: () => window.open("https://blog.airprocess.com/en/", "_new")
+            //         },
+            //         {
+            //             label: "Blog (Français)",
+            //             action: () => window.open("https://blog.airprocess.com/fr/", "_new")
+            //         }
+            //     ]
+            // },
             // LEGAL
             {
                 title: "Legal",

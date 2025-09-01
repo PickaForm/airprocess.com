@@ -59,10 +59,10 @@ kiss.theme.set({
 // Paths
 kiss.global.path = `https://${window.location.host}`
 kiss.global.pathImg = "./resources/img"
-kiss.global.pathAirProcess = `https://app.pickaform.com`
+kiss.global.pathAirProcess = `https://app.airprocess.com`
 
 // Blog
-kiss.global.blogEndPoint = "https://app.pickaform.com/command/blog"
+kiss.global.blogEndPoint = "https://app.airprocess.com/command/blog"
 kiss.global.blogModelId = "0187ed51-d3a5-70ea-869c-6c538d786fb7"
 kiss.global.blogPostTitle = "y9yVRPEQ"
 kiss.global.blogPostDescription = "BedquzD8"
@@ -73,7 +73,7 @@ kiss.global.blogPostPublished = "rhI4E1iH"
 kiss.global.contactModelId = "0187b40b-0061-7f65-af86-982a361afcf3"
 
 // AI Art
-kiss.global.artEndPoint = "https://beta.pickaform.com/command/product"
+kiss.global.artEndPoint = "https://app.airprocess.com/command/product"
 kiss.global.artModelId = "01889cf0-5878-7352-93b5-3a0fb88c852f"
 kiss.global.artTitle = "pJZ5QvWL"
 kiss.global.artPulished = "DgllE0KD"
@@ -1343,7 +1343,7 @@ function getNextLanguage() {
             },
             "Pricing": {
                 en: "Pricing",
-                fr: "Pricing",
+                fr: "Tarifs",
                 es: "Precios"
             },
             "Privacy": {
@@ -1390,19 +1390,16 @@ function getNextLanguage() {
                             content: "cases"
                         })
                     },
-                    {
-                        label: "Contact",
-                        action: () => kiss.router.navigateTo({
-                            content: "contact"
-                        })
-                    },
-                    {
-                        label: "Blog",
-                        // action: () => kiss.router.navigateTo({
-                        //     content: "blog"
-                        // })
-                        action: () => window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
-                    },
+                    // {
+                    //     label: "Contact",
+                    //     action: () => kiss.router.navigateTo({
+                    //         content: "contact"
+                    //     })
+                    // },
+                    // {
+                    //     label: "Blog",
+                    //     action: () => window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
+                    // },
                     {
                         label: t("Pricing"),
                         action: () => kiss.router.navigateTo({
@@ -1416,7 +1413,7 @@ function getNextLanguage() {
                 title: "Social",
                 items: [{
                         label: "LinkedIn",
-                        action: () => window.open("https://www.linkedin.com/company/airprocess-cloud/", "_new")
+                        action: () => window.open("https://www.linkedin.com/company/airprocess/", "_new")
                     }, {
                         label: "YouTube",
                         action: () => window.open("https://www.youtube.com/@airprocess", "_new")
@@ -1438,27 +1435,27 @@ function getNextLanguage() {
                         label: "Powered by KissJS",
                         action: () => window.open("https://kissjs.net", "_new")
                     },
-                    {
-                        label: t("AI Art"),
-                        action: () => kiss.router.navigateTo({
-                            content: "artworks"
-                        })
-                    }
+                    // {
+                    //     label: t("AI Art"),
+                    //     action: () => kiss.router.navigateTo({
+                    //         content: "artworks"
+                    //     })
+                    // }
                 ]
             },
             // ARCHIVES
-            {
-                title: "Archives",
-                items: [{
-                        label: "Blog (English)",
-                        action: () => window.open("https://blog.airprocess.com/en/", "_new")
-                    },
-                    {
-                        label: "Blog (Français)",
-                        action: () => window.open("https://blog.airprocess.com/fr/", "_new")
-                    }
-                ]
-            },
+            // {
+            //     title: "Archives",
+            //     items: [{
+            //             label: "Blog (English)",
+            //             action: () => window.open("https://blog.airprocess.com/en/", "_new")
+            //         },
+            //         {
+            //             label: "Blog (Français)",
+            //             action: () => window.open("https://blog.airprocess.com/fr/", "_new")
+            //         }
+            //     ]
+            // },
             // LEGAL
             {
                 title: "Legal",
@@ -2171,7 +2168,7 @@ function getNextLanguage() {
             {
                 hidden: true,//kiss.screen.isMobile,
                 text: t("Templates"),
-                href: kiss.global.pathAirProcess + `/client/pickaform/demo.html#ui=templates-list&language=${kiss.language.current}`,
+                href: kiss.global.pathAirProcess + `/projects/airprocess/client/demo.html#ui=templates-list&language=${kiss.language.current}`,
                 target: "_new",
                 view: ""
             },
@@ -2179,7 +2176,7 @@ function getNextLanguage() {
             {
                 hidden: kiss.screen.isMobile,
                 text: t("Get started"),
-                href: kiss.global.pathAirProcess + "/client/pickaform/index.html#ui=authentication-register",
+                href: kiss.global.pathAirProcess + "/projects/airprocess/client/index.html#ui=authentication-register",
                 target: "_new",
                 view: ""
             },
@@ -2187,7 +2184,7 @@ function getNextLanguage() {
             {
                 // hidden: kiss.screen.isMobile,
                 text: t("Login"),
-                href: kiss.global.pathAirProcess + "/client/pickaform/index.html#ui=authentication-login",
+                href: kiss.global.pathAirProcess + "/projects/airprocess/client/index.html#ui=authentication-login",
                 target: "_new",
                 view: ""
             }
@@ -2326,7 +2323,7 @@ function getNextLanguage() {
                             window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
                         } else if (element.innerHTML.includes("Templates") || element.innerHTML.includes("Modèles")) {
                             // TEMPLATES
-                            window.open(kiss.global.pathAirProcess + `/client/pickaform/demo.html#ui=templates-list&language=${kiss.language.current}`, "_new")
+                            window.open(kiss.global.pathAirProcess + `/projects/airprocess/client/demo.html#ui=templates-list&language=${kiss.language.current}`, "_new")
                         } else if (view) {
                             kiss.router.navigateTo({
                                 content: view
@@ -2719,7 +2716,7 @@ function getNextLanguage() {
                 click: (event) => {
                     const target = event.target.closest("div")
                     if (target && target.classList.contains("pricing-plan-CTA")) {
-                        document.location = kiss.global.pathAirProcess + "/client/pickaform/index.html#ui=authentication-register"
+                        document.location = kiss.global.pathAirProcess + "/projects/airprocess/client/index.html#ui=authentication-register"
                     }
                 }
             },
@@ -4003,7 +4000,7 @@ kiss.templates.buttonCTA = function (text, page) {
                 window.open(link, "_new")
             }
             else {
-                const link = "https://app.airprocess.com/client/pickaform/index.html#ui=authentication-register&language=" + (kiss.language.current || "en")
+                const link = "https://app.airprocess.com/projects/airprocess/client/index.html#ui=authentication-register&language=" + (kiss.language.current || "en")
                 window.open(link, "_new")
             }
         },

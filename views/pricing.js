@@ -317,7 +317,7 @@ kiss.app.defineView({
                 click: (event) => {
                     const target = event.target.closest("div")
                     if (target && target.classList.contains("pricing-plan-CTA")) {
-                        document.location = kiss.global.pathAirProcess + "/client/pickaform/index.html#ui=authentication-register"
+                        document.location = kiss.global.pathAirProcess + "/projects/airprocess/client/index.html#ui=authentication-register"
                     }
                 }
             },

@@ -263,8 +263,8 @@ kiss.ux.RichTextField = class RichTextField extends kiss.ui.Component {
     async _initRichTextEditor() {
         if (this.useCDN === false) {
             // Local (version 2.0.2)
-            await kiss.loader.loadScript("../../kissjs/client/ux/richTextField/richTextField_quill")
-            await kiss.loader.loadStyle("../../kissjs/client/ux/richTextField/richTextField_quill." + this.theme)
+            await kiss.loader.loadScript("../../../kissjs/client/ux/richTextField/richTextField_quill")
+            await kiss.loader.loadStyle("../../../kissjs/client/ux/richTextField/richTextField_quill." + this.theme)
         } else {
             // CDN
             await kiss.loader.loadScript("https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill")
@@ -1217,7 +1217,7 @@ kiss.ux.CodeEditor = class CodeEditor extends kiss.ui.Component {
      */
     async _initCodeEditor() {
         if (this.useCDN === false) {
-            await kiss.loader.loadScript("../../kissjs/client/ux/codeEditor/ace")
+            await kiss.loader.loadScript("../../../kissjs/client/ux/codeEditor/ace")
         }
         else {
             await kiss.loader.loadScript("https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.0/ace")
@@ -2343,8 +2343,8 @@ kiss.ux.Map = class Map extends kiss.ui.Component {
     async _initOpenLayers() {
         if (this.useCDN === false) {
             // Local
-            await kiss.loader.loadScript("../../kissjs/client/ux/map/map_ol")
-            await kiss.loader.loadStyle("../../kissjs/client/ux/map/map_ol")
+            await kiss.loader.loadScript("../../../kissjs/client/ux/map/map_ol")
+            await kiss.loader.loadStyle("../../../kissjs/client/ux/map/map_ol")
         } else {
             // CDN
             await kiss.loader.loadScript("https://cdn.jsdelivr.net/npm/ol@v10.0.0/dist/ol")
@@ -3241,7 +3241,7 @@ kiss.ux.QrCode = class QrCode extends kiss.ui.Component {
      */    
     async _afterRender() {
         if (!window.QRCode) {
-            await kiss.loader.loadScript("../../kissjs/client/ux/qrcode/qrcode.lib")
+            await kiss.loader.loadScript("../../../kissjs/client/ux/qrcode/qrcode.lib")
         }
 
         // Insert QRCode inside the KissJS component
@@ -3416,7 +3416,7 @@ kiss.ux.Chart = class UxChart extends kiss.ui.Component {
         if (window.Chart) return
 
         if (this.useCDN === false) {
-            await kiss.loader.loadScript("../../kissjs/client/ux/chart/chartjs")
+            await kiss.loader.loadScript("../../../kissjs/client/ux/chart/chartjs")
         }
         else {
             await kiss.loader.loadScript("https://cdn.jsdelivr.net/npm/chart")
@@ -3433,7 +3433,7 @@ kiss.ux.Chart = class UxChart extends kiss.ui.Component {
         if (typeof ChartDataLabels !== "undefined") return
 
         if (this.useCDN === false) {
-            await kiss.loader.loadScript("../../kissjs/client/ux/chart/chartjs-plugin-datalabels")
+            await kiss.loader.loadScript("../../../kissjs/client/ux/chart/chartjs-plugin-datalabels")
             
         }
         else {
@@ -3455,8 +3455,8 @@ kiss.ux.Chart = class UxChart extends kiss.ui.Component {
         if (window.moment) return
 
         if (this.useCDN === false) {
-            await kiss.loader.loadScript("../../kissjs/client/ux/chart/chartjs-moment")
-            await kiss.loader.loadScript("../../kissjs/client/ux/chart/chartjs-moment-adapter")
+            await kiss.loader.loadScript("../../../kissjs/client/ux/chart/chartjs-moment")
+            await kiss.loader.loadScript("../../../kissjs/client/ux/chart/chartjs-moment-adapter")
         }
         else {
             await kiss.loader.loadScript("https://cdn.jsdelivr.net/npm/moment/min/moment-with-locales.min")
@@ -4255,36 +4255,13 @@ kiss.ux.Link = class Link extends kiss.ui.Select {
      */
     async _showForeignRecords() {
         const foreignRecords = this.links.map(link => link.record)
-        createRecordSelectionWindow(this.foreignModel, this.id, foreignRecords, null, {
-            canSelect: false
-        })
-    }
-
-    /**
-     * Link a record from the datatable
-     * 
-     * @private
-     * @ignore
-     * @param {object} record
-     */
-    async _linkRecord(record) {
-
-        // Prevent from linking the record to itself
-        if (record.id == kiss.context.record.id) return
-
-        createDialog({
-            title: txtTitleCase("#connect records"),
-            message: txtTitleCase("#connect confirmation"),
-            icon: "fas fa-link",
-            action: async () => {
-                // Note: in this context, "this" is the datatable view associated with the field
-                const linkField = $(this.config.fieldId)
-
-                const success = await linkField._addLink(record)
-                if (!success) return createNotification(txtTitleCase("#record already linked"))
-                
-                linkField.setValid()
-                this.closest("a-panel").close()
+        
+        createRecordSelectionWindow({
+            model: this.foreignModel,
+            fieldId: this.id,
+            records: foreignRecords, 
+            datatableConfig: {
+                canSelect: false
             }
         })
     }
@@ -4301,11 +4278,44 @@ kiss.ux.Link = class Link extends kiss.ui.Select {
             return createNotification(txtTitleCase("#only one link"))
         }
 
-        createRecordSelectionWindow(this.foreignModel, this.id, null, this._linkRecord, {
-            iconAction: "fas fa-link",
-            canSelect: false
+        createRecordSelectionWindow({
+            staticId: "recordSelectionWindow-" + this.id,
+            model: this.foreignModel,
+            fieldId: this.id, 
+            selectRecord: this._linkRecord.bind(this),
+            datatableConfig: {
+                iconAction: "fas fa-link",
+                canSelect: false
+            }
         })
     }
+
+    /**
+     * Link a record from the datatable
+     * 
+     * @private
+     * @ignore
+     * @param {object} record
+     */
+    async _linkRecord(record) {
+        // Prevent from linking the record to itself
+        if (record.id == kiss.context.record.id) return
+
+        // Prevent from selecting a record which is already linked
+        if ($(this.id).links.map(link => link.recordId).includes(record.id)) {
+            return createNotification(txtTitleCase("#record already linked"))
+        }
+
+        createDialog({
+            title: txtTitleCase("#connect records"),
+            message: txtTitleCase("#connect confirmation"),
+            icon: "fas fa-link",
+            action: async () => {
+                await $(this.id)._addLink(record)
+                $("recordSelectionWindow-" + this.id).close()
+            }
+        })
+    }    
 
     /**
      * Add a link with an existing foreign record
@@ -4313,16 +4323,12 @@ kiss.ux.Link = class Link extends kiss.ui.Select {
      * @private
      * @ignore
      * @param {object} foreignRecord
-     * @eturns {boolean} false if the operation failed
      */
     async _addLink(foreignRecord) {
-        // Prevent from selecting a record which is already linked
-        if (this.links.map(link => link.recordId).includes(foreignRecord.id)) return false
-
         await this.record.linkTo(foreignRecord, this.id, this.config.link.fieldId)
         this._renderValues()
         this.dispatchEvent(new Event("change"))
-        return true
+        this.setValid()
     }
 
     /**
@@ -5048,6 +5054,7 @@ kiss.ux.SelectViewColumns = class SelectViewColumns extends kiss.ui.Select {
      */    
     async _handleClick(event) {
         if (event.target.classList.contains("field-label")) return
+        kiss.context.selectViewColumnsField = this
         this._showView()
     }
 
@@ -5059,13 +5066,25 @@ kiss.ux.SelectViewColumns = class SelectViewColumns extends kiss.ui.Select {
      */
     async _showView() {
         const _this = this
-        let collection, columns, sort, filter, group, viewRecord
+        const panelId = "selection-in-" + this.viewId
+        const panel = $(panelId)
+
+        // Show the panel if it exists
+        if (panel) {
+            panel.show()
+            if (panel.datatable.currentSearchTerm) {
+                panel.datatable.showSearchBar()
+            }
+            return
+        }
+
+        const isMobile = kiss.screen.isMobile
+        let collection, sort, filter, group
 
         if (this.viewId) {
-            viewRecord = await kiss.app.collections.view.findOne(this.viewId)
+            const viewRecord = await kiss.app.collections.view.findOne(this.viewId)
             this.viewModel = kiss.app.models[viewRecord.modelId]
             collection = this.viewModel.collection
-            columns = this.viewModel.getFieldsAsColumns()
             sort = viewRecord.sort
             filter = viewRecord.filter
             group = viewRecord.group
@@ -5073,7 +5092,6 @@ kiss.ux.SelectViewColumns = class SelectViewColumns extends kiss.ui.Select {
         else if (this.collectionId) {
             collection = kiss.app.collections[this.collectionId]
             this.viewModel = kiss.app.models[collection.modelId]
-            columns = this.viewModel.getFieldsAsColumns()
             sort = []
             filter = {}
             group = []
@@ -5085,20 +5103,32 @@ kiss.ux.SelectViewColumns = class SelectViewColumns extends kiss.ui.Select {
         
         // Build the datatable
         const datatable = createDatatable({
+            id: "tmp-" + this.viewId,
             collection: this.viewModel.collection,
             sort: sort,
             filter: filter,
             group: group,
-
+            columns: this.viewModel.getFieldsAsColumns(),
+            
+            // Options
+            showHeader: true,
+            showToolbar: true,
+            showActions: false,
+            showLinks: false,
             canEdit: false,
-            canSelect: false,
             canAddField: false,
             canEditField: false,
             canCreateRecord: this.allowValuesNotInList,
-            showActions: false,
-            columns: columns,
             color: this.viewModel.color,
-            height: () => "calc(100vh - 25rem)",
+
+            // Mobile options
+            canSelectFields: (isMobile) ? false : true,
+            canSort: (isMobile) ? false : true,
+            canFilter: (isMobile) ? false : true,
+            canGroup: (isMobile) ? false : true,
+            showGroupButtons: (isMobile) ? false : true,
+            showLayoutButton: (isMobile) ? false : true,
+            showScroller:  (isMobile) ? false : true,
 
             methods: {
                 selectRecord: async function(record) {
@@ -5116,10 +5146,35 @@ kiss.ux.SelectViewColumns = class SelectViewColumns extends kiss.ui.Select {
             }
         })
 
+        // Responsive options
+        let responsiveOptions
+
+        if (isMobile) {
+            responsiveOptions = {
+                width: "100%",
+                height: "100%",
+                top: 0,
+                left: 0,
+                expandable: false,
+                borderRadius: "0 0 0 0",
+                padding: 0
+            }
+        }
+        else {
+            responsiveOptions = {
+                width: "calc(100vw - 2rem)",
+                height: "calc(100vh - 2rem)",
+                top: "1rem",
+                left: "1rem"
+            }
+        }
+
         // Build the panel to embed the datatable
         createPanel({
+            id: panelId,
             modal: true,
             closable: true,
+            closeMethod: "hide",
 
             // Header
             title: "<b>" + this.viewModel.namePlural + "</b>",
@@ -5127,16 +5182,24 @@ kiss.ux.SelectViewColumns = class SelectViewColumns extends kiss.ui.Select {
             headerBackgroundColor: this.viewModel.color,
 
             // Size and layout
-            display: "flex",
             layout: "vertical",
-            width: () => "calc(100vw - 20rem)",
-            height: () => "calc(100vh - 20rem)",
-            align: "center",
-            verticalAlign: "center",
             autoSize: true,
+            background: "var(--body-background)",
+            padding: 0,
+            zIndex: 1,
 
-            items: [datatable]
+            ...responsiveOptions,
+
+            items: [datatable],
+
+            events: {
+                onclose: function () {
+                    $(panelId).datatable.hideSearchBar()
+                }
+            }
         }).render()
+
+        $(panelId).datatable = datatable
     }
 
     /**
@@ -5184,21 +5247,10 @@ kiss.ux.SelectViewColumns = class SelectViewColumns extends kiss.ui.Select {
             update[map.id] = recordValue
         })
 
-        await this.record.updateDeep(update)
+        // Update the record
+        const targetRecord = kiss.context.selectViewColumnsField.record
+        await targetRecord.updateDeep(update)
         return this
-    }
-
-    formatValue(value) {
-        if (kiss.tools.isNumericField(this)) {
-            recordValue = parseFloat(recordValue)
-            if (isNaN(recordValue)) recordValue = 0
-        }
-        else if (this.type === "checkbox") {
-            recordValue = !!recordValue
-        }
-
-        if (recordValue === undefined) recordValue = ""
-
     }
 }
 
