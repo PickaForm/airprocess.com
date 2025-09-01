@@ -101,7 +101,7 @@ kiss.app.defineView({
                         action: () => window.open("https://www.facebook.com/AirProcessApps", "_new")
                     },
                     {
-                        label: "Twitter",
+                        label: "X (Twitter)",
                         action: () => window.open("https://x.com/AirProcessApps", "_new")
                     }
                 ]
