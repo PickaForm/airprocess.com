@@ -32,13 +32,13 @@ kiss.app.defineView({
             title: {
                 en: `Super <span class="text-highlight" style="background-color: #00aaee">simple</span>
                 <br>
-                Really <span class="text-highlight" style="background-color: #aaee00">powerful</span>`,
+                Really <span class="text-highlight" style="background-color: #c1c1c1">powerful</span>`,
                 fr: `Super <span class="text-highlight" style="background-color: #00aaee">simple</span>
                 <br>
-                Vraiment <span class="text-highlight" style="background-color: #aaee00">puissant</span>`,
+                Vraiment <span class="text-highlight" style="background-color: #c1c1c1">puissant</span>`,
                 es: `Súper <span class="text-highlight" style="background-color: #00aaee">simple</span>
                 <br>
-                Realmente <span class="text-highlight" style="background-color: #aaee00">poderoso</span>`
+                Realmente <span class="text-highlight" style="background-color: #c1c1c1">poderoso</span>`
             },
             subtitle: {
                 en: "Create your own business tool and start saving time.",

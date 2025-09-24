@@ -39,7 +39,7 @@ const kiss = {
     $KissJS: "KissJS - Keep It Simple Stupid Javascript",
 
     // Build number
-    version: 4703,
+    version: 4830,
     
     // Tell isomorphic code we're on the client side
     isClient: true,
@@ -3943,7 +3943,7 @@ kiss.app = {
      *  debug: true,
      *  name: "airprocess",
      *  language: "fr",
-     *  logo: "./resources/img/logo 256x128.png",
+     *  logo: "./resources/img/logo.png",
      *  mode: "online",
      *  https: true,
      *  useDirectory: true,
@@ -4474,8 +4474,8 @@ kiss.data.trash = {
 
             // Header
             title: txtTitleCase("#deleted records") + " <b>" + model.namePlural + "</b>",
-            icon: model.icon,
-            headerBackgroundColor: model.color,
+            headerColor: "var(--body-background)",
+            headerBackgroundColor: "var(--body)",
 
             // Size and layout
             display: "flex",
@@ -4485,6 +4485,7 @@ kiss.data.trash = {
             align: "center",
             verticalAlign: "center",
             autoSize: true,
+            border: "none",
             padding: 0,
             items: [{
                 flex: 1,
@@ -4551,7 +4552,6 @@ kiss.data.trash = {
             type: "danger",
             title: txtTitleCase("empty the trash"),
             message: txtTitleCase("#warning empty trash"),
-            buttonOKPosition: "left",
             action: async () => {
                 await kiss.app.collections.trash.deleteMany({
                     sourceModelId: modelId
@@ -5248,7 +5248,6 @@ kiss.directory = {
                         createDialog({
                             type: "danger",
                             title: txtTitleCase("#title edit name"),
-                            buttonOKPosition: "left",
                             message: txtTitleCase("#confirm edit name", null, {
                                 firstName,
                                 lastName
@@ -5478,8 +5477,8 @@ kiss.fields = {
         return function({value, config}) {
             try {
                 if (!value) return ""
-                if (config && config.nobr) return value
-                return value.replaceAll("\n", "<br>")
+                if (config && config.nobr) return (value + "")
+                return (value + "").replaceAll("\n", "<br>")
             }
             catch (err) {
                 log.err("kiss.fields - Error rendering textarea field")
@@ -6063,6 +6062,9 @@ kiss.language = {
     set(newLanguage) {
         kiss.language.current = newLanguage
         localStorage.setItem("config-language", newLanguage)
+        kiss.router.updateUrlHash({
+            language: newLanguage
+        })
         document.location.reload()
     },
 
@@ -6120,6 +6122,7 @@ kiss.language = {
             closable: true,
             layout: "horizontal",
             overflowY: "auto",
+            headerStyle: "flat",
 
             defaultConfig: {
                 margin: 10,
@@ -6194,14 +6197,16 @@ kiss.language = {
         }
     
         const titleStyle = {
-            color: "var(--blue)",
             fontSize: "1.8rem",
             fontWeight: "bold",
             flex: 1,
             width: "100%",
             margin: "3rem 0 1.5rem 0",
-            boxShadow: "none",
-            textAlign: (isMobile) ? "center" : "left"
+            padding: "0 0 1rem 0",
+            textAlign: (isMobile) ? "center" : "left",
+            borderStyle: "solid",
+            borderWidth: "0 0 1px 0",
+            borderColor: "var(--body-alt)"
         }
 
         const defaultConfig = {
@@ -6213,14 +6218,13 @@ kiss.language = {
             iconColor: "var(--blue)",
             fontSize: "1.6rem",
             textAlign: "left",
-            boxShadow: "var(--shadow-1)",
-            boxShadowHover: "var(--shadow-4)"
         }
 
         const languageButtons = kiss.language.available.map(language => {
             return {
                 text: language.name,
                 icon: "fas fa-flag",
+                margin: "1rem 0.5rem",
                 action: () => kiss.language.set(language.code)
             }
         })
@@ -6237,6 +6241,7 @@ kiss.language = {
             align: "center",
             overflowY: "auto",
             padding: "0 2rem 2rem 2rem",
+            headerStyle: "flat",
     
             ...responsiveOptions,
         
@@ -6279,7 +6284,7 @@ kiss.language = {
                             height: "7rem",
                             margin: "2rem 0",
                             maxHeight: (isMobile) ? "" : "20rem",
-                            options: kiss.language.codes.map(code => {
+                            options: kiss.global.languages.map(code => {
                                 return {
                                     label: code.name,
                                     value: code.code
@@ -6312,140 +6317,13 @@ kiss.language = {
      * kiss.language.getLanguageName("fr") // Français
      */
     getLanguageName(code) {
-        const language = kiss.language.codes.find(lang => lang.code == code)
+        const language = kiss.global.languages.find(lang => lang.code == code)
         if (language) {
             return language.name
         } else {
             return code
         }
-    },
-
-    /**
-     * All ISO 639-1 language codes
-     */
-    codes: [
-        {name: "Afaan Oromoo", code: "om"},
-        {name: "Afaraf", code: "aa"},
-        {name: "Afrikaans", code: "af"},
-        {name: "Akan", code: "ak"},
-        {name: "Aragonés", code: "an"},
-        {name: "Asụsụ Igbo", code: "ig"},
-        {name: "Avañe'ẽ", code: "gn"},
-        {name: "Aymar aru", code: "ay"},
-        {name: "Azərbaycanca", code: "az"},
-        {name: "Bahasa Indonesia", code: "id"},
-        {name: "Bahasa Melayu", code: "ms"},
-        {name: "Bamanakan", code: "bm"},
-        {name: "Basa Sunda", code: "su"},
-        {name: "Bislama", code: "bi"},
-        {name: "Brezhoneg", code: "br"},
-        {name: "Bosanski", code: "bs"},
-        {name: "Català", code: "ca"},
-        {name: "Chamoru", code: "ch"},
-        {name: "Corsu", code: "co"},
-        {name: "Cymraeg", code: "cy"},
-        {name: "Čeština", code: "cs"},
-        {name: "Diné bizaad", code: "nv"},
-        {name: "Deutsch", code: "de"},
-        {name: "Eesti", code: "et"},
-        {name: "Eʋegbe", code: "ee"},
-        {name: "English", code: "en"},
-        {name: "Español", code: "es"},
-        {name: "Esperanto", code: "eo"},
-        {name: "Euskara", code: "eu"},
-        {name: "Faka‑Tonga", code: "to"},
-        {name: "Føroyskt", code: "fo"},
-        {name: "Français", code: "fr"},
-        {name: "Frysk", code: "fy"},
-        {name: "Fulfulde", code: "ff"},
-        {name: "Gaelg", code: "gv"},
-        {name: "Gaeilge", code: "ga"},
-        {name: "Gàidhlig", code: "gd"},
-        {name: "Galego", code: "gl"},
-        {name: "Gĩkũyũ", code: "ki"},
-        {name: "Hausa", code: "ha"},
-        {name: "Hiri Motu", code: "ho"},
-        {name: "Hrvatski", code: "hr"},
-        {name: "IsiNdebele", code: "nd"},
-        {name: "IsiXhosa", code: "xh"},
-        {name: "IsiZulu", code: "zu"},
-        {name: "Italiano", code: "it"},
-        {name: "Íslenska", code: "is"},
-        {name: "Kajin M̧ajeļ", code: "mh"},
-        {name: "Kanuri", code: "kr"},
-        {name: "Kashmiri", code: "ks"},
-        {name: "Kernewek", code: "kw"},
-        {name: "Kikongo", code: "kg"},
-        {name: "Kirundi", code: "rn"},
-        {name: "Kiswahili", code: "sw"},
-        {name: "Kinyarwanda", code: "rw"},
-        {name: "Kurdî", code: "ku"},
-        {name: "Lao", code: "lo"},
-        {name: "Latine", code: "la"},
-        {name: "Latviešu", code: "lv"},
-        {name: "Lëtzebuergesch", code: "lb"},
-        {name: "Lietuvių", code: "lt"},
-        {name: "Lingála", code: "ln"},
-        {name: "Luganda", code: "lg"},
-        {name: "Magyar", code: "hu"},
-        {name: "Malagasy", code: "mg"},
-        {name: "Malti", code: "mt"},
-        {name: "Māori", code: "mi"},
-        {name: "Melayu", code: "ms"},
-        {name: "Nederlands", code: "nl"},
-        {name: "Norsk", code: "no"},
-        {name: "Norsk bokmål", code: "nb"},
-        {name: "Norsk nynorsk", code: "nn"},
-        {name: "Occitan", code: "oc"},
-        {name: "Odia", code: "or"},
-        {name: "Oshikwanyama", code: "kj"},
-        {name: "Pāli", code: "pi"},
-        {name: "Polski", code: "pl"},
-        {name: "Português", code: "pt"},
-        {name: "Reo Tahiti", code: "ty"},
-        {name: "Română", code: "ro"},
-        {name: "Rumantsch", code: "rm"},
-        {name: "Русский", code: "ru"},
-        {name: "Sängö", code: "sg"},
-        {name: "Sesotho", code: "st"},
-        {name: "Setswana", code: "tn"},
-        {name: "Shqip", code: "sq"},
-        {name: "Slovenčina", code: "sk"},
-        {name: "Slovenščina", code: "sl"},
-        {name: "Soomaali", code: "so"},
-        {name: "Suomi", code: "fi"},
-        {name: "Svenska", code: "sv"},
-        {name: "Tiếng Việt", code: "vi"},
-        {name: "Türkçe", code: "tr"},
-        {name: "Yкраїнська", code: "uk"},
-        {name: "اردو", code: "ur"},
-        {name: "العربية", code: "ar"},
-        {name: "فارسی", code: "fa"},
-        {name: "עברית", code: "he"},
-        {name: "हिन्दी", code: "hi"},
-        {name: "বাংলা", code: "bn"},
-        {name: "தமிழ்", code: "ta"},
-        {name: "తెలుగు", code: "te"},
-        {name: "ไทย", code: "th"},
-        {name: "ᐃᓄᒃᑎᑐᑦ", code: "iu"},
-        {name: "日本語", code: "ja"},
-        {name: "中文", code: "zh"},
-        {name: "한국어", code: "ko"},
-        {name: "ꆇꉙ", code: "ii"},
-        {name: "བོད་སྐད་", code: "bo"},
-        {name: "རྫོང་ཁ", code: "dz"},
-        {name: "မြန်မာဘာသာ", code: "my"},
-        {name: "ქართული", code: "ka"},
-        {name: "ትግርኛ", code: "ti"},
-        {name: "አማርኛ", code: "am"},
-        {name: "ᐊᓂᔑᓈᐯᒧᐎᓐ", code: "oj"},
-        {name: "Ṣọ̀rọ̀ Yorùbá", code: "yo"},
-        {name: "Wolof", code: "wo"},
-        {name: "IsiSwati", code: "ss"},
-        {name: "Volapük", code: "vo"},
-        {name: "Tshivenḓa", code: "ve"},
-        {name: "Xitsonga", code: "ts"}
-      ]
+    }
 };
 
 // Shortcuts to uppercase, lowercase, titlecase
@@ -8094,7 +7972,6 @@ kiss.selection = {
                     createDialog({
                         title: txtTitleCase("update selected documents"),
                         type: "danger",
-                        buttonOKPosition: "left",
                         message: txtTitleCase("#warning update docs", null, {
                             n: ids.length
                         }),
@@ -8107,7 +7984,6 @@ kiss.selection = {
                                 createDialog({
                                     title: txtTitleCase("empty value"),
                                     type: "danger",
-                                    buttonOKPosition: "left",
                                     message: txtTitleCase("#warning empty value"),
                                     action: async () => {
                                         await kiss.selection._updateRecords(fieldId, value)
@@ -8181,6 +8057,11 @@ kiss.selection = {
                             allowValuesNotInList = fieldConfig.allowValuesNotInList
                             fieldBuilderFunction = createSelect
                             break
+                        case "selectViewColumn":
+                            multiple = fieldConfig.multiple
+                            allowValuesNotInList = fieldConfig.allowValuesNotInList
+                            fieldBuilderFunction = createSelectViewColumn
+                            break                            
                         case "checkbox":
                             shape = fieldConfig.shape
                             iconColorOn = fieldConfig.iconColorOn
@@ -8229,7 +8110,11 @@ kiss.selection = {
                         checked,
                         multiple,
                         allowValuesNotInList,
-            
+
+                        // For selectViewColumn fields
+                        fieldId: fieldConfig.fieldId,
+                        viewId: fieldConfig.viewId,
+
                         // Special fields options
                         renderer: fieldBuilderFunction, // renderer
                         options, // select
@@ -8305,7 +8190,6 @@ kiss.selection = {
         createDialog({
             title: txtTitleCase("delete selected documents"),
             type: "danger",
-            buttonOKPosition: "left",
             message: txtTitleCase("#warning delete docs", null, {
                 n: ids.length
             }),
@@ -8477,15 +8361,23 @@ kiss.session = {
 
     /**
      * Get the websocket host with protocol and port
-     * 
+     *
      * @returns {string} The host with protocol and port
-     * 
+     *
      * @example
      * kiss.session.getWebsocketHost() // "wss://your-host.com:443"
      */
     getWebsocketHost() {
-        const host = (!this.host) ? window.location.host : this.host
+        let host = (!this.host) ? window.location.host : this.host
+        const splitHost = host.split(":")
+        const hostPort = splitHost[1]
+
         const url = (this.secure) ? "wss://" + host : "ws://" + host
+
+        if (hostPort) {
+          return url;
+        }
+
         return (this.secure) ? url + ":" + this.wssPort : url + ":" + this.wsPort
     },
 
@@ -10011,12 +9903,13 @@ kiss.theme = {
             fontWeight: "bold",
             textAlign: "center",
             margin: "4rem 0 1.5rem 0",
+            padding: "0 0 1rem 0",
+            borderStyle: "solid",
+            borderWidth: "0 0 1px 0",
+            borderColor: "var(--body-alt)"
         }
 
         const blockStyle = {
-            // display: "inline-flex",
-            // flexWrap: "wrap",
-            boxShadow: "var(--shadow-2)",
             margin: "1rem 0",
             borderRadius: "var(--panel-border-radius)",
         }
@@ -10031,8 +9924,14 @@ kiss.theme = {
             iconSize: "2.4rem",
             fontSize: "1.6rem",
             textAlign: "left",
-            boxShadow: "var(--shadow-1)",
-            boxShadowHover: "var(--shadow-4)",
+            events: {
+                mouseover: function() {
+                    this.setAnimation({
+                        name: "pulse",
+                        speed: "faster",
+                    })
+                }
+            }
         }
     
         return createPanel({
@@ -10047,6 +9946,7 @@ kiss.theme = {
             padding: "1rem",
             overflowY: "auto",
             zIndex: 1000,
+            headerStyle: "flat",
 
             ...responsiveOptions,
             
@@ -10074,57 +9974,57 @@ kiss.theme = {
                             text: txtTitleCase("dark"),
                             color: "#ffffff",
                             iconColor: "#ffffff",
-                            backgroundColor: "#373a40",
+                            backgroundColor: "#2e3038",
                             action: () => kiss.theme.set({color: "dark"})
                         },
-                        // PINK
-                        {
-                            text: txtTitleCase("pink"),
-                            color: "#ffffff",
-                            iconColor: "#ffffff",
-                            background: kiss.tools.CSSGradient("#ffa3a3", 90, -0.05),
-                            action: () => kiss.theme.set({color: "pink"})
-                        },
-                        // PURPLE
-                        {
-                            text: txtTitleCase("purple"),
-                            color: "#ffffff",
-                            iconColor: "#ffffff",
-                            background: kiss.tools.CSSGradient("#aeabe8", 90, -0.05),
-                            action: () => kiss.theme.set({color: "purple"})
-                        },            
-                        // BLUE
-                        {
-                            text: txtTitleCase("blue"),
-                            color: "#232730",
-                            iconColor: "#ffffff",
-                            background: kiss.tools.CSSGradient("#c7efff", 90, -0.05),
-                            action: () => kiss.theme.set({color: "blue"})
-                        },
-                        // GREEN
-                        {
-                            text: txtTitleCase("green"),
-                            color: "#232730",
-                            iconColor: "#ffffff",
-                            background: kiss.tools.CSSGradient("#b4e9b4", 90, -0.05),
-                            action: () => kiss.theme.set({color: "green"})
-                        },            
-                        // ORANGE
-                        {
-                            text: txtTitleCase("orange"),
-                            color: "#ffffff",
-                            iconColor: "#ffffff",
-                            background: kiss.tools.CSSGradient("#ffbe61", 90, -0.05),
-                            action: () => kiss.theme.set({color: "orange"})
-                        },
-                        // CLEAN
-                        {
-                            text: txtTitleCase("minimal"),
-                            color: "#456789",
-                            iconColor: "#456789",
-                            background: kiss.tools.CSSGradient("#fafafa", 90, -0.05),
-                            action: () => kiss.theme.set({color: "clean"})
-                        },                           
+                        // // PINK
+                        // {
+                        //     text: txtTitleCase("pink"),
+                        //     color: "#ffffff",
+                        //     iconColor: "#ffffff",
+                        //     background: kiss.tools.CSSGradient("#ffa3a3", 90, -0.05),
+                        //     action: () => kiss.theme.set({color: "pink"})
+                        // },
+                        // // PURPLE
+                        // {
+                        //     text: txtTitleCase("purple"),
+                        //     color: "#ffffff",
+                        //     iconColor: "#ffffff",
+                        //     background: kiss.tools.CSSGradient("#aeabe8", 90, -0.05),
+                        //     action: () => kiss.theme.set({color: "purple"})
+                        // },            
+                        // // BLUE
+                        // {
+                        //     text: txtTitleCase("blue"),
+                        //     color: "#232730",
+                        //     iconColor: "#ffffff",
+                        //     background: kiss.tools.CSSGradient("#c7efff", 90, -0.05),
+                        //     action: () => kiss.theme.set({color: "blue"})
+                        // },
+                        // // GREEN
+                        // {
+                        //     text: txtTitleCase("green"),
+                        //     color: "#232730",
+                        //     iconColor: "#ffffff",
+                        //     background: kiss.tools.CSSGradient("#b4e9b4", 90, -0.05),
+                        //     action: () => kiss.theme.set({color: "green"})
+                        // },            
+                        // // ORANGE
+                        // {
+                        //     text: txtTitleCase("orange"),
+                        //     color: "#ffffff",
+                        //     iconColor: "#ffffff",
+                        //     background: kiss.tools.CSSGradient("#ffbe61", 90, -0.05),
+                        //     action: () => kiss.theme.set({color: "orange"})
+                        // },
+                        // // CLEAN
+                        // {
+                        //     text: txtTitleCase("minimal"),
+                        //     color: "#456789",
+                        //     iconColor: "#456789",
+                        //     background: kiss.tools.CSSGradient("#fafafa", 90, -0.05),
+                        //     action: () => kiss.theme.set({color: "clean"})
+                        // },                           
                         // CUSTOM THEME
                         {
                             hidden: isMobile,
@@ -10252,6 +10152,7 @@ kiss.theme = {
             txtTitleCase("panels"),
             "--panel-background",
             "--panel-header",
+            "--panel-header-background",
             "--panel-border",
             "--panel-box-shadow",
     
@@ -10467,6 +10368,7 @@ kiss.theme = {
             layout: "vertical",
             padding: 0,
             zIndex: 10000,
+            headerStyle: "flat",
     
             animation: {
                 name: "slideInRight",
@@ -10681,18 +10583,20 @@ kiss.tools = {
         const message =
             /*html*/
             `<center>
-                        ${txtTitleCase("#click to download")}
-                        <a href="${url}" download="${config.filename || "file.json"}">
-                            ${txtTitleCase("download file")}
-                        </a>
-                    </center>`
+                ${txtTitleCase("#click to download")}
+                <a href="${url}" download="${config.filename || "file.json"}">
+                    ${txtTitleCase("download file")}
+                </a>
+            </center>`
 
         createDialog({
             type: "message",
             title: config.title || "Download file",
+            headerStyle: "flat",
             message,
             buttonOKText: txtTitleCase("validate"),
-            noOK: true
+            noOK: true,
+            zIndex: 1000
         })
     },
 
@@ -10935,6 +10839,28 @@ kiss.tools = {
         }
 
         return rgb
+    },
+
+    /**
+     * Convert a hexa RGB color to an RGBa color
+     * 
+     * @param {string} hexaColor 
+     * @param {number} opacity 
+     * @returns {string} The RGBa color
+     * 
+     * @example
+     * kiss.tools.toRgb("#00aaee", 0.5) // returns "rgba(0, 170, 238, 0.5)"
+     */
+    toRgb(hexaColor, opacity = 1) {
+        let hex = hexaColor.replace("#", "")
+        if (hex.length === 3) {
+            hex = hex.split("").map(c => c + c).join("")
+        }
+
+        const r = parseInt(hex.substring(0, 2), 16)
+        const g = parseInt(hex.substring(2, 4), 16)
+        const b = parseInt(hex.substring(4, 6), 16)
+        return `rgba(${r}, ${g}, ${b}, ${opacity})`
     },
 
     /**
@@ -16883,7 +16809,7 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
 
         await this.load()
         this._render()
-    }    
+    }
 
     /**
      * When the view configuration can't be persisted into db,
@@ -17378,7 +17304,7 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
             id: "search-bar-" + id,
             title: txtTitleCase("#ftsearch title"),
             icon: "fas fa-search",
-            headerBackgroundColor: this.color || "var(--background-blue)",
+            headerStyle: "flat",
             draggable: true,
             closable: false,
             autoSize: true,
@@ -18178,10 +18104,10 @@ kiss.ui.Block = class Block extends kiss.ui.Container {
         if (config.fullscreen) {
             this.style.display = "block"
             this.style.position = "fixed"
-            this.style.top = "0px"
-            this.style.left = "0px"
-            this.style.width = "100%"
-            this.style.height = "100%"
+            this.style.top = 0
+            this.style.left = 0
+            this.style.width = "100vw"
+            this.style.height = "100vh"
         }
 
         // Define component's items container
@@ -18266,6 +18192,7 @@ const createBlock = (config) => document.createElement("a-block").init(config)
  * @param {string} [config.headerGradientDirection] - The direction of the gradient. Ex: "to right", "to bottom", "to left top". Default is "to right".
  * @param {string} [config.headerBorderRadius]
  * @param {string} [config.headerBorderColor]
+ * @param {string} [config.headerStyle] - "filled" (default), "flat"
  * @param {object[]} [config.headerButtons] - Buttons injected in the header. See example below.
  * @param {object[]} [config.headerIcons] - Icons injected in the header. See example below.
  * @param {string|number} [config.headerHeight] - The header's height
@@ -18492,6 +18419,12 @@ kiss.ui.Panel = class Panel extends kiss.ui.Container {
             config.headerBackgroundColor = `linear-gradient(${gradientDirection}, ${config.headerBackgroundColor}, ${config.headerBackgroundColor2})`
         }
 
+        // Manage header style
+        if (config.headerStyle == "flat") {
+            config.headerColor = "var(--body)"
+            config.headerBackgroundColor = "var(--body-background)"
+        }
+
         this._setProperties(config, [
             [
                 ["position", "top", "bottom", "left", "right", "flex", "margin", "border", "borderColor", "borderRadius", "boxShadow", "transform", "zIndex", "opacity", "transition"],
@@ -18698,6 +18631,7 @@ kiss.ui.Panel = class Panel extends kiss.ui.Container {
         if (config.action) icon.onclick = config.action
         if (config.tip) icon.attachTip(config.tip)
         if (config.margin) icon.style.margin = config.margin
+        if (config.iconColor) icon.style.color = config.iconColor
 
         this.panelCustomIcons.appendChild(icon)
         return this
@@ -19294,14 +19228,15 @@ kiss.ui.Calendar = class Calendar extends kiss.ui.DataComponent {
         createPanel({
             icon: "fas fa-calendar",
             title: txtTitleCase("setup the calendar"),
-            headerBackgroundColor: this.color,
+            headerStyle: "flat",
             modal: true,
             backdropFilter: true,
             draggable: true,
             closable: true,
             align: "center",
             verticalAlign: "center",
-            width: "40rem",
+            width: "50rem",
+            padding: "2rem",
 
             defaultConfig: {
                 labelPosition: "top",
@@ -20996,7 +20931,7 @@ kiss.ui.ChartView = class ChartView extends kiss.ui.DataComponent {
             width: "50rem",
             height: () => kiss.screen.current.height,
             headerHeight: "4.9rem",
-            headerBackgroundColor: this.color,
+            headerStyle: "flat",
             overflowY: "auto",
             animation: {
                 name: "fadeIn",
@@ -21021,7 +20956,7 @@ kiss.ui.ChartView = class ChartView extends kiss.ui.DataComponent {
                     items: [{
                         type: "button",
                         icon: "fas fa-check",
-                        iconColor: "var(--green)",
+                        class: "button-ok",
                         text: txtTitleCase("save"),
                         action: () => $("chart-setup").save()
                     }]
@@ -23344,7 +23279,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
         this.canSort = (config.canSort !== false)
         this.canFilter = (config.canFilter !== false)
         this.canGroup = (config.canGroup !== false)
-        this.color = config.color || "#00aaee"
+        this.color = config.color || "var(--body)"
         this.iconAction = config.iconAction || "far fa-file-alt"
         this.defaultRowHeight = 4 // in rem
         this.resizerWidth = 1.5 // in rem
@@ -24491,7 +24426,6 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                             type: "danger",
                             title: txtTitleCase("delete an item"),
                             message: txtTitleCase("#delete item warning"),
-                            buttonOKPosition: "left",
                             action: async () => {
                                 this.model.deleteField(fieldId)
                                 deleteDialog.close()
@@ -25096,7 +25030,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                         ondrop="this.closest('a-datatable')._columnsMoveWithdragAndDrop('drop', event, this)"
                         style="${localColumnTitleWidthStyle}"
                     >
-                    ${columnTitle}
+                        ${columnTitle}
                     </span>
                     <span id="header-properties-for:${column.id}" class="datatable-column-header-properties fas fa-chevron-down">&nbsp</span>
                     <span id="header-resizer-for:${column.id}" class="datatable-column-header-resizer">&nbsp</span>
@@ -25393,7 +25327,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
             allowClickToDelete: true,
             options: groupingFields,
             minWidth: "20rem",
-            maxHeight: () => kiss.screen.current.height - 200,
+            maxHeight: "30rem",
             optionsColor: this.color,
             value: groupingFieldValues,
             styles: {
@@ -26543,10 +26477,11 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
             closable: true,
             modal: true,
             draggable: true,
-            width: "66rem",
-            height: "66rem",
+            width: "80vw",
+            height: "80vh",
             align: "center",
             verticalAlign: "center",
+            headerStyle: "flat",
 
             layout: "vertical",
             items: [
@@ -26575,6 +26510,10 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                     },
 
                     items: [
+                        {
+                            type: "spacer",
+                            flex: 2
+                        },
                         // Cancel
                         {
                             text: txtUpperCase("cancel"),
@@ -26588,8 +26527,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                         {
                             text: txtUpperCase("ok"),
                             icon: "fas fa-check",
-                            color: "var(--green)",
-                            iconColor: "var(--green)",
+                            class: "button-ok",
                             action: () => $("panel-edit-textarea").close()
                         }
                     ]
@@ -26647,14 +26585,15 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
             id: "panel-edit-richtext",
             title: txtTitleCase("edit field"),
             icon: "fas fa-edit",
-            headerBackgroundColor: this.color,
             closable: true,
             modal: true,
             draggable: true,
-            width: "66rem",
-            height: "66rem",
+            width: "80vw",
+            height: "80vh",
             align: "center",
             verticalAlign: "center",
+            headerStyle: "flat",
+            padding: "2rem",
 
             layout: "vertical",
             items: [{
@@ -26671,6 +26610,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                             value: initialValue,
                             required: field.required,
                             fieldWidth: "100%",
+                            theme: "snow",
                             flex: 1
                         }
                     ]
@@ -26688,6 +26628,10 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                     },
 
                     items: [
+                        {
+                            type: "spacer",
+                            flex: 2
+                        },
                         // Cancel
                         {
                             text: txtUpperCase("cancel"),
@@ -26701,8 +26645,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                         {
                             text: txtUpperCase("ok"),
                             icon: "fas fa-check",
-                            color: "var(--green)",
-                            iconColor: "var(--green)",
+                            class: "button-ok",
                             action: () => $("panel-edit-richtext").close()
                         }
                     ]
@@ -26762,6 +26705,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
             width: "70.5rem",
             align: "center",
             verticalAlign: "center",
+
             items: [{
                 type: "colorPicker",
                 value: initialValue,
@@ -26795,6 +26739,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
             width: "67.5rem",
             align: "center",
             verticalAlign: "center",
+
             items: [{
                 type: "iconPicker",
                 value: initialValue,
@@ -26832,11 +26777,12 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
             headerBackgroundColor: this.color,
             modal: true,
             draggable: true,
-            width: "66rem",
+            width: "50rem",
             align: "center",
             verticalAlign: "center",
-
             layout: "vertical",
+            headerStyle: "flat",
+            padding: "2rem",
             items: [
                 // Select
                 {
@@ -26844,11 +26790,9 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                     type: field.type,
                     value: initialValue,
                     required: field.required,
-
                     fieldWidth: "100%",
                     maxHeight: "40rem",
                     flex: 1,
-
                     options: field.options,
                     users: (field.users === false) ? false : true,
                     groups: (field.groups === false) ? false : true,
@@ -26861,6 +26805,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                     allowClickToDelete: field.multiple,
                     allowSwitchOnOff: field.multiple,
                     allowValuesNotInList: field.allowValuesNotInList,
+                    maxHeight: "30rem",
 
                     // Options for <Select View Column> field
                     viewId: field.viewId,
@@ -26870,6 +26815,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                 // Buttons
                 {
                     layout: "horizontal",
+                    margin: "2rem 0 0 0",
 
                     defaultConfig: {
                         type: "button",
@@ -26891,8 +26837,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                         {
                             text: txtUpperCase("ok"),
                             icon: "fas fa-check",
-                            color: "var(--green)",
-                            iconColor: "var(--green)",
+                            class: "button-ok",
                             action: () => $("panel-edit-select").close()
                         }
                     ]
@@ -26992,7 +26937,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
             // Header
             title: "<b>" + viewModel.namePlural + "</b>",
             icon: viewModel.icon,
-            headerBackgroundColor: viewModel.color,
+            headerStyle: "flat",
 
             // Size and layout
             display: "flex",
@@ -27440,14 +27385,15 @@ kiss.ui.Gallery = class Gallery extends kiss.ui.DataComponent {
         createPanel({
             icon: "fas fa-image",
             title: txtTitleCase("setup the gallery"),
-            headerBackgroundColor: this.color,
+            headerStyle: "flat",
             modal: true,
             backdropFilter: true,
             draggable: true,
             closable: true,
             align: "center",
             verticalAlign: "center",
-            width: "40rem",
+            width: "50rem",
+            padding: "2rem",
 
             defaultConfig: {
                 labelPosition: "top",
@@ -28601,7 +28547,7 @@ kiss.ui.Gallery = class Gallery extends kiss.ui.DataComponent {
             allowClickToDelete: true,
             options: groupingFields,
             minWidth: "20rem",
-            maxHeight: () => kiss.screen.current.height - 200,
+            maxHeight: "30rem",
             optionsColor: this.color,
             value: groupingFieldValues,
             styles: {
@@ -29897,7 +29843,7 @@ kiss.ui.Kanban = class Kanban extends kiss.ui.DataComponent {
             allowClickToDelete: true,
             options: groupingFields,
             minWidth: "20rem",
-            maxHeight: () => kiss.screen.current.height - 200,
+            maxHeight: "30rem",
             optionsColor: this.color,
             value: groupingFieldValues,
             styles: {
@@ -30817,14 +30763,15 @@ kiss.ui.MapView = class MapView extends kiss.ui.DataComponent {
         createPanel({
             icon: "fas fa-map",
             title: txtTitleCase("setup the map"),
-            headerBackgroundColor: this.color,
+            headerStyle: "flat",
             modal: true,
             backdropFilter: true,
             draggable: true,
             closable: true,
             align: "center",
             verticalAlign: "center",
-            width: "40rem",
+            width: "50rem",
+            padding: "2rem",
 
             defaultConfig: {
                 labelPosition: "top",
@@ -31733,14 +31680,15 @@ kiss.ui.Timeline = class Timeline extends kiss.ui.DataComponent {
         createPanel({
             icon: "fas fa-align-left",
             title: txtTitleCase("setup the timeline"),
-            headerBackgroundColor: this.color,
+            headerStyle: "flat",
             modal: true,
             backdropFilter: true,
             draggable: true,
             closable: true,
             align: "center",
             verticalAlign: "center",
-            width: "40rem",
+            width: "50rem",
+            padding: "2rem",
 
             defaultConfig: {
                 labelPosition: "top",
@@ -33383,7 +33331,7 @@ kiss.ui.Timeline = class Timeline extends kiss.ui.DataComponent {
             allowClickToDelete: true,
             options: groupingFields,
             minWidth: "20rem",
-            maxHeight: () => kiss.screen.current.height - 200,
+            maxHeight: "30rem",
             optionsColor: this.color,
             value: groupingFieldValues,
             styles: {
@@ -34562,6 +34510,7 @@ const createButton = (config) => document.createElement("a-button").init(config)
  * @param {string|number} [config.height]
  * @param {string} [config.animation] - Check [component's animations](https://kissjs.net/doc/out/kiss.ui.component#setAnimation)
  * @param {string|boolean} [backdropFilter] - Add a backdrop filter to the mask
+ * @param {number} [zIndex] - z-index of the dialog box (default = 1)
  * @returns this
  * 
  * @example
@@ -34641,9 +34590,13 @@ kiss.ui.Dialog = class Dialog {
 
         if (config.type == "danger") {
             config.icon = "fas fa-exclamation-triangle"
-            config.headerBackgroundColor = "var(--background-red)"
+            config.headerColor = "var(--red)"
+            config.headerBackgroundColor = "var(--body-background)"
             config.colorOK = "var(--red)"
-            config.colorCancel = "var(--green)"
+        }
+        else {
+            config.headerColor = "var(--body)"
+            config.headerBackgroundColor = "var(--body-background)"
         }
 
         // OK button
@@ -34651,9 +34604,13 @@ kiss.ui.Dialog = class Dialog {
             hidden: (config.noOK == true),
 
             type: "button",
+            class: (config.type != "danger") ? "button-ok" : "",
             text: config.buttonOKText || txtTitleCase("ok"),
             icon: (config.iconOK === false) ? false : (config.iconOK || "fas fa-check"),
-            iconColor: config.colorOK || null,
+            color: (config.type == "danger") ? "white" : (config.colorOK || null),
+            iconColor: (config.type == "danger") ? "white" : (config.colorOK || null),
+            backgroundColor: (config.type == "danger") ? "var(--red)" : (config.backgroundColor || null),
+            fontWeight: "bold",
             flex: 1,
             styles: {
                 "this": (config.colorOK) ? "border-color: " + config.colorOK : ""
@@ -34670,9 +34627,11 @@ kiss.ui.Dialog = class Dialog {
             hidden: (dialogType == "message" || config.noCancel == true),
 
             type: "button",
+            class: (config.type != "danger") ? "button-cancel" : "",
             text: config.buttonCancelText || txtTitleCase("cancel"),
             icon: (config.iconCancel === false) ? false : (config.iconCancel || "fas fa-times"),
             iconColor: config.colorCancel || null,
+            fontWeight: "bold",
             flex: 1,
             styles: {
                 "this": (config.colorCancel) ? "border-color: " + config.colorCancel : ""
@@ -34695,19 +34654,22 @@ kiss.ui.Dialog = class Dialog {
             borderRadius: (isMobile) ? "0 0 0 0" : "",
             align: "center",
             verticalAlign: "center",
+            padding: "2rem",
 
             modal: true,
             backdropFilter: config.backdropFilter,
             draggable: true,
             closable: !(config.closable === false),
             animation: config.animation || null,
-            zIndex: 1,
+            zIndex: config.zIndex || 1,
 
             header: (config.header !== false),
             title: config.title || "",
             icon: config.icon || "fas fa-info-circle",
             headerHeight: config.headerHeight,
-            headerBackgroundColor: config.headerBackgroundColor || "#00aaee",
+            headerColor: config.headerColor || "var(--panel-header)",
+            headerBackgroundColor: config.headerBackgroundColor || "var(--panel-header-background)",
+            headerStyle: config.headerStyle,
 
             items: [
 
@@ -34766,7 +34728,7 @@ kiss.ui.Dialog = class Dialog {
                     defaultConfig: {
                         margin: "0.5rem"
                     },
-                    items: (config.buttonOKPosition == "left") ? [buttonOK, buttonCancel] : [buttonCancel, buttonOK]
+                    items: (config.buttonOKPosition == "left" || config.type == "danger") ? [buttonOK, buttonCancel] : [buttonCancel, buttonOK]
                 }
             ],
 
@@ -34785,13 +34747,13 @@ kiss.ui.Dialog = class Dialog {
 
             methods: {
                 // Focus the panel or the input field so that keyboard events can be listened to
-                _afterRender() {
-                    if (dialogType == "input") {
-                        setTimeout(() => $("input-box-field").focus(), 100)
-                    } else {
-                        setTimeout(() => this.panelBody.focus(), 100)
-                    }
-                },
+                // _afterRender() {
+                //     if (dialogType == "input") {
+                //         setTimeout(() => $("input-box-field").focus(), 100)
+                //     } else {
+                //         setTimeout(() => this.panelBody.focus(), 100)
+                //     }
+                // },
 
                 // Clicked on the OK button
                 async validate() {
@@ -35202,7 +35164,9 @@ kiss.ui.Image = class Image extends kiss.ui.Component {
      * @returns this
      */
     setValue(newValue, rawUpdate) {
-        if (rawUpdate) {
+        if (newValue === "") newValue = this._emptyImage()
+        
+            if (rawUpdate) {
             this.imageContent.src = this.config.src = newValue
             return this
         }
@@ -35233,7 +35197,7 @@ kiss.ui.Image = class Image extends kiss.ui.Component {
      * @returns {string} The image src
      */
     getValue() {
-        return this.imageContent.src
+        return this.imageContent.getAttribute("src") || ""
     }
 
     /**
@@ -36424,8 +36388,8 @@ kiss.ui.Attachment = class Attachment extends kiss.ui.Component {
                     <span role="filename" class="field-attachment-filename${layout}">${file.filename}</span>
                     <span class="field-attachment-buttons">
                         <span class="field-attachment-filesize">${file.size.toFileSize()}</span>
-                        <span style="flex:1"></span>
                         ${(this.readOnly || isOffline) ? "" : `<span class="field-attachment-access ${lockIcon}"></span>`}
+                        <span style="flex:1"></span>
                         <span class="field-attachment-menu fas fa-ellipsis-v" index="${i}" onclick="$('${this.id}')._openFileMenu(event, '${file.id}')"></span>     
                     </span>
                 </div>`
@@ -36655,8 +36619,6 @@ kiss.ui.Attachment = class Attachment extends kiss.ui.Component {
             type: "danger",
             title: txtTitleCase("deleting a file"),
             message: txtTitleCase("#warning delete file"),
-            buttonOKPosition: "left",
-
             action: async () => {
                 let currentValues = this.getValue()
                 let newValues = currentValues.removeById(fileId)
@@ -40038,7 +40000,7 @@ kiss.ui.Rating = class Rating extends kiss.ui.Component {
     _updateField(updates) {
         if (this.id in updates) {
             const newValue = updates[this.id]
-            if (newValue || (newValue === false)) {
+            if (newValue || (newValue === 0) || (newValue === false)) {
                 this.value = newValue
                 this._renderValues()
             }
@@ -40118,7 +40080,6 @@ kiss.ui.Rating = class Rating extends kiss.ui.Component {
         if (!rawUpdate) this.dispatchEvent(new Event("change"))
         return this
     }
-
 
     /**
      * Get the field value
@@ -42072,7 +42033,7 @@ kiss.ui.Slider = class Slider extends kiss.ui.Component {
     _updateField(updates) {
         if (this.id in updates) {
             const newValue = updates[this.id]
-            if (newValue || (newValue === false)) {
+            if (newValue || (newValue === 0) || (newValue === false)) {
                 this.value = newValue
                 this._renderValues()
             }
@@ -42142,13 +42103,12 @@ kiss.ui.Slider = class Slider extends kiss.ui.Component {
      * @returns this
      */
     _updateValue(newValue, rawUpdate) {
-        this.value = newValue
+        this.value = this.field.value = newValue
         this._renderValues()
         this.setValid()
         if (!rawUpdate) this.dispatchEvent(new Event("change"))
         return this
     }
-
 
     /**
      * Get the field value
@@ -42394,7 +42354,7 @@ const createForm = function (record) {
         id: record.id,
         title: modelName.toTitleCase(),
         icon: model.icon,
-        headerBackgroundColor: model.color,
+        headerStyle: "flat",
         layout: "horizontal",
         position: "fixed",
         modal: !isStandAlone,
@@ -42456,6 +42416,7 @@ const createForm = function (record) {
         headerIcons: [{
             hidden: !kiss.session.isAccountManager(),
             icon: "fas fa-info-circle",
+            iconColor: model.color,
             action: () => {
                 if ($("record-information")) $("record-information").remove()
 
@@ -42468,6 +42429,9 @@ const createForm = function (record) {
                     closable: true,
                     draggable: true,
                     modal: true,
+                    headerStyle: "flat",
+                    padding: "2rem",
+
                     items: [{
                             layout: "horizontal",
                             alignItems: "center",
@@ -42667,7 +42631,7 @@ const createForm = function (record) {
                         const modelName = kiss.language.translateProperty(modelRecord, "name")
                         this.setTitle(modelName)
                         this.setIcon(modelRecord.icon)
-                        this.setHeaderBackgroundColor(modelRecord.color)
+                        this.setHeaderColor(modelRecord.color)
                     }
                 }
 
@@ -42870,7 +42834,7 @@ const createForm = function (record) {
                     const tabs = formTabs.items
 
                     for (let i = 0; i < tabs.length; i++) tabs[i].setBorderColor("var(--button-border)")
-                    tabs[featureIndex + 2].setBorderColor(model.color)
+                    tabs[featureIndex + 1].setBorderColor(model.color)
                 }
             },
 
@@ -43123,6 +43087,7 @@ const createFormActions = function (form, activeFeatures) {
     const isMobile = kiss.screen.isMobile
     const hasFeatures = (activeFeatures.length > 0)
     let featureButtons = []
+    const navigationMode = localStorage.getItem("config-formNavigationMode-" + record.model.id) || "tabs"
 
     // Inject feature shortcuts in the menu for mobile devices
     if (kiss.screen.isMobile && hasFeatures) {
@@ -43191,6 +43156,23 @@ const createFormActions = function (form, activeFeatures) {
     }
 
     return [
+        // Actions to switch navigation side (left/tabs)
+        {
+            hidden: isMobile || (navigationMode == "left"),
+            type: "button",
+            text: txtTitleCase("#side navigation"),
+            icon: "fas fa-columns",
+            action: () => form.switchNavigation("left")
+        },
+        {
+            hidden: isMobile || (navigationMode == "tabs"),
+            type: "button",
+            text: txtTitleCase("#tabs navigation"),
+            icon: "fas fa-columns",
+            action: () => form.switchNavigation("tabs")
+        },        
+        "-",
+
         // Shortcut to the form section, for mobile devices
         ...featureButtons,
 
@@ -43297,7 +43279,6 @@ const createFormActions = function (form, activeFeatures) {
                     type: "danger",
                     title: txtTitleCase("delete this record"),
                     message: txtTitleCase("#delete record warning"),
-                    buttonOKPosition: "left",
                     action: async () => {
                         const form = $(record.id)
                         const success = await record.delete(true)
@@ -43405,7 +43386,7 @@ const createFormContent = function (config) {
                     item.originalId = item.id
                     item.id = kiss.tools.shortUid()
                     item.headerBackgroundColor = model.color
-                    item.headerBackgroundColor2 = kiss.tools.adjustColor(model.color, -0.1)
+                    // item.headerBackgroundColor2 = kiss.tools.toRgb(model.color, 0.2)
                     item.items = getFormItems(item.items, canUpdate)
                 }
 
@@ -43500,7 +43481,6 @@ const createFormContent = function (config) {
                 class: "form-fields",
 
                 defaultConfig: {
-                    width: "100%",
                     labelWidth: "100%",
                     labelPosition: "top"
                 },
@@ -43607,9 +43587,9 @@ const createformFeatureDescription = function (name, icon, color, description, i
             <div class="form-feature-arrow"><span class="fas fa-arrow-up"></span></div>
         </div>`}
 
-        <div class="form-feature-description" style="display: flex; flex-flow: row; background-color: ${color}">
-            <div class="form-feature-description-icon" style="flex:1; background-color: ${kiss.tools.adjustColor(color, -0.1)}">
-                <span class="${icon}"></span>
+        <div class="form-feature-description" style="display: flex; flex-flow: row;">
+            <div class="form-feature-description-icon" style="flex:1;">
+                <span class="${icon}" style="color: ${color}"></span>
             </div>
             <div style="flex: 2">
                 <div class="form-feature-description-title">${name}</div>
@@ -43637,30 +43617,10 @@ const createFormSideBar = function (form, activeFeatures, formHeaderFeatures, fo
             text: section.config.title,
             textAlign: "left",
             icon: section.config.icon,
-            margin: "0 0.5rem 1rem 5rem",
-            classes: {
-                "this": "form-side-bar-button"
-            },
+            margin: "0 0.5rem 1rem 3rem",
+            class: "form-side-bar-button",
             action: () => form.showSection(section.config.title)
         }        
-    })
-
-    const sections = model.items.map(section => {
-        if (section.type != "panel") return ""
-
-        const sectionTitle = kiss.language.translateProperty(section, "title")
-        return {
-            id: "nav-" + record.id + ":" + section.id,
-            type: "button",
-            text: sectionTitle,
-            textAlign: "left",
-            icon: section.icon,
-            margin: "0 0.5rem 1rem 5rem",
-            classes: {
-                "this": "form-side-bar-button"
-            },
-            action: () => form.showSection(sectionTitle)
-        }
     })
 
     const footerSections = Array.from(formFooterFeatures).map(section => {
@@ -43669,13 +43629,32 @@ const createFormSideBar = function (form, activeFeatures, formHeaderFeatures, fo
             text: section.config.title,
             textAlign: "left",
             icon: section.config.icon,
-            margin: "0 0.5rem 1rem 5rem",
-            classes: {
-                "this": "form-side-bar-button"
-            },
+            margin: "0 0.5rem 1rem 3rem",
+            class: "form-side-bar-button",
             action: () => form.showSection(section.config.title)
         }        
     })
+
+    let sections = []
+    let modelSections = model.items.filter(item => item.type == "panel")
+
+    if (modelSections.length > 1 || headerSections.length > 0 || footerSections.length > 0) {
+        sections = modelSections.map(section => {
+            if (section.type != "panel") return ""
+
+            const sectionTitle = kiss.language.translateProperty(section, "title")
+            return {
+                id: "nav-" + record.id + ":" + section.id,
+                type: "button",
+                text: sectionTitle,
+                textAlign: "left",
+                icon: section.icon,
+                margin: "0 0.5rem 1rem 3rem",
+                class: "form-side-bar-button",
+                action: () => form.showSection(sectionTitle)
+            }
+        })
+    }    
 
     // Creates a navigation entry per feature
     let formFeatures = [
@@ -43684,26 +43663,13 @@ const createFormSideBar = function (form, activeFeatures, formHeaderFeatures, fo
             margin: "0 0 2rem 0",
             flexShrink: 0,
             items: [
-                // Switch between tab bar and side navigation
-                {
-                    type: "button",
-                    tip: txtTitleCase("#tabs navigation"),
-                    icon: "fas fa-columns",
-                    classes: {
-                        "this": "form-side-bar-menu"
-                    },
-                    action: () => form.switchNavigation("tabs")
-                },
-
                 // Action menu
                 {
                     type: "button",
                     text: txtTitleCase("#action menu"),
                     textAlign: "left",
                     icon: "fas fa-bars",
-                    classes: {
-                        "this": "form-side-bar-menu"
-                    },
+                    margin: "0 0 0 0.5rem",
                     action: function () {
                         createMenu({
                             left: this.getBoundingClientRect().x,
@@ -43723,9 +43689,7 @@ const createFormSideBar = function (form, activeFeatures, formHeaderFeatures, fo
             textAlign: "left",
             icon: "far fa-window-restore",
             iconColor: model.color,
-            classes: {
-                "this": "form-side-bar-button"
-            },
+            class: "form-side-bar-button",
             action: function () {
                 form.showFeature("form-content")
                 form.showAllSections()
@@ -43749,9 +43713,7 @@ const createFormSideBar = function (form, activeFeatures, formHeaderFeatures, fo
             textAlign: "left",
             icon: feature.icon,
             iconColor: model.color,
-            classes: {
-                "this": "form-side-bar-button"
-            },
+            class: "form-side-bar-button",
             action: () => form.showFeature(feature.pluginId)
         }
 
@@ -43769,6 +43731,8 @@ const createFormSideBar = function (form, activeFeatures, formHeaderFeatures, fo
  */
 const createFormTabBar = function (form, activeFeatures) {
     const record = form.record
+    const model = record.model
+
     const formTabHeight = "var(--form-tab-height)"
     const formTabFontSize = "var(--form-tab-font-size)"
     const formTabBorderRadius = "var(--form-tab-border-radius)"
@@ -43776,26 +43740,12 @@ const createFormTabBar = function (form, activeFeatures) {
     const isMobile = kiss.screen.isMobile
 
     let formFeatures = [
-        // Switch between tab bar and side navigation
-        {
-            hidden: isMobile,
-            type: "button",
-            tip: txtTitleCase("#side navigation"),
-            icon: "fas fa-columns",
-            borderWidth: 0,
-            borderRadius: "3.2rem",
-            fontSize: formTabFontSize,
-            height: formTabHeight,
-            borderRadius: formTabBorderRadius,
-            backgroundColorHover: "transparent",
-            action: () => form.switchNavigation("left")
-        },
-
         // Action menu
         {
             type: "button",
             text: (isMobile) ? "" : txtTitleCase("#action menu"),
             icon: "fas fa-bars",
+            iconColor: model.color,
             borderWidth: 0,
             borderRadius: "3.2rem",
             fontSize: formTabFontSize,
@@ -43819,6 +43769,7 @@ const createFormTabBar = function (form, activeFeatures) {
             type: "button",
             text: (isMobile) ? "" : txtTitleCase("form"),
             icon: "far fa-window-restore",
+            iconColor: model.color,
             fontSize: formTabFontSize,
             height: formTabHeight,
             borderRadius: formTabBorderRadius,
@@ -43837,6 +43788,7 @@ const createFormTabBar = function (form, activeFeatures) {
             type: "button",
             text: (isMobile) ? "" : feature.name,
             icon: feature.icon,
+            iconColor: model.color,
             fontSize: formTabFontSize,
             height: formTabHeight,
             borderRadius: formTabBorderRadius,
@@ -43866,9 +43818,8 @@ const createDataFieldsWindow = function (viewId, color = "#00aaee") {
         id: selectWindowId,
         title: txtTitleCase("select your fields"),
         icon: "fas fa-bars fa-rotate-90",
-        headerBackgroundColor: color,
+        headerStyle: "flat",
         maxHeight: () => kiss.screen.current.height - 150,
-        
         modal: true,
         closable: true,
         draggable: true,
@@ -44361,6 +44312,7 @@ const createDataFilter = function (viewId, color, config) {
             renderer: fieldBuilderFunction, // renderer
             options, // select
             optionsFilter, // select
+            maxHeight: "30rem", // select
             optionsColor: color,
             roles, // directory
             shape, // checkbox
@@ -44400,7 +44352,6 @@ const createDataFilter = function (viewId, color, config) {
                 icon: "fas fa-trash",
                 width: "3rem",
                 height: "3rem",
-
                 events: {
                     click: function (event) {
                         let filter = event.target.closest("a-block")
@@ -44419,7 +44370,7 @@ const createDataFilter = function (viewId, color, config) {
                 label: txtTitleCase("where field"),
                 labelPosition: "top",
                 width: "25rem",
-
+                maxHeight: "30rem",
                 value: fieldId,
                 options: selectFields,
                 optionsColor: color,
@@ -44760,7 +44711,6 @@ const createDataFilterGroup = function (viewId, color, config) {
                         icon: "fas fa-plus",
                         width: "15rem",
                         height: "3rem",
-
                         events: {
                             click: function () {
                                 let filterGroup = this.closest(".filter-group")
@@ -44964,18 +44914,17 @@ const createDataFilterWindow = function (viewId, color = "#00aaee") {
         id: filterWindowId,
         title: txtTitleCase("filter your data"),
         icon: "fas fa-filter",
-        headerBackgroundColor: color,
+        headerStyle: "flat",
         minWidth: "80rem",
-
         modal: true,
         draggable: true,
         closable: true,
-
         maxHeight: () => kiss.screen.current.height - 100,
         align: "center",
         verticalAlign: "center",
         overflowY: "auto",
         zIndex: 10,
+        padding: "2rem",
 
         items: [
             // Placeholder for the query builder
@@ -45061,16 +45010,16 @@ const createDataSort = function (viewId, fieldId, sortDirection, sortIndex, sort
                 id: "sort-field-for-view-" + viewId + "-index:" + sortIndex,
                 type: "select",
                 label: (sortIndex == 0) ? txtTitleCase("sort by") : txt("then by"),
-
                 width: "50rem",
                 fieldWidth: "30rem",
                 labelWidth: "20rem",
                 labelPosition: "left",
-
+                maxHeight: "30rem",
                 value: [fieldId],
                 multiple: false,
                 options: sortFields,
                 optionsColor: color,
+                maxHeight: "30rem",
                 events: {
                     change: async (event) => {
                         let sortDirectionId = event.target.id.replace("field", "direction")
@@ -45135,19 +45084,18 @@ const createDataSortWindow = function (viewId, color = "#00aaee") {
         id: sortWindowId,
         title: txtTitleCase("sort your data"),
         icon: "fas fa-sort",
-        headerBackgroundColor: color,
-
+        headerStyle: "flat",
         modal: true,
         closable: true,
         draggable: true,
         zIndex: 10,
-
+        padding: "2rem",
         maxHeight: () => kiss.screen.current.height - 100,
         align: "center",
         verticalAlign: "center",
         overflowY: "auto",
-
         layout: "vertical",
+        
         items: [
             // BLOCK TO DISPLAY EXISTING SORTING OPTIONS
             {
@@ -45167,8 +45115,8 @@ const createDataSortWindow = function (viewId, color = "#00aaee") {
                         labelWidth: "20rem",
                         labelPosition: "left",
                         margin: "0 0 0 3rem",
-
                         multiple: false,
+                        maxHeight: "30rem",
                         events: {
                             change: async (event) => {
 
@@ -45370,6 +45318,7 @@ const createRecordSelectionWindow = function(config) {
         autoSize: true,
         background: "var(--body-background)",
         padding: 0,
+        border: "none",
         zIndex: 1,
         
         ...responsiveOptions,
@@ -45516,6 +45465,7 @@ const createRecordSelectionWindow = function(config) {
  * 
  * @param {object} config - Configuration object
  * @param {string} [config.type] - If "images", restrict to image files only.
+ * @param {boolean} [config.showActions] - If false, hide the Actions menu. Default is true.
  * @param {string} [config.actions] - Actions to add to the file library (will be inserted in the Actions menu)
  * @param {function} [config.callback] - Function to call when a file is selected. The select file Record will be passed as an argument.
  *
@@ -45538,7 +45488,7 @@ const createFileLibraryWindow = async function (config = {}) {
             filters: [
                 {
                     type: "filter",
-                    fieldId: "filename",
+                    fieldId: "originalname",
                     operator: "is not empty"
                 },
                 {
@@ -45553,7 +45503,7 @@ const createFileLibraryWindow = async function (config = {}) {
     else {
         filter = {
             type: "filter",
-            fieldId: "filename",
+            fieldId: "originalname",
             operator: "is not empty"
         }
     }
@@ -45570,7 +45520,7 @@ const createFileLibraryWindow = async function (config = {}) {
         id: "file-library",
         canCreateRecord: false,
         showSetup: false,
-        showActions: true,
+        showActions: (config.showActions === false) ? false : true,
         canSearch: false,
         collection: fileCollection,
         actions: actions || [],
@@ -45645,7 +45595,7 @@ const createPreviewWindow = function (files, fileId, recordId, fieldId) {
 
     // Create a single thumbnail item
     const createThumbnail = function (file) {
-        const fileType = file.filename.split(".").pop().toLowerCase()
+        const fileType = (file.filename || file.originalname).split(".").pop().toLowerCase()
         let viewHtml = ""
         let previewHtml = ""
 
@@ -45766,11 +45716,12 @@ const createPreviewWindow = function (files, fileId, recordId, fieldId) {
         modal: true,
         closable: true,
         icon: "fas fa-search",
-        headerHeight: 50,
-        headerBackgroundColor: "#555555",
+        headerHeight: "5rem",
+        headerBackgroundColor: "#222222",
         background: "#000000",
         animation: "fadeIn",
         autoSize: true,
+        border: "none",
 
         // Size & position
         position: "absolute",
@@ -46042,7 +45993,11 @@ const createFileUploadBox = function(ACL = "private", multiple = true) {
                     {
                         id: "upload-box-gallery-help",
                         type: "html",
-                        margin: "auto",
+                        display: "flex",
+                        flexFlow: "column",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        flex: 1,
                         html: txtTitleCase("#upload drive help", null, {
                                 drive: "Box"
                             }) +
@@ -46066,10 +46021,8 @@ const createFileUploadBox = function(ACL = "private", multiple = true) {
             {
                 layout: "horizontal",
                 class: "upload-button-bar",
-
                 defaultConfig: {
-                    height: 36,
-                    margin: "0px 0px 0px 10px"
+                    margin: "0 0 0 1rem"
                 },
 
                 items: [
@@ -46107,7 +46060,7 @@ const createFileUploadBox = function(ACL = "private", multiple = true) {
                         iconColorOn: "var(--blue)",
                         iconOff: "fas fa-lock",
                         iconOn: "fas fa-lock-open",
-                        width: 32,
+                        width: "5rem",
                         value: (ACL == "private") ? false : true
                     }
                 ]
@@ -46388,7 +46341,11 @@ const createFileUploadDropbox = function(ACL = "private", multiple = true) {
                     {
                         id: "upload-dropbox-gallery-help",
                         type: "html",
-                        margin: "auto",
+                        display: "flex",
+                        flexFlow: "column",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        flex: 1,
                         html: txtTitleCase("#upload drive help", null, {drive: "Dropbox"}) +
                             `<br>` +
                             `<center><div id="dropbox-btn" class="upload-dropbox-button"></div></center>`
@@ -46404,10 +46361,8 @@ const createFileUploadDropbox = function(ACL = "private", multiple = true) {
             {
                 layout: "horizontal",
                 class: "upload-button-bar",
-
                 defaultConfig: {
-                    height: 36,
-                    margin: "0px 0px 0px 10px"
+                    margin: "0 0 0 1rem"
                 },
 
                 items: [
@@ -46419,29 +46374,21 @@ const createFileUploadDropbox = function(ACL = "private", multiple = true) {
                     // Button to upload the files
                     {
                         hidden: true,
-                        
                         id: "upload-dropbox-button",
                         type: "button",
                         text: txtTitleCase("Upload"),
                         icon: "fas fa-upload",
-                        iconColor: "#ffffff",
-                        iconColorHover: "#000000",
-                        color: "#ffffff",
-                        colorHover: "#000000",
-                        backgroundColor: "#00aaee",
-                        backgroundColorHover: "#ffffff",
                         action: () => $("file-upload").upload("dropbox")
                     },
                     // Switch to set public / private upload
                     {
                         hidden: true,
-                        
                         id: "upload-dropbox-ACL",
                         type: "checkbox",
                         iconColorOn: "var(--blue)",
                         iconOff: "fas fa-lock",
                         iconOn: "fas fa-lock-open",
-                        width: 32,
+                        width: "5rem",
                         value: (ACL == "private") ? false : true
                     }
                 ]
@@ -46566,7 +46513,11 @@ const createFileUploadGoogleDrive = function(ACL = "private", multiple = true) {
                     {
                         id: "upload-googledrive-gallery-help",
                         type: "html",
-                        margin: "auto",
+                        display: "flex",
+                        flexFlow: "column",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        flex: 1,
                         html: txtTitleCase("#upload drive help", null, {drive: "Google Drive"}) +
                             `<br>` +
                             `<center><button class="a-button box-authentication-button" onclick="$('file-upload-googledrive').connect()">${txtTitleCase('connect to your %drive account', null, {drive: "Google Drive"})}</button></center>`
@@ -46582,10 +46533,8 @@ const createFileUploadGoogleDrive = function(ACL = "private", multiple = true) {
             {
                 layout: "horizontal",
                 class: "upload-button-bar",
-
                 defaultConfig: {
-                    height: 36,
-                    margin: "0px 0px 0px 10px"
+                    margin: "0 0 0 1rem"
                 },
 
                 items: [
@@ -46597,30 +46546,21 @@ const createFileUploadGoogleDrive = function(ACL = "private", multiple = true) {
                     // Button to upload the files
                     {
                         hidden: true,
-
                         id: "upload-googledrive-button",
                         type: "button",
                         text: txtTitleCase("Upload"),
                         icon: "fas fa-upload",
-                        iconColor: "#ffffff",
-                        iconColorHover: "#000000",
-                        color: "#ffffff",
-                        colorHover: "#000000",
-                        backgroundColor: "#00aaee",
-                        backgroundColorHover: "#ffffff",
-
                         action: () => $("file-upload").upload("googledrive")
                     },
                     // Switch to set public / private upload
                     {
                         hidden: true,
-                        
                         id: "upload-googledrive-ACL",
                         type: "checkbox",
                         iconColorOn: "var(--blue)",
                         iconOff: "fas fa-lock",
                         iconOn: "fas fa-lock-open",
-                        width: 32,
+                        width: "5rem",
                         value: (ACL == "private") ? false : true
                     }
                 ]
@@ -46770,7 +46710,11 @@ const createFileUploadInstagram = function(ACL = "private", multiple = true) {
                     {
                         id: "upload-instagram-gallery-help",
                         type: "html",
-                        margin: "auto",
+                        display: "flex",
+                        flexFlow: "column",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        flex: 1,
                         html: txtTitleCase("#upload drive help", null, {drive: "Instagram"}) +
                             `<br>` +
                             `<center><button class="a-button box-authentication-button" onclick="$('file-upload-instagram').connect()">${txtTitleCase('connect to your %drive account', null, {drive: "Instagram"})}</button></center>`
@@ -46792,10 +46736,8 @@ const createFileUploadInstagram = function(ACL = "private", multiple = true) {
             {
                 layout: "horizontal",
                 class: "upload-button-bar",
-
                 defaultConfig: {
-                    height: 36,
-                    margin: "0px 0px 0px 10px"
+                    margin: "0 0 0 1rem"
                 },
 
                 items: [
@@ -46826,30 +46768,21 @@ const createFileUploadInstagram = function(ACL = "private", multiple = true) {
                     // Button to upload the files
                     {
                         hidden: true,
-
                         id: "upload-instagram-button",
                         type: "button",
                         text: txtTitleCase("Upload"),
                         icon: "fas fa-upload",
-                        iconColor: "#ffffff",
-                        iconColorHover: "#000000",
-                        color: "#ffffff",
-                        colorHover: "#000000",
-                        backgroundColor: "#00aaee",
-                        backgroundColorHover: "#ffffff",
-
                         action: () => $("file-upload").upload("instagram")
                     },
                     // Switch to set public / private upload
                     {
                         hidden: true,
-                        
                         id: "upload-instagram-ACL",
                         type: "checkbox",
                         iconColorOn: "var(--blue)",
                         iconOff: "fas fa-lock",
                         iconOn: "fas fa-lock-open",
-                        width: 32,
+                        width: "5rem",
                         value: (ACL == "private") ? false : true
                     }
                 ]
@@ -47061,7 +46994,11 @@ const createFileUploadLink = function(ACL = "private", multiple = true) {
                     {
                         id: "upload-link-gallery-help",
                         type: "html",
-                        margin: "auto",
+                        display: "flex",
+                        flexFlow: "column",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        flex: 1,
                         html: txtTitleCase("#upload link help")
                     },
                     // Block to display the selected files
@@ -47075,10 +47012,8 @@ const createFileUploadLink = function(ACL = "private", multiple = true) {
             {
                 layout: "horizontal",
                 class: "upload-button-bar",
-
                 defaultConfig: {
-                    height: 36,
-                    margin: "0px 0px 0px 10px"
+                    margin: "0 0 0 1rem"
                 },
 
                 items: [
@@ -47088,7 +47023,7 @@ const createFileUploadLink = function(ACL = "private", multiple = true) {
                         type: "text",
                         placeholder: txtTitleCase("enter an URL here"),
                         padding: "0px",
-                        fieldWidth: 300
+                        fieldWidth: "25rem"
                     },
                     // Button to select the files
                     {
@@ -47101,36 +47036,25 @@ const createFileUploadLink = function(ACL = "private", multiple = true) {
                             $("upload-link-url").setValue("")
                         }
                     },
-                    {
-                        type: "spacer",
-                        flex: 1
-                    },
                     // Button to upload the files
                     {
                         hidden: true,
-
                         id: "upload-link-button",
                         type: "button",
                         text: txtTitleCase("upload"),
                         icon: "fas fa-upload",
-                        iconColor: "#ffffff",
-                        iconColorHover: "#000000",
-                        color: "#ffffff",
-                        colorHover: "#000000",
-                        backgroundColor: "#00aaee",
-                        backgroundColorHover: "#ffffff",
+                        class: "button-ok",
                         action: () => $("file-upload").upload("link")
                     },
                     // Switch to set public / private upload
                     {
                         hidden: true,
-                        
                         id: "upload-link-ACL",
                         type: "checkbox",
                         iconColorOn: "var(--blue)",
                         iconOff: "fas fa-lock",
                         iconOn: "fas fa-lock-open",
-                        width: 32,
+                        width: "5rem",
                         value: (ACL == "private") ? false : true
                     }
                 ]
@@ -47187,8 +47111,8 @@ const createFileUploadLocal = function(ACL = "private", multiple = true) {
             {
                 id: "upload-local-gallery",
                 layout: "vertical",
-                overflow: "auto",
                 alignItems: "center",
+                overflow: "auto",
                 flex: 1,
                 class: "upload-gallery",
 
@@ -47232,10 +47156,8 @@ const createFileUploadLocal = function(ACL = "private", multiple = true) {
             {
                 layout: (kiss.screen.isMobile) ? "vertical" : "horizontal",
                 class: "upload-button-bar",
-                
                 defaultConfig: {
-                    margin: "10px 10px 0px 0px",
-                    iconColorHover: "#00aaee"
+                    margin: "0 0 0 1rem"
                 },
                 
                 items: [
@@ -47251,39 +47173,27 @@ const createFileUploadLocal = function(ACL = "private", multiple = true) {
                         icon: "fas fa-file-alt",
                         action: () => $("field-upload-local").click()
                     },
+                    // Button to upload the files
                     {
-                        layout: "horizontal",
-                        width: "100%",
-                        items: [
-                            // Button to upload the files
-                            {
-                                hidden: true,
-                                id: "upload-local-button",
-                                type: "button",
-                                text: txtTitleCase("Upload"),
-                                icon: "fas fa-upload",
-                                iconColor: "#ffffff",
-                                iconColorHover: "#000000",
-                                color: "#ffffff",
-                                colorHover: "#000000",
-                                backgroundColor: "#00aaee",
-                                backgroundColorHover: "#ffffff",
-                                flex: 1,
-                                action: () => $("file-upload").upload("local")
-                            },
-                            // Switch to set public / private upload
-                            {
-                                hidden: true,
-                                id: "upload-local-ACL",
-                                type: "checkbox",
-                                tip: txtTitleCase("#upload security mode"),
-                                iconColorOn: "var(--blue)",
-                                iconOff: "fas fa-lock",
-                                iconOn: "fas fa-lock-open",
-                                width: 50,
-                                value: (ACL == "private") ? false : true
-                            }
-                        ]
+                        hidden: true,
+                        id: "upload-local-button",
+                        type: "button",
+                        text: txtTitleCase("Upload"),
+                        icon: "fas fa-upload",
+                        class: "button-ok",
+                        action: () => $("file-upload").upload("local")
+                    },
+                    // Switch to set public / private upload
+                    {
+                        hidden: true,
+                        id: "upload-local-ACL",
+                        type: "checkbox",
+                        tip: txtTitleCase("#upload security mode"),
+                        iconColorOn: "var(--blue)",
+                        iconOff: "fas fa-lock",
+                        iconOn: "fas fa-lock-open",
+                        width: "5rem",
+                        value: (ACL == "private") ? false : true
                     }
                 ]
             }
@@ -47354,7 +47264,11 @@ const createFileUploadOneDrive = function(ACL = "private", multiple = true) {
                     {
                         id: "upload-onedrive-gallery-help",
                         type: "html",
-                        margin: "auto",
+                        display: "flex",
+                        flexFlow: "column",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        flex: 1,
                         html: txtTitleCase("#upload drive help", null, {drive: "One Drive"}) +
                             `<br>` +
                             `<center><button class="a-button box-authentication-button" onclick="$('file-upload-onedrive').connect()">${txtTitleCase('connect to your %drive account', null, {drive: "One Drive"})}</button></center>`
@@ -47370,10 +47284,8 @@ const createFileUploadOneDrive = function(ACL = "private", multiple = true) {
             {
                 layout: "horizontal",
                 class: "upload-button-bar",
-
                 defaultConfig: {
-                    height: 36,
-                    margin: "0px 0px 0px 10px"
+                    margin: "0 0 0 1rem"
                 },
 
                 items: [
@@ -47385,30 +47297,21 @@ const createFileUploadOneDrive = function(ACL = "private", multiple = true) {
                     // Button to upload the files
                     {
                         hidden: true,
-
                         id: "upload-onedrive-button",
                         type: "button",
                         text: txtTitleCase("Upload"),
                         icon: "fas fa-upload",
-                        iconColor: "#ffffff",
-                        iconColorHover: "#000000",
-                        color: "#ffffff",
-                        colorHover: "#000000",
-                        backgroundColor: "#00aaee",
-                        backgroundColorHover: "#ffffff",
-
                         action: () => $("file-upload").upload("onedrive")
                     },
                     // Switch to set public / private upload
                     {
                         hidden: true,
-                        
                         id: "upload-onedrive-ACL",
                         type: "checkbox",
                         iconColorOn: "var(--blue)",
                         iconOff: "fas fa-lock",
                         iconOn: "fas fa-lock-open",
-                        width: 32,
+                        width: "5rem",
                         value: (ACL == "private") ? false : true
                     }
                 ]
@@ -47500,7 +47403,11 @@ const createFileUploadTakePhoto = function(ACL = "private", multiple = true) {
                     {
                         id: "upload-takephoto-gallery-help",
                         type: "html",
-                        margin: "auto",
+                        display: "flex",
+                        flexFlow: "column",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        flex: 1,
                         html: txtTitleCase("#upload webcam help")
                     },
                     {
@@ -47522,10 +47429,8 @@ const createFileUploadTakePhoto = function(ACL = "private", multiple = true) {
             {
                 layout: "horizontal",
                 class: "upload-button-bar",
-
                 defaultConfig: {
-                    height: 36,
-                    margin: "0px 0px 0px 10px"
+                    margin: "0 0 0 1rem"
                 },
 
                 items: [
@@ -47562,29 +47467,22 @@ const createFileUploadTakePhoto = function(ACL = "private", multiple = true) {
                     // Button to upload the files
                     {
                         hidden: true,
-
                         id: "upload-takephoto-button",
                         type: "button",
                         text: txtTitleCase("Upload"),
                         icon: "fas fa-upload",
-                        iconColor: "#ffffff",
-                        iconColorHover: "#000000",
-                        color: "#ffffff",
-                        colorHover: "#000000",
-                        backgroundColor: "#00aaee",
-                        backgroundColorHover: "#ffffff",
+                        class: "button-ok",
                         action: () => $("file-upload").upload("takephoto")
                     },
                     // Switch to set public / private upload
                     {
                         hidden: true,
-                        
                         id: "upload-takephoto-ACL",
                         type: "checkbox",
                         iconColorOn: "var(--blue)",
                         iconOff: "fas fa-lock",
                         iconOn: "fas fa-lock-open",
-                        width: 32,
+                        width: "5rem",
                         value: (ACL == "private") ? false : true
                     }
                 ]
@@ -47660,7 +47558,11 @@ const createFileUploadWebSearch = function(ACL = "private", multiple = true) {
                     {
                         id: "upload-websearch-gallery-help",
                         type: "html",
-                        margin: "auto",
+                        display: "flex",
+                        flexFlow: "column",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        flex: 1,
                         html: txtTitleCase("#upload web search help")
                     },
                     // Block to preview the search result and select some images
@@ -47679,10 +47581,8 @@ const createFileUploadWebSearch = function(ACL = "private", multiple = true) {
             {
                 layout: "horizontal",
                 class: "upload-button-bar",
-
                 defaultConfig: {
-                    height: 36,
-                    margin: "0px 0px 0px 10px"
+                    margin: "0 0 0 1rem"
                 },
 
                 items: [
@@ -47692,7 +47592,7 @@ const createFileUploadWebSearch = function(ACL = "private", multiple = true) {
                         type: "text",
                         placeholder: txtTitleCase("enter your search term and press Enter"),
                         padding: "0px",
-                        fieldWidth: 300,
+                        fieldWidth: "25rem",
                         events: {
                             onkeypress: function (event) {
                                 if (event.key == "Enter") {
@@ -47709,39 +47609,27 @@ const createFileUploadWebSearch = function(ACL = "private", multiple = true) {
                         type: "button",
                         text: txtTitleCase("add images from Web search"),
                         icon: "fas fa-plus",
-                        iconColorHover: "#00aaee",
                         action: (event) => $("file-upload-websearch").addImagesFromWebSearch(event)
-                    },
-                    {
-                        type: "spacer",
-                        flex: 1
                     },
                     // Button to upload the files
                     {
                         hidden: true,
-
                         id: "upload-websearch-button",
                         type: "button",
                         text: txtTitleCase("upload"),
                         icon: "fas fa-upload",
-                        iconColor: "#ffffff",
-                        iconColorHover: "#000000",
-                        color: "#ffffff",
-                        colorHover: "#000000",
-                        backgroundColor: "#00aaee",
-                        backgroundColorHover: "#ffffff",
+                        class: "button-ok",
                         action: () =>$("file-upload").upload("websearch")
                     },
                     // Switch to set public / private upload
                     {
                         hidden: true,
-                        
                         id: "upload-websearch-ACL",
                         type: "checkbox",
                         iconColorOn: "var(--blue)",
                         iconOff: "fas fa-lock",
                         iconOn: "fas fa-lock-open",
-                        width: 32,
+                        width: "5rem",
                         value: (ACL == "private") ? false : true
                     }
                 ]
@@ -47874,20 +47762,20 @@ const createFileUploadWindow = function(config = {}) {
 
     const uploadServices = {
         local: txtTitleCase("my device"),
+        takephoto: txtTitleCase("take photo"),
         link: txtTitleCase("link (URL)"),
-        websearch: txtTitleCase("web search"),
+        websearch: txtTitleCase("#web search"),
         dropbox: txtTitleCase("dropbox"),
         box: txtTitleCase("box"),
         googledrive: txtTitleCase("google drive"),
         onedrive: txtTitleCase("one Drive"),
-        instagram: txtTitleCase("instagram"),
-        takephoto: txtTitleCase("take photo")
+        instagram: txtTitleCase("instagram")
     }
 
     return createPanel({
         id: "file-upload",
         title: txtTitleCase("upload files"),
-        headerBackgroundColor: (kiss.context.application) ? kiss.context.application.color : "#00aaee",
+        headerStyle: "flat",
 
         modal: true,
         backdropFilter: true,
@@ -47936,6 +47824,11 @@ const createFileUploadWindow = function(config = {}) {
                                             text: uploadServices.local,
                                             icon: "fas fa-paperclip",
                                             action: () => $("file-upload").displayService("file-upload-local")
+                                        }, {
+                                            type: "button",
+                                            text: uploadServices.takephoto,
+                                            icon: "fas fa-camera",
+                                            action: () => $("file-upload").displayService("file-upload-takephoto")
                                         },
                                         {
                                             text: uploadServices.link,
@@ -47971,11 +47864,6 @@ const createFileUploadWindow = function(config = {}) {
                                             text: uploadServices.instagram,
                                             icon: "fab fa-instagram",
                                             action: () => $("file-upload").displayService("file-upload-instagram")
-                                        }, {
-                                            type: "button",
-                                            text: uploadServices.takephoto,
-                                            icon: "fas fa-camera",
-                                            action: () => $("file-upload").displayService("file-upload-takephoto")
                                         }
                                     ]
                                 })
@@ -48329,13 +48217,13 @@ kiss.app.defineView({
                     type: "panel",
                     icon: "fas fa-exclamation-triangle",
                     headerBackgroundColor: "var(--background-red)",
-
                     modal: true,
                     draggable: true,
-
                     align: "center",
                     verticalAlign: "center",
                     layout: "vertical",
+                    border: "none",
+                    padding: "2rem",
 
                     items: [{
                             type: "html",
@@ -48367,16 +48255,15 @@ kiss.app.defineView({
             target,
             title: txtTitleCase("invite a new user"),
             icon: "fas fa-user-plus",
-            headerBackgroundColor: "var(--background-blue)",
-
+            headerStyle: "flat",
             modal: true,
             draggable: true,
             backdropFilter: true,
             position: "absolute",
-
             width: "50rem",
             align: "center",
             verticalAlign: "center",
+            padding: "2rem",
 
             items: [
                 // EMAIL
@@ -48399,12 +48286,24 @@ kiss.app.defineView({
                     layout: "horizontal",
                     margin: "2rem 0 0 0",
                     items: [
+                        // CANCEL BUTTON
+                        {
+                            type: "button",
+                            icon: "fa fa-times",
+                            text: txtTitleCase("cancel"),
+                            flex: 1,
+                            action: () => $(id).close()
+                        },
+                        {
+                            type: "spacer",
+                            width: "1rem"
+                        },
                         // SEND INVITATION BUTTON
                         {
                             type: "button",
                             icon: "fa fa-paper-plane",
                             text: txtTitleCase("send the invitation"),
-                            iconColor: "#00aaee",
+                            class: "button-ok",
                             flex: 1,
                             action: async () => {
                                 let fieldEmail = $("email")
@@ -48561,7 +48460,7 @@ kiss.app.defineView({
                         // Gradient
                         {
                             flex: 1,
-                            background: "var(--background-blue)"
+                            background: "black"
                         },
                         // Matrix effect
                         {
@@ -48581,18 +48480,18 @@ kiss.app.defineView({
                             position: "absolute",
                             top: 0,
                             left: 0,
-
                             type: "image",
                             src: kiss.app.logo,
                             alt: "Logo",
+                            style: "-webkit-box-reflect: below -50px linear-gradient(to bottom, rgba(0,0,0,0.2), transparent);"
                         },
                         // Login panel
                         {
                             id: "login",
                             type: "panel",
-                            headerBackgroundColor: "var(--background-blue)",
                             layout: "horizontal",
                             overflowY: "auto",
+                            headerStyle: "flat",
                             
                             ...layoutParams,
 
@@ -48930,7 +48829,7 @@ kiss.app.defineView({
                         // Gradient
                         {
                             flex: 1,
-                            background: "var(--background-blue)"
+                            background: "black"
                         },
                         // Image
                         {
@@ -48950,18 +48849,18 @@ kiss.app.defineView({
                             position: "absolute",
                             top: 0,
                             left: 0,
-
                             type: "image",
                             src: kiss.app.logo,
-                            alt: "Logo"
+                            alt: "Logo",
+                            style: "-webkit-box-reflect: below -50px linear-gradient(to bottom, rgba(0,0,0,0.2), transparent);"
                         },
                         // Register panel
                         {
                             id: "register",
                             type: "panel",
-                            headerBackgroundColor: "var(--background-blue)",
                             layout: "horizontal",
                             overflowY: "auto",
+                            headerStyle: "flat",
 
                             ...layoutParams,
                             
@@ -49290,7 +49189,7 @@ kiss.app.defineView({
                         // Gradient
                         {
                             flex: 1,
-                            background: "var(--background-blue)"
+                            background: "black"
                         },
                         // Image
                         {
@@ -49313,7 +49212,8 @@ kiss.app.defineView({
                             left: 0,
                             type: "image",
                             src: kiss.app.logo,
-                            alt: "Logo"
+                            alt: "Logo",
+                            style: "-webkit-box-reflect: below -50px linear-gradient(to bottom, rgba(0,0,0,0.2), transparent);"
                         },
                         // Reset password panel
                         {
@@ -49321,8 +49221,9 @@ kiss.app.defineView({
                             type: "panel",
                             title: txtTitleCase("password reset"),
                             icon: "fas fa-recycle",
-                            headerBackgroundColor: "var(--background-blue)",
                             layout: "horizontal",
+                            headerStyle: "flat",
+                            padding: "2rem",
 
                             ...layoutParams,
 
@@ -49331,7 +49232,7 @@ kiss.app.defineView({
 
                             items: [{
                                 flex: 1,
-                                class: "auth-block",
+                                // class: "auth-block",
 
                                 defaultConfig: {
                                     width: "100%",
@@ -49356,14 +49257,14 @@ kiss.app.defineView({
                                     // BUTTONS
                                     {
                                         layout: "horizontal",
-                                        margin: "1rem 0 0 0",
+                                        margin: "2rem 0 0 0",
                                         items: [
                                             // VALIDATE button
                                             {
                                                 type: "button",
                                                 icon: "fa fa-check",
                                                 text: txtTitleCase("change password"),
-                                                iconColor: "#00aaee",
+                                                class: "button-ok",
                                                 flex: 1,
                                                 events: {
                                                     click: async function () {
@@ -49451,8 +49352,6 @@ kiss.templates.authLanguageButtons = () => kiss.language.available.map(language 
         height: "3.2rem",
         fontSize: "1.1rem",
         margin: "0 0.5rem 0 0",
-        color: "#ffffff",
-        iconColor: "#ffffff",
         backgroundColor: "transparent",
         borderWidth: 0,
         action: () => kiss.language.set(language.code)
@@ -52739,7 +52638,7 @@ kiss.data.Model = class {
                 field.type != "summary" &&
                 field.type != "attachment" &&
                 field.type != "password" &&
-                field.type != "selectViewColumn" &&
+                // field.type != "selectViewColumn" &&
                 field.type != "selectViewColumns" &&
                 field.type != "link" &&
                 field.type != "aiImage"
@@ -53117,9 +53016,11 @@ kiss.data.Model = class {
         if (this.items.length == 0) return
 
         const modelRecord = kiss.app.collections.model.getRecord(this.id)
-        await modelRecord.update({
-            items: this.items
-        })
+        if (modelRecord) {
+            await modelRecord.update({
+                items: this.items
+            })
+        }
     }
 
     /**
@@ -53625,7 +53526,7 @@ kiss.data.Model = class {
         // Clean the list of foreign models that depends on this one for computed fields
         this.sourceFor = this.sourceFor.unique()
 
-        modelProblems.forEach(warning => log(warning))
+        // modelProblems.forEach(warning => log(warning))
         return this
     }
 
@@ -54865,7 +54766,7 @@ kiss.data.relations = {
      * 
      * @param {object} model 
      * @param {object} record 
-     * @param {string} [update] - If not specified, update all fields
+     * @param {object} [update] - If not specified, update all fields
      * @param {string} userId - user who updated the record
      * @returns The transaction result
      */
@@ -54929,6 +54830,48 @@ kiss.data.relations = {
         }
     },
 
+    async updateDeepShouldBeExecutedInAWorker(modelId) {
+      if (kiss.isClient) return false;
+
+      if (!kiss.config?.workers?.updateDeep?.enabled) return false;
+
+      const count = await kiss.db.count(modelId);
+      const recordsCountThreshold = kiss.config?.workers?.updateDeep?.recordsCountThreshold ?? 2000;
+
+      return count >= recordsCountThreshold;
+    },
+
+  async applyUpdateAllDeep(modelId, options = {}) {
+    const {
+      batchSize = 500,
+      yieldMs = 0
+    } = options
+
+    try {
+      const model = kiss.app.models[modelId]
+      const tx = new kiss.data.Transaction()
+      const records = await kiss.db.find(modelId, {})
+      const cacheId = "cache-" + kiss.tools.uid()
+
+      await kiss.data.relations.buildCache(cacheId, modelId)
+
+      await kiss.data.relations.computeAllTransactionsToUpdate(
+        model,
+        records,
+        tx,
+        cacheId
+      )
+
+      const operations = await tx.process()
+      delete kiss.cache[cacheId]
+      return operations
+
+    } catch (err) {
+      log.err("kiss.dataRelations - updateAllDeep - Error:", err)
+      return []
+    }
+  },
+
     /**
      * Re-compute computed fields on **all** records of a collection
      * without monopolising the event-loop.
@@ -54942,39 +54885,32 @@ kiss.data.relations = {
      * @returns {Promise<Array>} operations – MongoDB mutations generated by the Transaction
      */
     async updateAllDeep(modelId, options = {}) {
-        const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+      const shouldUpdateInAWorker = await this.updateDeepShouldBeExecutedInAWorker(modelId);
+      if (shouldUpdateInAWorker) {
+        log.ack(`kiss.data.relations - updateAllDeep will use a worker to update ${modelId}`)
 
-        const {
-            batchSize = 500,
-            yieldMs = 10
-        } = options
+        const model = kiss.app.models[modelId];
 
-        try {
-            const model = kiss.app.models[modelId]
-            const tx = new kiss.data.Transaction()
-            const records = await kiss.db.find(modelId, {})
-            const cacheId = "cache-" + kiss.tools.uid()
+        const workerClient = new kiss.workers.Clients.UpdateDeepWorkerClient(
+          kiss.workers,
+          kiss.logger.log,
+          {
+            id: modelId,
+            accountId: model.accountId,
+          },
+          this.collectModelsAffectedByUpdateAllDeep(modelId),
+          {
+            maxWorkerLifeTime: kiss.config?.workers?.updateDeep?.maxWorkerLifeTime,
+            configFileDirectory: kiss.config?.configDirectory,
+          }
+        );
 
-            await kiss.data.relations.buildCache(cacheId, modelId)
+        return workerClient.run();
+      } else {
+        log.ack(`kiss.data.relations - updateAllDeep will use the main thread to update ${modelId}`)
 
-            for (let i = 0; i < records.length; i++) {
-                const record = records[i]
-                await kiss.data.relations.computeTransactionToUpdate(model, record, null, tx, cacheId)
-
-                // Every `batchSize` iterations, we yield the event-loop
-                if ((i + 1) % batchSize === 0) {
-                    await delay(yieldMs)
-                }
-            }
-
-            const operations = await tx.process()
-            delete kiss.cache[cacheId]
-            return operations
-
-        } catch (err) {
-            log.err("kiss.dataRelations - updateAllDeep - Error:", err)
-            return []
-        }
+        return this.applyUpdateAllDeep(modelId, options);
+      }
     },
 
     /**
@@ -55145,7 +55081,7 @@ kiss.data.relations = {
         kiss.cache[cacheId].deletedRecords = []
 
         const transaction = new kiss.data.Transaction()
-        for (recordId of ids) {
+        for (let recordId of ids) {
             await kiss.data.relations.computeTransactionToUpdateForeignRecords(modelId, recordId, transaction, cacheId)
         }
         const operations = await transaction.process()
@@ -55178,6 +55114,153 @@ kiss.data.relations = {
             }
         }
     },
+
+    collectModelsAffectedByUpdateAllDeep(modelId, impactedFields = null, impactedModels = [], depth = 0) {
+      // Limit the update depth to avoid infinite loops
+      if (depth > 10) return
+
+      const model = kiss.app.models[modelId];
+      const modelFields = impactedFields ?? model.getFields();
+
+      impactedModels.push(modelId);
+
+      // Define all the foreign models impacted by this update.
+      // For each of them, store the impacted fields too
+      let foreignModelTargetFields = {}
+
+      modelFields
+        .filter((field) => field && field.sourceFor)
+        .forEach(field => {
+          if (field.sourceFor) {
+            field.sourceFor.forEach(source => {
+              foreignModelTargetFields[source.modelId] = foreignModelTargetFields[source.modelId] || []
+              foreignModelTargetFields[source.modelId].push(source.fieldId)
+            })
+          }
+        });
+
+      // Loop over foreign models
+      for (const foreignModelId of Object.keys(foreignModelTargetFields)) {
+        const fieldsToUpdateInForeignRecord = foreignModelTargetFields[foreignModelId]
+        const linkField = model.getLinkField(foreignModelId)
+
+        if (linkField) {
+          this.collectModelsAffectedByUpdateAllDeep(foreignModelId, fieldsToUpdateInForeignRecord, impactedModels, depth + 1)
+        }
+      }
+
+      return impactedModels;
+    },
+
+    async computeAllTransactionsToUpdate(model, records, transaction, cacheId, depth = 0) {
+      const batchSize = 500
+      const yieldMs = 0
+
+      const foreignModelsTransactionsToUpdate = [];
+
+      for (let i = 0; i < records.length; i++) {
+        const record = records[i]
+        const recordUpdatesOrError = await this.computeTransactionForOneRecordToUpdate(
+          model,
+          record,
+          null,
+          transaction,
+          cacheId,
+          depth,
+        );
+
+        if (typeof recordUpdatesOrError === 'string') continue;
+
+        foreignModelsTransactionsToUpdate.push([
+          recordUpdatesOrError,
+          model,
+          record,
+          transaction,
+          cacheId,
+          depth,
+        ])
+
+        // Every `batchSize` iterations, we yield the event-loop
+        if ((i + 1) % batchSize === 0) {
+          await kiss.tools.sleep(yieldMs)
+        }
+      }
+
+      for (const foreignFieldsToUpdate of foreignModelsTransactionsToUpdate) {
+        await this.computeTransactionOnForeignFieldsToUpdate(...foreignFieldsToUpdate)
+      }
+    },
+
+  async computeTransactionForOneRecordToUpdate(model, record, update, transaction, cacheId, depth = 0) {
+    // Limit the update depth to avoid infinite loops
+    if (depth > 10) return 'Max depth reached';
+
+    let recordUpdates = {}
+
+    // Update the record if it's specified
+    if (update) {
+      Object.assign(record, update)
+      recordUpdates = update
+    }
+
+    // Recompute other fields of the same record, then cache all the updates to be done for this record
+    recordUpdates = await kiss.data.relations._computeFields(model, record, update, recordUpdates, 0, transaction, cacheId)
+
+    // Remove empty properties from the updates to perform
+    Object.keys(recordUpdates).forEach(property => {
+      if (recordUpdates[property] == undefined) delete recordUpdates[property]
+    })
+
+    // No updates to perform: exit
+    if (Object.keys(recordUpdates).length == 0) return 'No updates to perform';
+
+    // Object.assign(kiss.cache[cacheId]?.[model.id]?.[record.id] ?? {}, recordUpdates)
+
+    // Add operations to the global transaction
+    transaction.addOperation({
+      modelId: model.id,
+      recordId: record.id,
+      updates: recordUpdates
+    })
+
+    return recordUpdates
+  },
+
+  async computeTransactionOnForeignFieldsToUpdate(recordUpdates, model, record, transaction, cacheId, depth) {
+    // Define all the foreign models impacted by this update.
+    // For each of them, store the impacted fields too
+    let foreignModelTargetFields = {}
+
+    Object.keys(recordUpdates).forEach(updatedFieldId => {
+      const field = model.getField(updatedFieldId)
+      if (!field) return
+      if (field && field.sourceFor) {
+        field.sourceFor.forEach(source => {
+          foreignModelTargetFields[source.modelId] = foreignModelTargetFields[source.modelId] || []
+          foreignModelTargetFields[source.modelId].push(source.fieldId)
+        })
+      }
+    })
+
+    // Loop over foreign models
+    for (const foreignModelId of Object.keys(foreignModelTargetFields)) {
+      const foreignModel = kiss.app.models[foreignModelId]
+
+      const linkField = model.getLinkField(foreignModelId)
+
+      if (linkField) {
+        const foreignRecordsToUpdate = await kiss.data.relations.getLinkedRecordsFrom(model.id, record.id, linkField.id, transaction, cacheId)
+
+        await kiss.data.relations.computeAllTransactionsToUpdate(
+          foreignModel,
+          foreignRecordsToUpdate,
+          transaction,
+          cacheId,
+          depth + 1
+        )
+      }
+    }
+  },
 
     /**
      * Compute the transaction to update a record with its relationships
@@ -55352,7 +55435,7 @@ kiss.data.relations = {
             return newValue
 
         } catch (err) {
-            // console.log("kiss.data.relations - _computeField - Field: ", field.label, " - Error:", err)
+            console.log("kiss.data.relations - _computeField - Field: ", field.label, " - Error:", err)
         }
     },
 
@@ -55468,7 +55551,13 @@ kiss.data.relations = {
      * @param {string} cacheId
      * @returns {object[]} Array of records
      */
-    async getLinkedRecordsFrom(modelId, recordId, linkFieldId, transaction, cacheId) {
+    async getLinkedRecordsFrom(
+      modelId,
+      recordId,
+      linkFieldId,
+      transaction,
+      cacheId,
+    ) {
         if (!cacheId) {
             // Build temp cache
             cacheId = kiss.tools.uid()
@@ -55476,7 +55565,7 @@ kiss.data.relations = {
 
         } else if (cacheId.startsWith("cache")) {
             // Check if records where already cached to limit the number of database access
-            return await kiss.data.relations.getLinkedRecordsFromCache(modelId, recordId, linkFieldId, transaction, cacheId)
+            // return await kiss.data.relations.getLinkedRecordsFromCache(modelId, recordId, linkFieldId, transaction, cacheId)
         }
 
         const links = kiss.data.relations.getLinksFromField(modelId, recordId, linkFieldId)
@@ -55486,6 +55575,10 @@ kiss.data.relations = {
 
         // Get links to foreign records and filters out links to deleted records
         const foreignModelId = links[0].modelId
+        if (!(foreignModelId in kiss.cache[cacheId])) {
+            kiss.cache[cacheId][foreignModelId] = {}
+        }
+
         const ids = links
             .map(link => link.recordId)
             .filter(recordId => !kiss.cache[cacheId].deletedRecords.includes(recordId))
@@ -55495,8 +55588,8 @@ kiss.data.relations = {
 
         // Get linked records from cache and stack missing ids for future retrieval
         ids.forEach(id => {
-            if (kiss.cache[cacheId][id]) {
-                records.push(kiss.cache[cacheId][id])
+            if (kiss.cache[cacheId][foreignModelId][id]) {
+                records.push(kiss.cache[cacheId][foreignModelId][id])
             } else {
                 remainingIds.push(id)
             }
@@ -55509,7 +55602,9 @@ kiss.data.relations = {
             dbRecords = await kiss.db.findById(foreignModelId, remainingIds)
 
             dbRecords.forEach(record => {
-                kiss.cache[cacheId][record.id] = record
+                kiss.cache[cacheId][foreignModelId][record.id] = record
+
+                // kiss.cache[cacheId][record.id] = record
             })
 
             // If some records were not found, add them to the cache of deleted records, to not try anymore retrieving them
@@ -55550,6 +55645,12 @@ kiss.data.relations = {
     async getLinkedRecordsFromCache(modelId, recordId, linkFieldId, transaction, cacheId) {
         const links = kiss.data.relations.getLinksFromField(modelId, recordId, linkFieldId)
 
+        console.dir({
+          modelId,
+          recordId,
+          linkFieldId,
+          links
+        }, { depth: null });
         if (links.length == 0) {
             return []
         }
@@ -57151,6 +57252,7 @@ kiss.formula = {
         "hideWhen",
         "execute",
         "_parser",
+        "_parse",
         "COUNT",
         "COUNT_EMPTY",
         "COUNT_NON_EMPTY",
@@ -57292,6 +57394,43 @@ kiss.formula = {
      * @param {Array<{label: string, id: string}>} fields - A list of record properties sorted in a way such as {{index}} will be resolved as a record property.
      * @param {Object} field - The field being processed
      * @returns {*} - The formula result
+     *
+     * @example
+     * kiss.formula.execute("SUM(4, 6)") // returns 10
+     * kiss.formula.execute("'Test: ' + (2 * SUM(3, 4))") // returns "Test: 14"
+     * kiss.formula.execute("true && !false") // returns true
+     * kiss.formula.execute("{{amount}} + {{vat}}") // returns 12 with record `{ amount: 10, vat: 2 }`
+     */
+    _parse(formula, record, fields = undefined, field) {
+        // if (field) console.log("kiss.formula - field:", field.label, "--------------------------------")
+        // console.log("kiss.formula - execute:\n", formula)
+
+        if (!this._parser) {
+          // We must create the parser here (doing it in the upper scope, it would lose the reference to kiss.formula for somewhat reason)
+          this._parser = new kiss.lib.formula.Parser({ availableFunctions: this })
+        }
+
+        const normalizedRecord = {}
+        const propertiesList = fields.map(({ id, label }) => {
+
+          // Field value can accessed either by its label or its id
+          normalizedRecord[label] = record[id]
+          normalizedRecord[id] = record[id]
+
+          return label
+        })
+
+        return this._parser.parse(formula, normalizedRecord, propertiesList)
+    },
+
+    /**
+     * Execute a formula that is an arithmetic expression mixed or not with functions calls and return the result
+     *
+     * @param {string} formula - The formula to parse and execute
+     * @param {Object} record - A record object. Each object property will be available in the formula with the following syntax: "{{property_name}}" if the corresponding entry is listed in fields.
+     * @param {Array<{label: string, id: string}>} fields - A list of record properties sorted in a way such as {{index}} will be resolved as a record property.
+     * @param {Object} field - The field being processed
+     * @returns {*} - The formula result
      * 
      * @example
      * kiss.formula.execute("SUM(4, 6)") // returns 10
@@ -57301,25 +57440,7 @@ kiss.formula = {
      */
     execute(formula, record, fields = undefined, field) {
         try {
-            // if (field) console.log("kiss.formula - field:", field.label, "--------------------------------")
-            // console.log("kiss.formula - execute:\n", formula)
-            
-            if (!this._parser) {
-                // We must create the parser here (doing it in the upper scope, it would lose the reference to kiss.formula for somewhat reason)
-                this._parser = new kiss.lib.formula.Parser({ availableFunctions: this })
-            }
-    
-            const normalizedRecord = {}
-            const propertiesList = fields.map(({ id, label }) => {
-    
-                // Field value can accessed either by its label or its id
-                normalizedRecord[label] = record[id]
-                normalizedRecord[id] = record[id]
-    
-                return label
-            })
-    
-            return this._parser.parse(formula, normalizedRecord, propertiesList)
+            return this._parse(formula, record, fields, field)
         }
         catch(err) {
             // console.error("kiss.formula.execute - error: ", err)
@@ -58996,8 +59117,135 @@ kiss.addToModule("global", {
         // Palette 3
         "BEDBE0", "B4DDED", "87BFFF", "A1BDCC", "6B8699", "6E8777", "899E91", "8AA8A4", "BACCAD", "D0D8BC", "E2D7A1", "FFE6B5", "D8C4A8", "B28C8C", "DA9BB5", "FFBBBB", "F5BCE5", "C6ADE3", "ABA2E1", "B19AB5",
         // Palette 4 (grayscale)
-        "FFFFFF", "BBBBBB", "999999", "777777", "555555", "000000"
-    ]
+        "FFFFFF", "FAFAFA", "F0F0F0", "EEEEEE", "DDDDDD", "DADADA", "D0D0D0", "CCCCCC", "C0C0C0", "BBBBBB", "AAAAAA", "999999", "888888", "777777", "666666", "555555", "444444", "333333", "222222", "000000"
+    ],
+
+    /**
+     * All ISO 639-1 language codes
+     */
+    languages: [
+        {name: "Afaan Oromoo", code: "om"},
+        {name: "Afaraf", code: "aa"},
+        {name: "Afrikaans", code: "af"},
+        {name: "Akan", code: "ak"},
+        {name: "Aragonés", code: "an"},
+        {name: "Asụsụ Igbo", code: "ig"},
+        {name: "Avañe'ẽ", code: "gn"},
+        {name: "Aymar aru", code: "ay"},
+        {name: "Azərbaycanca", code: "az"},
+        {name: "Bahasa Indonesia", code: "id"},
+        {name: "Bahasa Melayu", code: "ms"},
+        {name: "Bamanakan", code: "bm"},
+        {name: "Basa Sunda", code: "su"},
+        {name: "Bislama", code: "bi"},
+        {name: "Brezhoneg", code: "br"},
+        {name: "Bosanski", code: "bs"},
+        {name: "Català", code: "ca"},
+        {name: "Chamoru", code: "ch"},
+        {name: "Corsu", code: "co"},
+        {name: "Cymraeg", code: "cy"},
+        {name: "Čeština", code: "cs"},
+        {name: "Diné bizaad", code: "nv"},
+        {name: "Deutsch", code: "de"},
+        {name: "Eesti", code: "et"},
+        {name: "Eʋegbe", code: "ee"},
+        {name: "English", code: "en"},
+        {name: "Español", code: "es"},
+        {name: "Esperanto", code: "eo"},
+        {name: "Euskara", code: "eu"},
+        {name: "Faka‑Tonga", code: "to"},
+        {name: "Føroyskt", code: "fo"},
+        {name: "Français", code: "fr"},
+        {name: "Frysk", code: "fy"},
+        {name: "Fulfulde", code: "ff"},
+        {name: "Gaelg", code: "gv"},
+        {name: "Gaeilge", code: "ga"},
+        {name: "Gàidhlig", code: "gd"},
+        {name: "Galego", code: "gl"},
+        {name: "Gĩkũyũ", code: "ki"},
+        {name: "Hausa", code: "ha"},
+        {name: "Hiri Motu", code: "ho"},
+        {name: "Hrvatski", code: "hr"},
+        {name: "IsiNdebele", code: "nd"},
+        {name: "IsiXhosa", code: "xh"},
+        {name: "IsiZulu", code: "zu"},
+        {name: "Italiano", code: "it"},
+        {name: "Íslenska", code: "is"},
+        {name: "Kajin M̧ajeļ", code: "mh"},
+        {name: "Kanuri", code: "kr"},
+        {name: "Kashmiri", code: "ks"},
+        {name: "Kernewek", code: "kw"},
+        {name: "Kikongo", code: "kg"},
+        {name: "Kirundi", code: "rn"},
+        {name: "Kiswahili", code: "sw"},
+        {name: "Kinyarwanda", code: "rw"},
+        {name: "Kurdî", code: "ku"},
+        {name: "Lao", code: "lo"},
+        {name: "Latine", code: "la"},
+        {name: "Latviešu", code: "lv"},
+        {name: "Lëtzebuergesch", code: "lb"},
+        {name: "Lietuvių", code: "lt"},
+        {name: "Lingála", code: "ln"},
+        {name: "Luganda", code: "lg"},
+        {name: "Magyar", code: "hu"},
+        {name: "Malagasy", code: "mg"},
+        {name: "Malti", code: "mt"},
+        {name: "Māori", code: "mi"},
+        {name: "Melayu", code: "ms"},
+        {name: "Nederlands", code: "nl"},
+        {name: "Norsk", code: "no"},
+        {name: "Norsk bokmål", code: "nb"},
+        {name: "Norsk nynorsk", code: "nn"},
+        {name: "Occitan", code: "oc"},
+        {name: "Odia", code: "or"},
+        {name: "Oshikwanyama", code: "kj"},
+        {name: "Pāli", code: "pi"},
+        {name: "Polski", code: "pl"},
+        {name: "Português", code: "pt"},
+        {name: "Reo Tahiti", code: "ty"},
+        {name: "Română", code: "ro"},
+        {name: "Rumantsch", code: "rm"},
+        {name: "Русский", code: "ru"},
+        {name: "Sängö", code: "sg"},
+        {name: "Sesotho", code: "st"},
+        {name: "Setswana", code: "tn"},
+        {name: "Shqip", code: "sq"},
+        {name: "Slovenčina", code: "sk"},
+        {name: "Slovenščina", code: "sl"},
+        {name: "Soomaali", code: "so"},
+        {name: "Suomi", code: "fi"},
+        {name: "Svenska", code: "sv"},
+        {name: "Tiếng Việt", code: "vi"},
+        {name: "Türkçe", code: "tr"},
+        {name: "Yкраїнська", code: "uk"},
+        {name: "اردو", code: "ur"},
+        {name: "العربية", code: "ar"},
+        {name: "فارسی", code: "fa"},
+        {name: "עברית", code: "he"},
+        {name: "हिन्दी", code: "hi"},
+        {name: "বাংলা", code: "bn"},
+        {name: "தமிழ்", code: "ta"},
+        {name: "తెలుగు", code: "te"},
+        {name: "ไทย", code: "th"},
+        {name: "ᐃᓄᒃᑎᑐᑦ", code: "iu"},
+        {name: "日本語", code: "ja"},
+        {name: "中文", code: "zh"},
+        {name: "한국어", code: "ko"},
+        {name: "ꆇꉙ", code: "ii"},
+        {name: "བོད་སྐད་", code: "bo"},
+        {name: "རྫོང་ཁ", code: "dz"},
+        {name: "မြန်မာဘာသာ", code: "my"},
+        {name: "ქართული", code: "ka"},
+        {name: "ትግርኛ", code: "ti"},
+        {name: "አማርኛ", code: "am"},
+        {name: "ᐊᓂᔑᓈᐯᒧᐎᓐ", code: "oj"},
+        {name: "Ṣọ̀rọ̀ Yorùbá", code: "yo"},
+        {name: "Wolof", code: "wo"},
+        {name: "IsiSwati", code: "ss"},
+        {name: "Volapük", code: "vo"},
+        {name: "Tshivenḓa", code: "ve"},
+        {name: "Xitsonga", code: "ts"}
+    ]    
 })
 
 ;/**
@@ -60015,7 +60263,11 @@ kiss.addToModule("tools", {
             breadcrumb += li
         }
         breadcrumb += '</div></div></nav>'
-    }
+    },
+
+    async sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    },
 })
 
 
@@ -60213,7 +60465,7 @@ kiss.app.defineModel({
     items: [
         // Exposed fields
         {
-            id: "filename",
+            id: "originalname",
             label: "#name",
             dataType: String
         },
@@ -60729,6 +60981,7 @@ kiss.app.defineModel({
         },        
         {
             id: "type",
+            label: "#type",
             dataType: String
         },
         {
@@ -60772,7 +61025,7 @@ kiss.app.defineModel({
         },
         {
             id: "authenticatedCanReadDetails",
-            label: "#authenticatedCanReadDetails",
+            label: "#authenticated can see details",
             type: "checkbox",
             shape: "switch",
             iconColorOn: "#20c933",
@@ -60780,7 +61033,7 @@ kiss.app.defineModel({
         },
         {
             id: "accessReadDetails",
-            label: "#accessReadDetails",
+            label: "#people can see details",
             type: "directory",
             multiple: true,
             dataType: [String],
@@ -61067,7 +61320,7 @@ kiss.app.defineModel({
                 icon: model.icon,
                 headerBackgroundColor: model.color,
                 width: 600,
-                message: txtUpperCase("enter the view name"),
+                message: txtTitleCase("enter the view name"),
                 defaultValue: this.name,
                 buttonOKText: txtTitleCase("validate the new name"),
                 autoClose: false,
@@ -61100,7 +61353,7 @@ kiss.app.defineModel({
                 icon: "fas fa-copy",
                 headerBackgroundColor: model.color,
                 width: 600,
-                message: txtUpperCase("enter the view name"),
+                message: txtTitleCase("enter the view name"),
                 buttonOKText: txtTitleCase("create the new view"),
                 autoClose: false,
     
@@ -61142,7 +61395,6 @@ kiss.app.defineModel({
             let message =
                 `<center>
                 ${txtTitleCase("#delete view message")}
-                <br><br>
                 <b>${model.namePlural.toTitleCase()} / ${this.name.toTitleCase()}</b>
                 </center>`
 
@@ -61152,10 +61404,7 @@ kiss.app.defineModel({
                 message: message,
                 width: 600,
                 buttonOKText: txtTitleCase("delete the view"),
-                buttonOKPosition: "left",
-                closable: false,
-                autoClose: false,
-
+                modal: true,
                 action: async () => {
                     await this.delete()
 

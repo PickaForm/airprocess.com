@@ -638,13 +638,13 @@ function getNextLanguage() {
             title: {
                 en: `What you can <span class="text-highlight" style="background-color: #00aaee">build</span>
                 <br>
-                is up to your <span class="text-highlight" style="background-color: #aaee00">imagination</span>`,
+                is up to your <span class="text-highlight" style="background-color: #c1c1c1">imagination</span>`,
                 fr: `Ce que vous pouvez <span class="text-highlight" style="background-color: #00aaee">créer</span>
                 <br>
-                dépend de votre <span class="text-highlight" style="background-color: #aaee00">imagination</span>`,
+                dépend de votre <span class="text-highlight" style="background-color: #c1c1c1">imagination</span>`,
                 es: `Lo que puedes <span class="text-highlight" style="background-color: #00aaee">construir</span>
                 <br>
-                depende de tu <span class="text-highlight" style="background-color: #aaee00">imaginación</span>`
+                depende de tu <span class="text-highlight" style="background-color: #c1c1c1">imaginación</span>`
             },
             subtitle: {
                 en: "With no-code, combine your custom forms and workflows to create an infinite number of different tools.",
@@ -1461,10 +1461,10 @@ function getNextLanguage() {
                 title: "Legal",
                 items: [{
                     label: t("Privacy"),
-                    action: () => window.open(blogUrl + "/politique-de-confidentialite", "_new")
+                    action: () => window.open(`./privacy-policy-${kiss.language.current}.html`, "_new")
                 }, {
                     label: t("Terms"),
-                    action: () => window.open(blogUrl + "/mentions-legales", "_new")
+                    action: () => window.open(`./terms-of-service-${kiss.language.current}.html`, "_new")
                 }]
             }
         ]
@@ -1514,13 +1514,13 @@ function getNextLanguage() {
             titlePitchline: {
                 en: `Best <span class="text-highlight" style="background-color: #00aaee">no-code</span> platform
                 <br>
-                for your <span class="text-highlight" style="background-color: #aaee00">processes</span>`,
+                for your <span class="text-highlight" style="background-color: #c1c1c1">processes</span>`,
                 fr: `La meilleure plateforme <span class="text-highlight" style="background-color: #00aaee">no-code</span>
                 <br>
-                pour vos <span class="text-highlight" style="background-color: #aaee00">process</span>`,
+                pour vos <span class="text-highlight" style="background-color: #c1c1c1">process</span>`,
                 es: `La mejor plataforma <span class="text-highlight" style="background-color: #00aaee">no-code</span>
                 <br>
-                para sus <span class="text-highlight" style="background-color: #aaee00">procesos</span>`
+                para sus <span class="text-highlight" style="background-color: #c1c1c1">procesos</span>`
             },
             subtitlePitchline: {
                 en: "Build your processes in minutes.<br>Collaborate instantly.",
@@ -2248,7 +2248,9 @@ function getNextLanguage() {
                     alt: "airprocess logo",
                     src: "./resources/img/airprocess.webp",
                     width: 256,
-                    height: 60
+                    height: 60,
+                    position: "absolute",
+                    style: "-webkit-box-reflect: below -18px linear-gradient(rgba(0, 0, 0, 0.1), transparent);"
                 },
                 {
                     type: "spacer",
@@ -2434,15 +2436,15 @@ function getNextLanguage() {
             nocoders: {
                 en: `<br>
                 <br>
-                You are a <span class="text-highlight" style="background-color: #00aaee">Freelance NoCoder</span> or a <span class="text-highlight" style="background-color: #aaee00">NoCode Agency</span>?
+                You are a <span class="text-highlight" style="background-color: #00aaee">Freelance NoCoder</span> or a <span class="text-highlight" style="background-color: #c1c1c1">NoCode Agency</span>?
                 <br>Claim your special offer by scheduling an appointment <a href="https://calendly.com/airprocess/airprocess-live-demo">here</a>`,
                 fr: `<br>
                 <br>
-                Vous êtes un <span class="text-highlight" style="background-color: #00aaee">NoCodeur Freelance</span> ou une <span class="text-highlight" style="background-color: #aaee00">Agence NoCode</span> ?
+                Vous êtes un <span class="text-highlight" style="background-color: #00aaee">NoCodeur Freelance</span> ou une <span class="text-highlight" style="background-color: #c1c1c1">Agence NoCode</span> ?
                 <br>Demandez votre offre spéciale en prenant RDV <a href="https://calendly.com/airprocess/airprocess-live-demo">ici</a>`,
                 es: `<br>
                 <br>
-                ¿Eres un <span class="text-highlight" style="background-color: #00aaee">NoCoder Freelance</span> o una <span class="text-highlight" style="background-color: #aaee00">Agencia NoCode</span>?
+                ¿Eres un <span class="text-highlight" style="background-color: #00aaee">NoCoder Freelance</span> o una <span class="text-highlight" style="background-color: #c1c1c1">Agencia NoCode</span>?
                 <br>Reclama tu oferta especial programando una cita <a href="https://calendly.com/airprocess/airprocess-live-demo">aquí</a>`
             },
             unlimitedForms: {
@@ -2771,13 +2773,13 @@ function getNextLanguage() {
             title: {
                 en: `Super <span class="text-highlight" style="background-color: #00aaee">simple</span>
                 <br>
-                Really <span class="text-highlight" style="background-color: #aaee00">powerful</span>`,
+                Really <span class="text-highlight" style="background-color: #c1c1c1">powerful</span>`,
                 fr: `Super <span class="text-highlight" style="background-color: #00aaee">simple</span>
                 <br>
-                Vraiment <span class="text-highlight" style="background-color: #aaee00">puissant</span>`,
+                Vraiment <span class="text-highlight" style="background-color: #c1c1c1">puissant</span>`,
                 es: `Súper <span class="text-highlight" style="background-color: #00aaee">simple</span>
                 <br>
-                Realmente <span class="text-highlight" style="background-color: #aaee00">poderoso</span>`
+                Realmente <span class="text-highlight" style="background-color: #c1c1c1">poderoso</span>`
             },
             subtitle: {
                 en: "Create your own business tool and start saving time.",

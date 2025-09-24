@@ -139,10 +139,10 @@ kiss.app.defineView({
                 title: "Legal",
                 items: [{
                     label: t("Privacy"),
-                    action: () => window.open(blogUrl + "/politique-de-confidentialite", "_new")
+                    action: () => window.open(`./privacy-policy-${kiss.language.current}.html`, "_new")
                 }, {
                     label: t("Terms"),
-                    action: () => window.open(blogUrl + "/mentions-legales", "_new")
+                    action: () => window.open(`./terms-of-service-${kiss.language.current}.html`, "_new")
                 }]
             }
         ]

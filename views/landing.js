@@ -22,13 +22,13 @@ kiss.app.defineView({
             titlePitchline: {
                 en: `Best <span class="text-highlight" style="background-color: #00aaee">no-code</span> platform
                 <br>
-                for your <span class="text-highlight" style="background-color: #aaee00">processes</span>`,
+                for your <span class="text-highlight" style="background-color: #c1c1c1">processes</span>`,
                 fr: `La meilleure plateforme <span class="text-highlight" style="background-color: #00aaee">no-code</span>
                 <br>
-                pour vos <span class="text-highlight" style="background-color: #aaee00">process</span>`,
+                pour vos <span class="text-highlight" style="background-color: #c1c1c1">process</span>`,
                 es: `La mejor plataforma <span class="text-highlight" style="background-color: #00aaee">no-code</span>
                 <br>
-                para sus <span class="text-highlight" style="background-color: #aaee00">procesos</span>`
+                para sus <span class="text-highlight" style="background-color: #c1c1c1">procesos</span>`
             },
             subtitlePitchline: {
                 en: "Build your processes in minutes.<br>Collaborate instantly.",

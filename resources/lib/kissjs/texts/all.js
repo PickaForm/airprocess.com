@@ -208,6 +208,11 @@ kiss.language.texts = {
         fr: "refaire la dernière modification",
         es: "rehacer la última modificación"
     },
+    "#type": {
+        en: "type",
+        fr: "type",
+        es: "tipo"
+    },
 
     /**
      * Authentication & Registration
@@ -662,6 +667,15 @@ kiss.language.texts = {
         fr: "ajouter une image depuis Unsplash",
         es: "añadir imagen desde Unsplash"
     },
+    "#delete image": {
+        en: "delete the image",
+        fr: "supprimer l'image",
+        es: "eliminar la imagen"
+    },
+    "insert table": {
+        fr: "insérer un tableau",
+        es: "insertar tabla",
+    },    
     "#file attachment": {
         en: "attach a file",
         fr: "attacher un fichier",
@@ -1059,9 +1073,10 @@ kiss.language.texts = {
         fr: "copiez/collez l'URL d'un fichier dans le champ ci-dessous, cliquez sur Ajouter le fichier depuis l'URL, puis Télécharger",
         es: "copia/pega la URL de un archivo en el campo de abajo, haz clic en Añadir archivo desde URL y luego en Subir..."
     },
-    "web search": {
-        fr: "recherche web",
-        es: "búsqueda web"
+    "#web search": {
+        en: "web image search",
+        fr: "recherche d'images web",
+        es: "búsqueda de imágenes web"
     },
     "take photo": {
         fr: "prendre une photo",
@@ -1077,9 +1092,9 @@ kiss.language.texts = {
         es: "abrir la webcam"
     },
     "#take photo": {
-        en: "click Take photo to add image",
-        fr: "cliquez sur Prendre une photo pour ajouter une image",
-        es: "haz clic en Tomar foto para añadir una imagen"
+        en: "click here to take a photo and add it",
+        fr: "cliquez ici pour prendre une photo et l'ajouter",
+        es: "haz clic aquí para tomar una foto y añadirla"
     },
     "#upload web search help": {
         en: "search images on the web using the search field below",

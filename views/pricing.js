@@ -32,15 +32,15 @@ kiss.app.defineView({
             nocoders: {
                 en: `<br>
                 <br>
-                You are a <span class="text-highlight" style="background-color: #00aaee">Freelance NoCoder</span> or a <span class="text-highlight" style="background-color: #aaee00">NoCode Agency</span>?
+                You are a <span class="text-highlight" style="background-color: #00aaee">Freelance NoCoder</span> or a <span class="text-highlight" style="background-color: #c1c1c1">NoCode Agency</span>?
                 <br>Claim your special offer by scheduling an appointment <a href="https://calendly.com/airprocess/airprocess-live-demo">here</a>`,
                 fr: `<br>
                 <br>
-                Vous êtes un <span class="text-highlight" style="background-color: #00aaee">NoCodeur Freelance</span> ou une <span class="text-highlight" style="background-color: #aaee00">Agence NoCode</span> ?
+                Vous êtes un <span class="text-highlight" style="background-color: #00aaee">NoCodeur Freelance</span> ou une <span class="text-highlight" style="background-color: #c1c1c1">Agence NoCode</span> ?
                 <br>Demandez votre offre spéciale en prenant RDV <a href="https://calendly.com/airprocess/airprocess-live-demo">ici</a>`,
                 es: `<br>
                 <br>
-                ¿Eres un <span class="text-highlight" style="background-color: #00aaee">NoCoder Freelance</span> o una <span class="text-highlight" style="background-color: #aaee00">Agencia NoCode</span>?
+                ¿Eres un <span class="text-highlight" style="background-color: #00aaee">NoCoder Freelance</span> o una <span class="text-highlight" style="background-color: #c1c1c1">Agencia NoCode</span>?
                 <br>Reclama tu oferta especial programando una cita <a href="https://calendly.com/airprocess/airprocess-live-demo">aquí</a>`
             },
             unlimitedForms: {

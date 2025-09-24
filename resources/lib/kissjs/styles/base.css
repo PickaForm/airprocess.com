@@ -86,11 +86,14 @@ input:focus, textarea:focus, select:focus {
     outline: none;
 }
 
-/* Scrollbars (webkit only) */
+/* Scrollbars */
 ::-webkit-scrollbar {
     height: var(--webkit-scrollbar-height);
     width: var(--webkit-scrollbar-width);
-    background-color: var(--scrollbar-background);
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bluebody-background-alt);
 }
 
 ::-webkit-scrollbar-corner {
@@ -98,7 +101,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--scrollbar);
+    background: var(--body-background-alt);
     border-radius: var(--webkit-scrollbar-thumb-border-radius);
 }
 
@@ -106,10 +109,9 @@ input:focus, textarea:focus, select:focus {
     background: var(--scrollbar-hover);
 }
 
-/* Scrollbars (Firefox) */
 * {
     scrollbar-width: thin !important;
-    scrollbar-color: var(--scrollbar);
+    scrollbar-color: var(--body-alt) var(--body-background-alt);
 }
 
 /* Underline effects (currently used by form tabs) */
@@ -167,13 +169,8 @@ input:focus, textarea:focus, select:focus {
     padding: 2rem;
     color: var(--body-background);
     background: var(--body);
-    font-size: 1.8rem;
     font-weight: bold;
-    border-style: solid;
-    border-color: var(--body-background);
-    border-width: 1px;
     border-radius: 1rem;
-    box-shadow: var(--shadow-4);
     cursor: pointer;
 }
 

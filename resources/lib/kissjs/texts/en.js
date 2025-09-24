@@ -35,6 +35,9 @@ kiss.language.texts = {
     "redo": {
         en: "redo last change"
     },
+    "#type": {
+        en: "type"
+    },
     "#no account": {
         en: "don't have an account? Sign up"
     },
@@ -140,6 +143,9 @@ kiss.language.texts = {
     "#image from unsplash": {
         en: "add an image from Unsplash"
     },
+    "#delete image": {
+        en: "delete the image"
+    },
     "#file attachment": {
         en: "attach a file"
     },
@@ -212,11 +218,14 @@ kiss.language.texts = {
     "#upload link help": {
         en: "copy/paste the URL of a file in the field below, click Add file from URL then Upload..."
     },
+    "#web search": {
+        en: "web image search"
+    },
     "#upload webcam help": {
         en: "please click on Open Webcam button to capture an image..."
     },
     "#take photo": {
-        en: "click Take photo to add image"
+        en: "click here to take a photo and add it"
     },
     "#upload web search help": {
         en: "search images on the web using the search field below"
@@ -244,9 +253,6 @@ kiss.language.texts = {
     },
     "#name": {
         en: "name"
-    },
-    "#type": {
-        en: "type"
     },
     "#mime type": {
         en: "type"

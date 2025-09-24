@@ -32,13 +32,13 @@ kiss.app.defineView({
             title: {
                 en: `What you can <span class="text-highlight" style="background-color: #00aaee">build</span>
                 <br>
-                is up to your <span class="text-highlight" style="background-color: #aaee00">imagination</span>`,
+                is up to your <span class="text-highlight" style="background-color: #c1c1c1">imagination</span>`,
                 fr: `Ce que vous pouvez <span class="text-highlight" style="background-color: #00aaee">créer</span>
                 <br>
-                dépend de votre <span class="text-highlight" style="background-color: #aaee00">imagination</span>`,
+                dépend de votre <span class="text-highlight" style="background-color: #c1c1c1">imagination</span>`,
                 es: `Lo que puedes <span class="text-highlight" style="background-color: #00aaee">construir</span>
                 <br>
-                depende de tu <span class="text-highlight" style="background-color: #aaee00">imaginación</span>`
+                depende de tu <span class="text-highlight" style="background-color: #c1c1c1">imaginación</span>`
             },
             subtitle: {
                 en: "With no-code, combine your custom forms and workflows to create an infinite number of different tools.",

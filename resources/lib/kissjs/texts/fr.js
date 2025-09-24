@@ -134,6 +134,9 @@ kiss.language.texts = {
     "redo": {
         fr: "refaire la dernière modification"
     },
+    "#type": {
+        fr: "type"
+    },
     "name": {
         fr: "nom"
     },
@@ -422,6 +425,12 @@ kiss.language.texts = {
     "#image from unsplash": {
         fr: "ajouter une image depuis Unsplash"
     },
+    "#delete image": {
+        fr: "supprimer l'image"
+    },
+    "insert table": {
+        fr: "insérer un tableau"
+    },
     "#file attachment": {
         fr: "attacher un fichier"
     },
@@ -680,8 +689,8 @@ kiss.language.texts = {
     "#upload link help": {
         fr: "copiez/collez l'URL d'un fichier dans le champ ci-dessous, cliquez sur Ajouter le fichier depuis l'URL, puis Télécharger"
     },
-    "web search": {
-        fr: "recherche web"
+    "#web search": {
+        fr: "recherche d'images web"
     },
     "take photo": {
         fr: "prendre une photo"
@@ -693,7 +702,7 @@ kiss.language.texts = {
         fr: "Ouvrir la webcam"
     },
     "#take photo": {
-        fr: "cliquez sur Prendre une photo pour ajouter une image"
+        fr: "cliquez ici pour prendre une photo et l'ajouter"
     },
     "#upload web search help": {
         fr: "recherchez des images sur le web via le champ de recherche ci-dessous"
@@ -748,9 +757,6 @@ kiss.language.texts = {
     },
     "#name": {
         fr: "nom"
-    },
-    "#type": {
-        fr: "type"
     },
     "#mime type": {
         fr: "type"

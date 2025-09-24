@@ -95,8 +95,22 @@
 .ql-caption {
     text-align: center;
 }
-/* RICH TEXT FIELD */
-/* CODE EDITOR FIELD */
+
+.qlbt-col-tool {
+    display: none !important;
+}
+
+.ql-editor .quill-better-table {
+    width: 100% !important;
+    table-layout: fixed !important;
+}
+
+.ql-editor .quill-better-table td, .quill-better-table th {
+    width: 100% !important;
+    word-wrap: break-word;
+}
+
+/* RICH TEXT FIELD *//* CODE EDITOR FIELD */
 .a-codeeditor {
     display: inline-flex;
     flex-flow: row;
@@ -177,6 +191,10 @@
 }
 /* /DIRECTORY FIELD */
 /* LINK FIELD */
+.a-link .field-select {
+    background: none;
+    border: none;
+}
 
 /* FIELD VALUE */
 .field-link-value {
@@ -219,23 +237,20 @@
     line-height: 1.6rem;
     display: inline;
     white-space: nowrap;
-    font-size: var(--field-font-size);
-
+    font-size: 1.2rem;
     margin: var(--field-select-value-margin);
     padding: var(--field-select-value-padding);
-
     color: var(--field);
     background: var(--field-background);
-    
     border-color: var(--field-border);
     border-style: solid;
+    border-width: 1px;
     border-radius: var(--field-select-value-border-radius);
     cursor: pointer;
 }
 
 .field-link-value-cell:hover {
-    color: #ffffff;
-    background-color: #556677;
+    background-color: var(--body-background-alt);
 }
 
 /* LINK BUTTONS (ADD / LINK / EXPAND) */
