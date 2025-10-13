@@ -277,6 +277,30 @@ kiss.language.texts = {
         fr: "merci ! Vous allez bientôt recevoir un email contenant un lien pour activer votre compte...",
         es: "¡Gracias! Pronto recibirás un correo electrónico con un enlace para activar tu cuenta..."
     },
+    "#login page": {
+        en: "login page",
+        fr: "page de connexion",
+        es: "página de inicio de sesión"
+    },
+    "#login page help": {
+        en: "customize the login page with your own logo and colors",
+        fr: "personnalisez la page de connexion avec votre propre logo et vos couleurs",
+        es: "personaliza la página de inicio de sesión con tu propio logo y colores"
+    },
+    "logo image": {
+        fr: "image du logo",
+        es: "imagen del logo"
+    },
+    "#copy login url": {
+        en: "copy the link to your custom login page",
+        fr: "copier le lien vers votre page de connexion personnalisée",
+        es: "copiar el enlace a tu página de inicio de sesión personalizada"
+    },
+    "#copy register url": {
+        en: "copy the link to your custom register page",
+        fr: "copier le lien vers votre page d'inscription personnalisée",
+        es: "copiar el enlace a tu página de registro personalizada"
+    },
 
     /**
      * Password change
@@ -2068,9 +2092,9 @@ kiss.language.texts = {
         es: "redondeado"
     },
     "#theme builder": {
-        en: "CSS theme creation",
-        fr: "création de thème CSS",
-        es: "creación de tema CSS"
+        en: "theme creation",
+        fr: "création de thème",
+        es: "creación de tema"
     },
     "#download theme": {
         en: "download the theme",

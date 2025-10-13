@@ -4347,10 +4347,8 @@ kiss.ux.Link = class Link extends kiss.ui.Select {
     async _deleteLink(linkId) {
         createDialog({
             title: txtTitleCase("delete a link"),
-            type: "dialog",
+            type: "danger",
             message: txtTitleCase("#delete link"),
-            colorOK: "var(--red)",
-            colorCancel: "var(--green)",
             action: async () => {
                 const success = await this.record.deleteLink(linkId)
                 if (!success) return
@@ -4641,6 +4639,7 @@ const createLink = (config) => document.createElement("a-link").init(config)
  * @param {function} config.action - Action triggered when the last page of the wizard is validated. The function is called with the wizard panel as context, so that this.getData() can be used to get the data of all fields of the wizard.
  * @param {object} [config.actionText] - Text of the action button of the last page, like "Done", "Proceed", "Let's go". Default = "OK"
  * @param {boolean} [config.pageValidation] - If true, validate each page when navigating next/previous. Default = false
+ * @param {boolean} [config.showCancelButton] - If true, show a cancel button to close the wizard panel. Default = false
  * @returns this
  * 
  * ## Generated markup
@@ -4741,10 +4740,17 @@ kiss.ux.WizardPanel = class WizardPanel extends kiss.ui.Panel {
      *     }
      *  }
      * }
+     * ```
      * 
      * Use this in combination with "pageValidation" property in the wizard panel config.
      * If you don't need a specific validation, "pageValidation" will validate all the pages as normal forms, checking for validation rules of each field.
+     * A validation function can be asynchronous, returning a Promise that resolves to true or false.
+     * 
+     * You can navigate to a specific page of the wizard programmatically using the **showPage** method:
      * ```
+     * wizardPanel.showPage(2) // Show the 3rd page (index is 0-based)
+     * ```
+     * Note this will skip the validation of the current page, if any.
      * 
      */
     constructor() {
@@ -4815,12 +4821,11 @@ kiss.ux.WizardPanel = class WizardPanel extends kiss.ui.Panel {
         const items = [
             {
                 id: this.id + "-pages",
+                display: "flex",
+                flex: 1,
+                width: "100%",
                 multiview: true,
                 items: config.items
-            },
-            {
-                type: "spacer",
-                flex: 1
             },
             {
                 id: this.id + "-buttons",
@@ -4852,7 +4857,7 @@ kiss.ux.WizardPanel = class WizardPanel extends kiss.ui.Panel {
      */
     _initButtons(config) {
         this.buttonCancel = {
-            hidden: (config.closable === false),
+            hidden: (config.showCancelButton !== true),
             icon: "fas fa-times",
             text: txtTitleCase("cancel"),
             action: function () {
@@ -4881,8 +4886,11 @@ kiss.ux.WizardPanel = class WizardPanel extends kiss.ui.Panel {
             icon: "fas fa-check",
             text: config.actionText || "OK",
             class: "button-ok",
-            action: () => {
-                if (this.pageValidation && !this.validatePage()) return
+            action: async () => {
+                if (this.pageValidation) {
+                    const isValid = await this.validatePage()
+                    if (!isValid) return
+                }
 
                 if (config.action) {
                     // If an action is defined, call it with the wizard panel as context
@@ -4930,20 +4938,30 @@ kiss.ux.WizardPanel = class WizardPanel extends kiss.ui.Panel {
      * Validates the form of a wizard page.
      * Prevents from navigating to the next page if the form is not validated.
      * 
+     * @async
      * @param {number} [pageIndex] - Optional wizard's page to validate. If not specified, tries to validate the current page.
      */
-    validatePage(pageIndex) {
+    async validatePage(pageIndex) {
         this.pages = $(this.id + "-pages").children
         if (!this.pages) return true
         const currentPage = this.pages[pageIndex || this.currentPage]
-        return (currentPage.validate) ? currentPage.validate() : true
+
+        if (currentPage.validate && typeof currentPage.validate === "function") {
+            const isValid = await currentPage.validate()
+            return isValid
+        }
+
+        return true
     }
 
     /**
      * Navigate to the next wizard page
      */
-    next() {
-        if (this.pageValidation && !this.validatePage()) return
+    async next() {
+        if (this.pageValidation) {
+            const isValid = await this.validatePage()
+            if (!isValid) return
+        }
 
         this.currentPage++
         this._updateButtons()
@@ -4967,6 +4985,25 @@ kiss.ux.WizardPanel = class WizardPanel extends kiss.ui.Panel {
         
         $(this.id + "-pages").showItem(this.currentPage, {
             name: "slideInLeft",
+            speed: "faster"
+        })
+
+        $(this.id).updateLayout()
+    }
+
+    /**
+     * Show a specific wizard page
+     * 
+     * @param {number} index 
+     */
+    showPage(index) {
+        const direction = (index < this.currentPage) ? "Left" : "Right"
+        this.currentPage = index
+        this._updateButtons()
+        this._updateTitle()
+
+        $(this.id + "-pages").showItem(this.currentPage, {
+            name: "slideIn" + direction,
             speed: "faster"
         })
 

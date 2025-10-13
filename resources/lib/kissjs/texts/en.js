@@ -50,6 +50,18 @@ kiss.language.texts = {
     "#thanks for registration": {
         en: "thank you! You will soon receive an email containing a link to activate your account..."
     },
+    "#login page": {
+        en: "login page"
+    },
+    "#login page help": {
+        en: "customize the login page with your own logo and colors"
+    },
+    "#copy login url": {
+        en: "copy the link to your custom login page"
+    },
+    "#copy register url": {
+        en: "copy the link to your custom register page"
+    },
     "#password don't match": {
         en: "Your 2 passwords don't match"
     },
@@ -450,7 +462,7 @@ kiss.language.texts = {
         en: "some data"
     },
     "#theme builder": {
-        en: "CSS theme creation"
+        en: "theme creation"
     },
     "#download theme": {
         en: "download the theme"

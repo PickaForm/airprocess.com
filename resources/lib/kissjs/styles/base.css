@@ -20,10 +20,10 @@
 *    Use "rem" instead so your interface can scale properly by adjusting the font-size of the root element.
 */
 html {
-    
+
     /* MOST IMPORTANT PARAMETER TO SCALE THE ENTIRE UI */
     font-size: 62.5%;
-    
+
     /* Reset default browser styles */
     min-height: 100%;
     box-sizing: border-box;
@@ -82,7 +82,9 @@ ul {
 }
 
 /* Remove default field outline */
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
     outline: none;
 }
 
@@ -152,7 +154,7 @@ input:focus, textarea:focus, select:focus {
 /* Highlight UI elements - Used for onboarding quick tips */
 .highlight-overlay {
     position: absolute;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     user-select: none;
     z-index: 9999;
 }
@@ -172,6 +174,17 @@ input:focus, textarea:focus, select:focus {
     font-weight: bold;
     border-radius: 1rem;
     cursor: pointer;
+}
+
+.transparent-bg {
+    background-color: white;
+    background-image:
+        linear-gradient(45deg, #ccc 25%, transparent 25%),
+        linear-gradient(-45deg, #ccc 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ccc 75%),
+        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 1rem 1rem;
+    background-position: 0 0, 0 10px, 10px -1rem, -1rem 0;
 }
 
 @keyframes highlight-arrow-vertical {
@@ -230,8 +243,9 @@ input:focus, textarea:focus, select:focus {
 
     /* Mask filter */
     --backdrop-filter: blur(4px);
-    
+
     /* Loading overlay */
     --background-overlay: rgba(27, 11, 11, 0.3);
 }
+
 /* BASE CSS PARAMETERS */

@@ -50,7 +50,7 @@
     --button-font-weight: normal;
     --button-icon-padding: 0;
     --button-icon-font-size: 1.4rem;
-    --button-border-style: solid;
+    --button-border-style: none;
     --button-border-width: 1px;
     --button-border-radius: 2rem;
     --button-width: 100%;

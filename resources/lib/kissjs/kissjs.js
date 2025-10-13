@@ -39,7 +39,7 @@ const kiss = {
     $KissJS: "KissJS - Keep It Simple Stupid Javascript",
 
     // Build number
-    version: 4830,
+    version: 4876,
     
     // Tell isomorphic code we're on the client side
     isClient: true,
@@ -7007,7 +7007,7 @@ kiss.pubsub = {
                 let subscription = kiss.pubsub.subscriptions[channel][channelSubscriptionId]
                 let description = kiss.pubsub.subscriptions[channel][channelSubscriptionId].description
 
-                log("-----------------------------------------------------------------")
+                log("---")
                 log.info("Subscription " + counter.pad(5) + " - subscription id: " + channelSubscriptionId)
                 if (description) log.ack("Description: ", description)
                 if (showFunction) log.ack("Function: ", subscription)
@@ -7518,7 +7518,16 @@ kiss.screen = {
      * 
      * @returns {boolean}
      */
-    isTouch: () => 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0,
+    isTouch: () => {
+        try {
+            const hasTouchEvents = 'ontouchstart' in window
+            const hasTrueTouchPoints = navigator.maxTouchPoints > 0 && matchMedia('(pointer: coarse)').matches
+
+            return hasTouchEvents || hasTrueTouchPoints
+        } catch {
+            return false
+        }
+    },
 
     /**
      * Store the last click position on the screen
@@ -9630,7 +9639,31 @@ kiss.session = {
      */
     hideWebsocketMessage() {
         if ($("websocket-message")) $("websocket-message").remove()
-    }    
+    },
+
+    /**
+     * Retrieve the branding informations for the specified account, if any.
+     * This can be used to brand the login screen for example
+     * 
+     * @param {string} accountId 
+     * @returns {object} The branding object
+     * 
+     * @example
+     * {
+     *   "logo": "https://mydomain.com/mylogo.png",
+     *   "backgroundColor1": "#4A90E2",
+     *   "backgroundColor2": "#9013FE",
+     *   "gradientDirection": "to right"
+     * }
+     */
+    async getBranding(accountId) {
+        kiss.session.branding = await kiss.ajax.request({
+            url: `/branding/get/${accountId}`,
+            method: "get"
+        })
+
+        return kiss.session.branding
+    }
 }
 
 ;/**
@@ -9880,8 +9913,8 @@ kiss.theme = {
             responsiveOptions = {
                 top: () => 0,
                 left: () => 0,
-                width: "100%",
-                height: "100%",
+                width: "100vw",
+                height: "100vh",
                 borderRadius: "0 0 0 0",
                 align: "center",
                 draggable: false
@@ -9899,10 +9932,10 @@ kiss.theme = {
         }
 
         const titleStyle = {
-            fontSize: "2rem",
+            fontSize: "1.8rem",
             fontWeight: "bold",
             textAlign: "center",
-            margin: "4rem 0 1.5rem 0",
+            margin: "2rem 0 1.5rem 0",
             padding: "0 0 1rem 0",
             borderStyle: "solid",
             borderWidth: "0 0 1px 0",
@@ -9918,11 +9951,10 @@ kiss.theme = {
             type: "button",
             icon: "fas fa-palette",
             flex: 1,
-            height: "5rem",
+            height: "4rem",
             width: "calc(100% - 2rem)",
-            margin: "1rem",
+            margin: "0.5rem 1rem",
             iconSize: "2.4rem",
-            fontSize: "1.6rem",
             textAlign: "left",
             events: {
                 mouseover: function() {
@@ -9942,9 +9974,9 @@ kiss.theme = {
             closable: true,
             width: "30rem",
             left: () => "calc(100% - 31rem)",
-            maxHeight: () => "calc(100% - 2rem)",
-            padding: "1rem",
+            height: "calc(100vh - 2rem)",
             overflowY: "auto",
+            padding: "1rem",
             zIndex: 1000,
             headerStyle: "flat",
 
@@ -10078,6 +10110,7 @@ kiss.theme = {
                     defaultConfig,
                     ...blockStyle,
                     textAlign: "center",
+                    flex: 1,
                     items: [
                         {
                             text: txtTitleCase("compact"),
@@ -10113,6 +10146,7 @@ kiss.theme = {
                             step: 0.5,
                             width: "95%",
                             unit: "%",
+                            height: "5rem",
                             events: {
                                 change: function () {
                                     const newSize = this.getValue()
@@ -11199,7 +11233,7 @@ kiss.tools = {
      * @param {object} config
      * @param {string} config.element - HTMLElement to highlight
      * @param {string} config.text - The legend
-     * @param {string} config.position - The position of the legend: "bottom" | "left"
+     * @param {string} config.position - The position of the legend: "top" | "right" | "bottom" | "left"
      */
     highlight({
         element,
@@ -14352,7 +14386,15 @@ kiss.ui.Component = class Component extends HTMLElement {
         if (!this.isConnected) {
             // Add custom classes
             if (this.config && this.config.classes) this._dispatchClasses(this.config.classes)
-            if (this.config && this.config.class) this.classList.add(this.config.class)
+            
+            if (this.config && this.config.class) {
+                if (this.config.class.includes(" ")) {
+                    this.config.class.split(" ").forEach(c => this.classList.add(c))
+                }
+                else {
+                    this.classList.add(this.config.class)
+                }
+            }
 
             // Add custom styles
             if (this.config && this.config.styles) this._dispatchStyles(this.config.styles)
@@ -15597,7 +15639,12 @@ kiss.ui.Container = class Container extends kiss.ui.Component {
 
         Array.from(this.getContainer().children).forEach(function (item) {
             if (item.items) {
-                values.push(item.getFields())
+                if (item.getValue && typeof item.getValue == "function") {
+                    values.push(item)
+                }
+                else {
+                    values.push(item.getFields())
+                }
             } else {
                 if (kiss.global.fieldTypes.map(type => type.value).indexOf(item.type) != -1) {
                     values.push(item)
@@ -17997,6 +18044,7 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
  * @param {string} [config.alignItems]
  * @param {string} [config.alignContent]
  * @param {string} [config.justifyContent]
+ * @param {string} [config.gap]
  * @param {string|number} [config.width]
  * @param {string|number} [config.minWidth]
  * @param {string|number} [config.maxWidth]
@@ -18122,7 +18170,7 @@ kiss.ui.Block = class Block extends kiss.ui.Container {
                 [this]
             ],
             [
-                ["display", "padding", "margin", "position", "top", "left", "right", "overflow", "overflowX", "overflowY", "flex", "flexFlow", "flexWrap", "flexGrow", "flexShrink", "alignItems", "alignContent", "justifyContent", "width", "height", "minWidth", "minHeight", "maxWidth", "maxHeight", "background", "backgroundColor", "backgroundImage", "backgroundSize", "border", "borderStyle", "borderWidth", "borderColor", "borderRadius", "boxShadow", "zIndex", "transform"],
+                ["display", "padding", "margin", "position", "top", "left", "right", "overflow", "overflowX", "overflowY", "flex", "flexFlow", "flexWrap", "flexGrow", "flexShrink", "alignItems", "alignContent", "justifyContent", "gap", "width", "height", "minWidth", "minHeight", "maxWidth", "maxHeight", "background", "backgroundColor", "backgroundImage", "backgroundSize", "border", "borderStyle", "borderWidth", "borderColor", "borderRadius", "boxShadow", "zIndex", "transform"],
                 [this.style]
             ]
         ])
@@ -18211,6 +18259,7 @@ const createBlock = (config) => document.createElement("a-block").init(config)
  * @param {string} [config.alignItems]
  * @param {string} [config.alignContent]
  * @param {string} [config.justifyContent]
+ * @param {string} [config.gap]
  * @param {string|number} [config.width]
  * @param {string|number} [config.minWidth]
  * @param {string|number} [config.maxWidth]
@@ -18447,7 +18496,7 @@ kiss.ui.Panel = class Panel extends kiss.ui.Container {
                 Array.from(this.panelButtons).map(panelButton => panelButton.style)
             ],
             [
-                ["display", "flexFlow", "flexWrap", "alignItems", "alignContent", "justifyContent", "padding", "overflow", "overflowX", "overflowY", "background", "backgroundColor", "backgroundImage", "backgroundSize", "borderRadius", "bodyBorderRadius=borderRadius"],
+                ["display", "flexFlow", "flexWrap", "alignItems", "alignContent", "justifyContent", "gap", "padding", "overflow", "overflowX", "overflowY", "background", "backgroundColor", "backgroundImage", "backgroundSize", "borderRadius", "bodyBorderRadius=borderRadius"],
                 [this.panelBody.style]
             ],
             [
@@ -18841,8 +18890,8 @@ kiss.ui.Panel = class Panel extends kiss.ui.Container {
      * 
      * @returns this
      */
-    showHeader() {
-        this.panelHeader.show()
+    showHeader(mode) {
+        this.panelHeader.show(mode)
         return this
     }
 
@@ -21122,6 +21171,8 @@ kiss.ui.ChartView = class ChartView extends kiss.ui.DataComponent {
             width: () => "calc(100vw - 2rem)",
             height: () => "calc(100vh - 2rem)",
             autoSize: true,
+            border: "none",
+
             methods: {
                 load() {
                     setTimeout(() => this.setItems([datatable]), 50)
@@ -34480,6 +34531,7 @@ const createButton = (config) => document.createElement("a-button").init(config)
  * @param {object|string} config - Configuration object, or a simple text to display in the dialog box
  * @param {string} [config.id] - optional id in case you need to manage this dialog by id
  * @param {string} config.type - dialog | message | danger | input | select. Default = "dialog"
+ * @param {string} [config.defaultValue] - Default value for input or select type
  * @param {string} config.message
  * @param {string} config.textAlign - use "center" to center the text in the dialog box
  * @param {function} config.action - Function called if the user clicks on the OK button. The function receives the input value if the dialog type is "input"
@@ -37726,7 +37778,7 @@ const createColorField = (config) => document.createElement("a-color").init(conf
  * 
  * @param {object} config
  * @param {string} [config.value] - The default hexa color code. Ex: "#00aaee"
- * @param {string[]} [config.palette] - Custom color palette, for example: ["00aaee", "a1ed00", "ffffff", "000000"]
+ * @param {string[]} [config.palette] - Custom color palette, for example: ["00aaee", "a1ed00", "ffffff", "000000", "transparent"]
  * @param {function} [config.autoFocus] - Automatically scroll down to the selected color if true (default false)
  * @param {function} [config.action] - Function executed when a color is selected. Receives the selected hexa color code as an argument.
  * @param {object[]} [config.columns] - Number of columns to display the colors
@@ -37832,22 +37884,21 @@ kiss.ui.ColorPicker = class ColorPicker extends kiss.ui.Component {
         // Template
         this.innerHTML =
             this.palette.map((color, index) =>
-                `<span id="${this.specialId}:color-#${color}"
-                    class="color-selector"
+                `<span id="${this.specialId}:color-#${(color == "transparent") ? "ffffff00" :  color}"
+                    class="color-selector ${(color == "transparent") ? "transparent-bg" : ""}"
                     style=
                     "
                         width: ${this.selectorSize};
                         height: ${this.selectorSize};
                         line-height: ${this.selectorSize};
                         font-size: ${this.iconSize};
-                        background-color: #${color};
+                        background-color: #${(color == "transparent") ? "ffffff00" : color};
                         border-radius: ${this.selectorBorderRadius};
                     "
                 >
                 ${(this.value == "#" + color.toUpperCase()) ? `<span style="color: #ffffff" class="${this.icon} color-selector-selected"></span>` : ""}                
                 </span>${((index + 1) % this.columns == 0) ? "<br>" : ""}`.removeExtraSpaces()
             ).join("")
-
 
         // Set properties
         this._setProperties(config, [
@@ -42414,7 +42465,7 @@ const createForm = function (record) {
 
         // Icon to copy record information
         headerIcons: [{
-            hidden: !kiss.session.isAccountManager(),
+            hidden: !kiss.session.isAccountManager() || isMobile,
             icon: "fas fa-info-circle",
             iconColor: model.color,
             action: () => {
@@ -42433,41 +42484,41 @@ const createForm = function (record) {
                     padding: "2rem",
 
                     items: [{
-                            layout: "horizontal",
-                            alignItems: "center",
-                            items: [{
-                                    type: "text",
-                                    label: "Model ID",
-                                    value: model.id,
-                                    disabled: true,
-                                    labelWidth: 100,
-                                    fieldWidth: 250
-                                },
-                                {
-                                    type: "button",
-                                    icon: "fas fa-copy",
-                                    width: 32,
-                                    height: 32,
-                                    action: () => {
-                                        kiss.tools.copyTextToClipboard(model.id)
-                                        createNotification(txtTitleCase("ID copied"))
-                                    }
-                                }
-                            ]
+                        layout: "horizontal",
+                        alignItems: "center",
+                        items: [{
+                            type: "text",
+                            label: "Model ID",
+                            value: model.id,
+                            disabled: true,
+                            labelWidth: 100,
+                            fieldWidth: 300
                         },
                         {
-                            layout: "horizontal",
-                            alignItems: "center",
-                            items: [{
-                                    type: "text",
-                                    label: "Record ID",
-                                    value: record.id,
-                                    disabled: true,
-                                    labelWidth: 100,
-                                    fieldWidth: 250
-                                },
-                                {
-                                    type: "button",
+                            type: "button",
+                            icon: "fas fa-copy",
+                            width: 32,
+                            height: 32,
+                            action: () => {
+                                kiss.tools.copyTextToClipboard(model.id)
+                                createNotification(txtTitleCase("ID copied"))
+                            }
+                        }
+                    ]
+                },
+                {
+                    layout: "horizontal",
+                    alignItems: "center",
+                    items: [{
+                        type: "text",
+                        label: "Record ID",
+                        value: record.id,
+                        disabled: true,
+                        labelWidth: 100,
+                        fieldWidth: 300
+                    },
+                    {
+                        type: "button",
                                     icon: "fas fa-copy",
                                     width: 32,
                                     height: 32,
@@ -42581,6 +42632,9 @@ const createForm = function (record) {
                             // Check if the plugin is disabled
                             if (plugin.disabled == true) return
 
+                            // Check if the plugin should be loaded on mobile
+                            if (isMobile && plugin.mobile == false) return
+
                             const formSectionTypes = ["form-section", "form-header", "form-footer"]
 
                             plugin.features.forEach(feature => {
@@ -42602,7 +42656,7 @@ const createForm = function (record) {
                                         id: featureId,
                                         pluginId: plugin.id,
                                         icon: plugin.icon,
-                                        name: plugin.name
+                                        name: plugin.name,
                                     })
                                 }
 
@@ -42811,7 +42865,7 @@ const createForm = function (record) {
             /**
              * Show a feature / displays its panel
              */
-            showFeature(featureId) {
+            showFeature(featureId, index) {
                 const modelRecord = kiss.app.collections.model.getRecord(modelId)
                 const modelFeatures = modelRecord.features || {}
                 const activeFeatures = this.getActivePlugins(modelFeatures)
@@ -42829,13 +42883,15 @@ const createForm = function (record) {
                 formFeaturesContainer.showItemByClass(featureId, animation)
 
                 // Adjust the active tab border color
-                if (this.getNavigationMode() == "tabs") {
-                    const formTabs = $(record.id).querySelector(".form-tabs")
-                    const tabs = formTabs.items
+                // if (this.getNavigationMode() == "tabs") {
+                //     const formTabs = $(record.id).querySelector(".form-tabs")
+                //     const tabs = formTabs.items
 
-                    for (let i = 0; i < tabs.length; i++) tabs[i].setBorderColor("var(--button-border)")
-                    tabs[featureIndex + 1].setBorderColor(model.color)
-                }
+                //     for (let i = 0; i < tabs.length; i++) tabs[i].setBorderColor("var(--button-border)")
+                //     tabs[index].style.borderWidth = "0 0 2px 0"
+                //     tabs[index].style.borderStyle = "solid"
+                //     tabs[index].setBorderColor(model.color)
+                // }
             },
 
             /**
@@ -43085,6 +43141,7 @@ const createForm = function (record) {
 const createFormActions = function (form, activeFeatures) {
     const record = form.record
     const isMobile = kiss.screen.isMobile
+
     const hasFeatures = (activeFeatures.length > 0)
     let featureButtons = []
     const navigationMode = localStorage.getItem("config-formNavigationMode-" + record.model.id) || "tabs"
@@ -43095,15 +43152,15 @@ const createFormActions = function (form, activeFeatures) {
             id: "button-form-" + record.id,
             text: txtTitleCase("form"),
             icon: "far fa-window-restore",
-            action: () => form.showFeature("form-content")
+            action: () => form.showFeature("form-content", 0)
         })
 
-        activeFeatures.forEach(feature => {
+        activeFeatures.forEach((feature, index) => {
             featureButtons.push({
                 id: "button-" + feature.id + "-" + record.id,
                 text: feature.name,
                 icon: feature.icon,
-                action: () => form.showFeature(feature.pluginId)
+                action: () => form.showFeature(feature.pluginId, index + 1)
             })
         })
     }
@@ -43111,17 +43168,19 @@ const createFormActions = function (form, activeFeatures) {
     // If some features have associated menu actions,
     // add them to the menu
     let featureMenuItems = []
-    let hasSeparator = false
     activeFeatures.forEach(feature => {
         const pluginId = feature.pluginId
         const plugin = kiss.plugins.get(pluginId)
-        
-        plugin.features.forEach(feature => {
+
+        let hasSeparator = false
+        plugin.features.forEach((feature, index) => {
             if (feature.type == "form-menu") {
                 if (!hasSeparator) {
                     featureMenuItems.push("-")
+                    featureMenuItems.push(txtTitleCase(plugin.name))
                     hasSeparator = true
                 }
+
                 const menuItem = feature.renderer(form)
                 featureMenuItems.push(menuItem)
             }
@@ -43171,10 +43230,14 @@ const createFormActions = function (form, activeFeatures) {
             icon: "fas fa-columns",
             action: () => form.switchNavigation("tabs")
         },        
-        "-",
-
+        
         // Shortcut to the form section, for mobile devices
         ...featureButtons,
+        
+        // Actions inserted by form features
+        ...featureMenuItems,        
+        
+        "-",
 
         // Action to edit form properties
         {
@@ -43246,12 +43309,9 @@ const createFormActions = function (form, activeFeatures) {
             }
         },
 
-        // Actions inserted by form features
-        ...featureMenuItems,
-
         // Menu separator
         (form.canEditModel && !isMobile) ? "-" : "",
-        (isMobile) ? "-" : "",
+        // (isMobile) ? "-" : "",
 
         // Action to collapse all sections
         {
@@ -43691,7 +43751,7 @@ const createFormSideBar = function (form, activeFeatures, formHeaderFeatures, fo
             iconColor: model.color,
             class: "form-side-bar-button",
             action: function () {
-                form.showFeature("form-content")
+                form.showFeature("form-content", 0)
                 form.showAllSections()
             }
         },
@@ -43703,7 +43763,7 @@ const createFormSideBar = function (form, activeFeatures, formHeaderFeatures, fo
     ]
 
     // Insert one tab per active form feature
-    activeFeatures.forEach(feature => {
+    activeFeatures.forEach((feature, index) => {
         const featureName = kiss.language.translateProperty(feature, "name")
 
         let newFeature = {
@@ -43714,7 +43774,7 @@ const createFormSideBar = function (form, activeFeatures, formHeaderFeatures, fo
             icon: feature.icon,
             iconColor: model.color,
             class: "form-side-bar-button",
-            action: () => form.showFeature(feature.pluginId)
+            action: () => form.showFeature(feature.pluginId, index + 1)
         }
 
         formFeatures = formFeatures.concat(newFeature)
@@ -43777,12 +43837,12 @@ const createFormTabBar = function (form, activeFeatures) {
             classes: {
                 "this": "underline-effect"
             },
-            action: () => form.showFeature("form-content")
+            action: () => form.showFeature("form-content", 0)
         })
     }
 
     // Insert one tab per active form feature
-    activeFeatures.forEach(feature => {
+    activeFeatures.forEach((feature, index) => {
         let newFeature = {
             id: "button-" + feature.id + "-" + record.id,
             type: "button",
@@ -43796,7 +43856,7 @@ const createFormTabBar = function (form, activeFeatures) {
             classes: {
                 "this": "underline-effect"
             },
-            action: () => form.showFeature(feature.pluginId)
+            action: () => form.showFeature(feature.pluginId, index + 1)
         }
         
         formFeatures = formFeatures.concat(newFeature)
@@ -45234,7 +45294,7 @@ const createDataSortWindow = function (viewId, color = "#00aaee") {
  * @param {string} [staticId] - Optional static id for the selection window. If provided, cache the window and show it instead of creating a new one each time.
  * @param {object} config.model - source model
  * @param {string} config.fieldId - id of the LINK field which generated this window
- * @param {object[]} [config.records] - Optionnal records to display in the datatable
+ * @param {object[]} [config.records] - Optionnal records to display in the datatable. Records must be simple objects (*not* kiss.data.Record instances).
  * @param {function} [config.selectRecord] - Optional callback function executed when a record is selected inside the datatable. By default, opens the record.
  * @param {object} [config.datatableConfig] - Optional parameters to adjust the datatable configuration
  * 
@@ -45396,7 +45456,7 @@ const createRecordSelectionWindow = function(config) {
                 }
                 
                 if (records) await tempCollection.insertMany(records)
-                
+
                 // If the datatable doesn't have any "view" record to store its config, we create a new one
                 if (!viewRecord) {
                     viewRecord = kiss.app.models.view.create({
@@ -45545,6 +45605,7 @@ const createFileLibraryWindow = async function (config = {}) {
         height: "calc(100vh - 2rem)",
         top: "1rem",
         left: "1rem",
+        headerStyle: "flat",
         items: [
             library
         ]
@@ -48361,8 +48422,7 @@ kiss.app.defineView({
  */
 kiss.app.defineView({
     id: "authentication-login",
-    renderer: function (id, target) {
-
+    renderer: function (id) {
         // Define the possible login methods and build login buttons accordingly
         let loginMethods = kiss.router.getRoute().lm
         if (!loginMethods) loginMethods = kiss.session.getLoginMethods()
@@ -48446,8 +48506,6 @@ kiss.app.defineView({
          */
         return createBlock({
             id,
-            target,
-
             items: [
                 // Fullscreen background with cover image
                 {
@@ -48459,11 +48517,13 @@ kiss.app.defineView({
                     items: [
                         // Gradient
                         {
+                            class: "left-panel",
                             flex: 1,
                             background: "black"
                         },
                         // Matrix effect
                         {
+                            class: "right-panel",
                             type: "view",
                             id: "common-matrix"
                         }
@@ -48476,14 +48536,12 @@ kiss.app.defineView({
                     items: [
                         // Logo
                         {
+                            id: "logo",
                             hidden: !kiss.app.logo,
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
                             type: "image",
                             src: kiss.app.logo,
-                            alt: "Logo",
-                            style: "-webkit-box-reflect: below -50px linear-gradient(to bottom, rgba(0,0,0,0.2), transparent);"
+                            class: "auth-logo",
+                            alt: "Logo"
                         },
                         // Login panel
                         {
@@ -48568,7 +48626,8 @@ kiss.app.defineView({
                                             events: {
                                                 click: () => kiss.router.navigateTo({
                                                     ui: "authentication-register",
-                                                    lm: loginMethods
+                                                    lm: loginMethods,
+                                                    accountId: kiss.router.getRoute().accountId || ""
                                                 }, true)
                                             }
                                         }
@@ -48652,6 +48711,59 @@ kiss.app.defineView({
                                         // Responsiveness
                                         this.adjustToScreen()
                                     }
+
+                                    // Load branding
+                                    this.loadBranding()
+                                },
+                                
+                                /**
+                                 * Load the branding for the account, if any:
+                                 * - logo
+                                 * - background colors
+                                 * - gradient direction
+                                 */
+                                async loadBranding() {
+                                    const accountId = kiss.router.getRoute().accountId
+                                    if (!accountId) return
+    
+                                    const branding = await kiss.session.getBranding(accountId)
+
+                                    // Set the logo
+                                    if (branding.logo) {
+                                        if (branding.logo.startsWith("http")) {
+                                            $("logo").setValue(branding.logo, true)
+                                        }
+                                        else {
+                                            $("logo").setValue("/" + branding.logo, true)
+                                        }
+                                    }
+
+                                    // Exit if no background color is set, or both are transparent
+                                    if (!branding.backgroundColor1 && !branding.backgroundColor2) {
+                                        return
+                                    }
+
+                                    if (branding.backgroundColor1 == "#FFFFFF00" && branding.backgroundColor2 == "#FFFFFF00") {
+                                        return
+                                    }
+
+                                    // Hide the right panel if at least 1 background color is set, and both are not transparent
+                                    const bgPanel = $("authentication-login").querySelector(".left-panel")
+
+                                    if ((branding.backgroundColor1 || branding.backgroundColor2)) {
+                                            kiss.context.hideMatrix = true
+                                            bgPanel.style.width = "100vw !important"
+                                            $("common-matrix").hide()
+                                    }
+
+                                    // Replace the background colors
+                                    if (branding.backgroundColor1 && branding.backgroundColor2) {
+                                        bgPanel.style.background = `linear-gradient(${branding.gradientDirection || "to right"}, ${branding.backgroundColor1}, ${branding.backgroundColor2})`
+                                    } else if (branding.backgroundColor1) {
+                                        bgPanel.style.background = branding.backgroundColor1
+                                    } else if (branding.backgroundColor2) {
+                                        bgPanel.style.background = branding.backgroundColor2
+                                    }
                                 },
 
                                 /**
@@ -48722,7 +48834,7 @@ kiss.app.defineView({
                                         $("panel-body-login").style.flexFlow = "column"
                                         $("auth-login-separator").style.flexFlow = "row"
                                     } else {
-                                        $("common-matrix").show()
+                                        if (kiss.context.hideMatrix !== true) $("common-matrix").show()
                                         $("login").config.width = "76rem"    
                                         $("panel-body-login").style.flexFlow = "row"
                                         $("auth-login-separator").style.flexFlow = "column"
@@ -48828,11 +48940,13 @@ kiss.app.defineView({
                     items: [
                         // Gradient
                         {
+                            class: "left-panel",
                             flex: 1,
                             background: "black"
                         },
                         // Image
                         {
+                            class: "right-panel",
                             flex: 1,
                             background: "linear-gradient(to bottom right, #ffffff, #cccccc)"
                         }
@@ -48845,14 +48959,12 @@ kiss.app.defineView({
                     items: [
                         // Logo
                         {
+                            id: "logo",
                             hidden: !kiss.app.logo,
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
                             type: "image",
                             src: kiss.app.logo,
-                            alt: "Logo",
-                            style: "-webkit-box-reflect: below -50px linear-gradient(to bottom, rgba(0,0,0,0.2), transparent);"
+                            class: "auth-logo",
+                            alt: "Logo"
                         },
                         // Register panel
                         {
@@ -49010,7 +49122,8 @@ kiss.app.defineView({
                                             events: {
                                                 click: () => kiss.router.navigateTo({
                                                     ui: "authentication-login",
-                                                    lm: loginMethods
+                                                    lm: loginMethods,
+                                                    accountId: kiss.router.getRoute().accountId || ""
                                                 }, true)
                                             }
                                         }
@@ -49085,7 +49198,60 @@ kiss.app.defineView({
                                             noCancel: true
                                         })
                                     }
+
+                                    // Load branding
+                                    this.loadBranding()
                                 },
+
+                                /**
+                                 * Load the branding for the account, if any:
+                                 * - logo
+                                 * - background colors
+                                 * - gradient direction
+                                 */
+                                async loadBranding() {
+                                    const accountId = kiss.router.getRoute().accountId
+                                    if (!accountId) return
+    
+                                    const branding = await kiss.session.getBranding(accountId)
+
+                                    // Set the logo
+                                    if (branding.logo) {
+                                        if (branding.logo.startsWith("http")) {
+                                            $("logo").setValue(branding.logo, true)
+                                        }
+                                        else {
+                                            $("logo").setValue("/" + branding.logo, true)
+                                        }
+                                    }
+
+                                    // Exit if no background color is set, or both are transparent
+                                    if (!branding.backgroundColor1 && !branding.backgroundColor2) {
+                                        return
+                                    }
+
+                                    if (branding.backgroundColor1 == "#FFFFFF00" && branding.backgroundColor2 == "#FFFFFF00") {
+                                        return
+                                    }
+
+                                    // Hide the right panel if at least 1 background color is set, and both are not transparent
+                                    const bgPanel = $("authentication-register").querySelector(".left-panel")
+
+                                    if ((branding.backgroundColor1 || branding.backgroundColor2)) {
+                                            kiss.context.hideMatrix = true
+                                            bgPanel.style.width = "100vw !important"
+                                            $("authentication-register").querySelector(".right-panel").hide()
+                                    }
+
+                                    // Replace the background colors
+                                    if (branding.backgroundColor1 && branding.backgroundColor2) {
+                                        bgPanel.style.background = `linear-gradient(${branding.gradientDirection || "to right"}, ${branding.backgroundColor1}, ${branding.backgroundColor2})`
+                                    } else if (branding.backgroundColor1) {
+                                        bgPanel.style.background = branding.backgroundColor1
+                                    } else if (branding.backgroundColor2) {
+                                        bgPanel.style.background = branding.backgroundColor2
+                                    }
+                                },                                
 
                                 /**
                                  * Show a welcome popup once the registration is complete
@@ -49149,7 +49315,7 @@ kiss.app.defineView({
  */
 kiss.app.defineView({
     id: "authentication-reset-password",
-    renderer: function (id, target) {
+    renderer: function (id) {
 
         // Parameters for mobile
         let layoutParams = {}
@@ -49176,8 +49342,6 @@ kiss.app.defineView({
 
         return createBlock({
             id,
-            target,
-
             items: [
                 // Fullscreen background with cover image
                 {
@@ -49188,12 +49352,13 @@ kiss.app.defineView({
                     items: [
                         // Gradient
                         {
+                            class: "left-panel",
                             flex: 1,
                             background: "black"
                         },
                         // Image
                         {
-                            id: "welcome-image",
+                            class: "right-panel",
                             flex: 1,
                             class: "auth-welcome"
                         }
@@ -49206,14 +49371,12 @@ kiss.app.defineView({
                     items: [
                         // Logo
                         {
+                            id: "logo",
                             hidden: !kiss.app.logo,
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
                             type: "image",
                             src: kiss.app.logo,
-                            alt: "Logo",
-                            style: "-webkit-box-reflect: below -50px linear-gradient(to bottom, rgba(0,0,0,0.2), transparent);"
+                            class: "auth-logo",
+                            alt: "Logo"
                         },
                         // Reset password panel
                         {
@@ -49305,34 +49468,7 @@ kiss.app.defineView({
                                         ]
                                     }
                                 ]
-                            }],
-
-                            methods: {
-                                load: function () {
-                                    this.adjustToScreen()
-                                },
-
-                                /**
-                                 * Adjust layout to screen size
-                                 */
-                                adjustToScreen: () => {
-                                    if (kiss.context.ui != "authentication-reset-password") return
-
-                                    // Hide picture under a width/height ratio
-                                    if (kiss.screen.current.ratio < 1) {
-                                        $("welcome-image").hide()
-                                    } else {
-                                        $("welcome-image").show()
-                                    }
-                                }
-                            },
-
-                            // Responsiveness
-                            subscriptions: {
-                                EVT_WINDOW_RESIZED: function () {
-                                    this.adjustToScreen()
-                                }
-                            }
+                            }]
                         }
                     ]
                 }
@@ -60335,6 +60471,22 @@ kiss.addToModule("tools", {
         {
             id: "smtp",
             dataType: Object
+        },
+        {
+            id: "logo",
+            dataType: [String]
+        },
+        {
+            id: "backgroundColor1",
+            dataType: String
+        },
+        {
+            id: "backgroundColor2",
+            dataType: String
+        },
+        {
+            id: "gradientDirection",
+            dataType: String
         }
     ],
 

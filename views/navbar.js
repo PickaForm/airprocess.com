@@ -79,9 +79,8 @@ kiss.app.defineView({
             },
             // BLOG
             {
-                hidden: true,
                 text: "Blog",
-                href: `https://blog.airprocess.com/${kiss.language.current}`,
+                href: `https://blog.airprocess.com/command/blog/~/0198f787-2fbb-71c2-bca7-9a9647cb01b5/list/fr/1/index.html`,
                 target: "_new",
                 view: ""
             },

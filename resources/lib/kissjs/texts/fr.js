@@ -179,6 +179,21 @@ kiss.language.texts = {
     "#thanks for registration": {
         fr: "merci ! Vous allez bientôt recevoir un email contenant un lien pour activer votre compte..."
     },
+    "#login page": {
+        fr: "page de connexion"
+    },
+    "#login page help": {
+        fr: "personnalisez la page de connexion avec votre propre logo et vos couleurs"
+    },
+    "logo image": {
+        fr: "image du logo"
+    },
+    "#copy login url": {
+        fr: "copier le lien vers votre page de connexion personnalisée"
+    },
+    "#copy register url": {
+        fr: "copier le lien vers votre page d'inscription personnalisée"
+    },
     "forgot password?": {
         fr: "mot de passe oublié ?"
     },
@@ -1329,7 +1344,7 @@ kiss.language.texts = {
         fr: "arrondi"
     },
     "#theme builder": {
-        fr: "création de thème CSS"
+        fr: "création de thème"
     },
     "#download theme": {
         fr: "télécharger le thème"
