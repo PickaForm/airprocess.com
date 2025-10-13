@@ -2162,7 +2162,7 @@ function getNextLanguage() {
             // BLOG
             {
                 text: "Blog",
-                href: `https://blog.airprocess.com/command/blog/~/0198f787-2fbb-71c2-bca7-9a9647cb01b5/list/fr/1/index.html`,
+                href: `https://blog.airprocess.com/list/fr/1/index.html`,
                 target: "_new",
                 view: ""
             },
