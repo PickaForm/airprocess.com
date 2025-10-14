@@ -2084,6 +2084,7 @@ function getNextLanguage() {
     id: "navbar",
     renderer: function (id, target) {
         const nextLanguage = getNextLanguage()
+        const BLOG_URL = "https://blog.airprocess.com/list/fr/1/index.html"
 
         const t = defineTexts(id, {
             "Home": {
@@ -2162,7 +2163,7 @@ function getNextLanguage() {
             // BLOG
             {
                 text: "Blog",
-                href: `https://blog.airprocess.com/list/fr/1/index.html`,
+                href: BLOG_URL,
                 target: "_new",
                 view: ""
             },
@@ -2324,7 +2325,7 @@ function getNextLanguage() {
 
                         if (element.innerHTML.includes("Blog")) {
                             // BLOG
-                            window.open(`https://blog.airprocess.com/${kiss.language.current}/`, "_new")
+                            window.open(BLOG_URL, "_new")
                         } else if (element.innerHTML.includes("Templates") || element.innerHTML.includes("Modèles")) {
                             // TEMPLATES
                             window.open(kiss.global.pathAirProcess + `/projects/airprocess/client/demo.html#ui=templates-list&language=${kiss.language.current}`, "_new")
