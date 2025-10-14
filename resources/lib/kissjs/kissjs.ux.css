@@ -88,6 +88,10 @@
     color: var(--blue) !important;
 }
 
+.form-record .ql-editor {
+    line-height: 2.5rem !important;
+}
+
 .ql-editor figure {
     text-align: center;
 }

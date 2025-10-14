@@ -2,7 +2,7 @@ kiss.app.defineView({
     id: "navbar",
     renderer: function (id, target) {
         const nextLanguage = getNextLanguage()
-        const BLOG_URL = "https://blog.airprocess.com/list/fr/1/index.html"
+        const BLOG_URL = "https://blog.airprocess.com/command/blog/~/0198f787-2fbb-71c2-bca7-9a9647cb01b5/list/fr/1/index.html"
 
         const t = defineTexts(id, {
             "Home": {
