@@ -4069,8 +4069,9 @@ kiss.app = {
             }
         }
 
-        // Get the requested route
-        if (config.startRoute) {
+        // Get the requested route if no default route is specified
+        const currentRoute = kiss.router.getRoute()
+        if (config.startRoute && !currentRoute.ui) {
             let route = config.startRoute
             if (typeof route === "string") {
                 route = {
@@ -26559,7 +26560,6 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                     layout: "horizontal",
 
                     defaultConfig: {
-                        type: "button",
                         flex: 1,
                         margin: "0 0.5rem"
                     },
@@ -26570,6 +26570,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                         },
                         // Cancel
                         {
+                            type: "button",
                             text: txtUpperCase("cancel"),
                             icon: "fas fa-times",
                             action: () => {
@@ -26579,6 +26580,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                         },
                         // OK
                         {
+                            type: "button",
                             text: txtUpperCase("ok"),
                             icon: "fas fa-check",
                             class: "button-ok",
@@ -26676,7 +26678,6 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                     margin: "1rem 0 0 0",
 
                     defaultConfig: {
-                        type: "button",
                         flex: 1,
                         margin: "0 0.5rem"
                     },
@@ -26687,6 +26688,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                         },
                         // Cancel
                         {
+                            type: "button",
                             text: txtUpperCase("cancel"),
                             icon: "fas fa-times",
                             action: () => {
@@ -26696,6 +26698,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                         },
                         // OK
                         {
+                            type: "button",
                             text: txtUpperCase("ok"),
                             icon: "fas fa-check",
                             class: "button-ok",

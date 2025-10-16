@@ -1,1 +1,1 @@
-Sitemap: https://airprocess.fr/sitemap.xml
+Sitemap: https://airprocess.com/sitemap.xml
