@@ -158,6 +158,9 @@ kiss.language.texts = {
     "#delete image": {
         en: "delete the image"
     },
+    "#delete image warning": {
+        en: "are you sure you want to delete this image?\n            This operation is irreversible."
+    },
     "#file attachment": {
         en: "attach a file"
     },
@@ -385,6 +388,9 @@ kiss.language.texts = {
     },
     "#gallery show image": {
         en: "do you want to display an image?"
+    },
+    "#warning delete items": {
+        en: "are you sure you want to delete these %n item(s)?\n\n        You won't be able to undo the operation."
     },
     "#coordinates field": {
         en: "field used as the coordinates"

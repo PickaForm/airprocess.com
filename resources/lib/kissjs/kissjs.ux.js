@@ -291,6 +291,11 @@ kiss.ux.RichTextField = class RichTextField extends kiss.ui.Component {
                 await kiss.loader.loadStyle("https://unpkg.com/quill-better-table@1.2.10/dist/quill-better-table")
             }
         }
+
+        log("kiss.ui - RichTextField - Quill editor loaded")
+        log(!!window.Quill)
+        log("kiss.ui - RichTextField - Quill Better Table module loaded")
+        log(!!window.quillBetterTable)
     }
 
     /**
@@ -933,6 +938,9 @@ kiss.ux.RichTextField = class RichTextField extends kiss.ui.Component {
     /**
      * Insert an image from a download
      * 
+     * By default, an image is uploaded in the context of modelId.
+     * If modelId is not defined, the image was imported from a "blog" and will be displayed in the media library.
+     * 
      * @private
      * @ignore
      * @param {object} config
@@ -940,16 +948,18 @@ kiss.ux.RichTextField = class RichTextField extends kiss.ui.Component {
     _insertImageFromDownload() {
         const _this = this
         createFileUploadWindow({
-            modelId: _this.modelId,
+            modelId: _this.modelId || "blog",
             multiple: false,
             maxSize: 5 * 1024 * 1024, // 5 MB
             ACL: "public",
             callback: (data) => {
+                let path = data[0].path.replaceAll("\\", "/")
+                if (!path.startsWith("http")) path = "/" + path
                 _this._insertImageFromURL({
                     mode: "create",
-                    src: "/" + data[0].path.replaceAll("\\", "/"),
-                    alt: data[0].filename,
-                    caption: data[0].filename
+                    src: path,
+                    alt: data[0].originalname,
+                    caption: data[0].originalname
                 })
             }
         })        
@@ -964,16 +974,22 @@ kiss.ux.RichTextField = class RichTextField extends kiss.ui.Component {
      */    
     _insertImageFromLibrary() {
         createFileLibraryWindow({
+            type: "images",
+            canFilter: false,
+            canGroup: false,
+            canSelect: false,
+            canSelectFields: false,
+            showActions: false,
             callback: (file) => {
-                if (!file || !file.filename) return
+                if (!file || !file.originalname) return
 
                 // If the file is an image, insert it
                 if (file.mimeType.startsWith("image/")) {
                     this._insertImageFromURL({
                         mode: "create",
                         src: kiss.tools.createFileURL(file),
-                        alt: file.filename,
-                        caption: file.filename
+                        alt: file.originalname,
+                        caption: file.originalname
                     })
                     
                     $("file-library-window").close()
@@ -1053,7 +1069,10 @@ kiss.ux.RichTextField = class RichTextField extends kiss.ui.Component {
             closable: true,
             align: "center",
             verticalAlign: "center",
-            width: "40rem",
+            width: "60rem",
+            headerStyle: "flat",
+            padding: "2rem",
+
             defaultConfig: {
                 labelPosition: "top",
                 width: "100%",
@@ -1099,7 +1118,6 @@ kiss.ux.RichTextField = class RichTextField extends kiss.ui.Component {
                             type: "button",
                             text: txtTitleCase("delete"),
                             icon: "fas fa-trash",
-                            iconColor: "var(--red)",
                             margin: "0 0.5rem 0 0",
                             flex: 1,
                             action: () => $("image-caption-panel").delete()
@@ -1108,7 +1126,7 @@ kiss.ux.RichTextField = class RichTextField extends kiss.ui.Component {
                             type: "button",
                             text: txtTitleCase("validate"),
                             icon: "fas fa-check",
-                            iconColor: "var(--green)",
+                            class: "button-ok",
                             flex: 1,
                             action: () => $("image-caption-panel").ok()
                         }

@@ -8138,7 +8138,7 @@ ul .tree {
 /* PLACEHOLDER */
 .field-select-placeholder {
     display: inline-block;
-    color: var(--field);
+    color: var(--body-alt);
     padding: var(--field-padding);
 }
 

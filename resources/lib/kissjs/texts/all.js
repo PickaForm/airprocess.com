@@ -696,6 +696,14 @@ kiss.language.texts = {
         fr: "supprimer l'image",
         es: "eliminar la imagen"
     },
+    "#delete image warning": {
+        en: `are you sure you want to delete this image?
+            This operation is irreversible.`,
+        fr: `êtes-vous sûr de vouloir supprimer cette image ?
+            Cette opération est irréversible.`,
+        es: `¿Estás seguro de querer eliminar esta imagen?
+            Esta operación es irreversible.`
+    },
     "insert table": {
         fr: "insérer un tableau",
         es: "insertar tabla",
@@ -1797,7 +1805,22 @@ kiss.language.texts = {
         en: "do you want to display an image?",
         fr: "voulez-vous afficher une image ?",
         es: "¿quieres mostrar una imagen?"
-    },          
+    },
+    "delete selected items": {
+        fr: "supprimer les éléments sélectionnés",
+        es: "eliminar los elementos seleccionados"
+    },
+    "#warning delete items": {
+        en: `are you sure you want to delete these %n item(s)?
+
+        You won't be able to undo the operation.`,
+        fr: `etes-vous sûr de vouloir supprimer ces %n élément(s) ?
+
+        Vous ne pourrez pas annuler l'opération.`,
+        es: `¿está seguro de que desea eliminar estos %n elemento(s)?
+
+        No podrá deshacer la operación.`
+    },
 
     /**
      * Map

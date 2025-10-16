@@ -39,7 +39,7 @@ const kiss = {
     $KissJS: "KissJS - Keep It Simple Stupid Javascript",
 
     // Build number
-    version: 4890,
+    version: 4900,
     
     // Tell isomorphic code we're on the client side
     isClient: true,
@@ -7934,8 +7934,9 @@ kiss.selection = {
             align: "center",
             verticalAlign: "center",
             layout: "vertical",
-            width: 400,
-
+            width: "50rem",
+            headerStyle: "flat",
+            padding: "2rem",
 
             items: [
                 // Field to update
@@ -7969,8 +7970,8 @@ kiss.selection = {
                     type: "button",
                     text: txtTitleCase("update"),
                     icon: "fas fa-bolt",
-                    iconColor: "var(--yellow)",
-                    margin: "5px 5px 0 5px",
+                    margin: "2rem 0.5rem 0 0.5rem",
+                    class: "button-ok",
                     action: () => $("selection-batch-update").updateRecords(ids)
                 }
             ],
@@ -16548,6 +16549,7 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
     /**
      * Update the sort according to the message received in the PubSub
      * 
+     * @private
      * @ignore
      * @param {object} msgData 
      */
@@ -16782,7 +16784,6 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
     async _dataFilterBy(filterConfig) {
         // Reset ftsearch
         this.resetSearchBar()
-
         
         // Save the new filter config
         this.filter = filterConfig
@@ -16914,6 +16915,7 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
 
         // Clean local config columns according to the model's fields
         if (setup.config && setup.config.columns && Array.isArray(setup.config.columns)) {
+            
             // For each model's field, update the corresponding column
             this.model.getFields().forEach(field => {
                 let column = setup.config.columns.get(field.id)
@@ -16921,7 +16923,7 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
                 if (column) {
                     // The column exists: we udpate it
                     column.type = this.model.getFieldType(field)
-                    column.title = field.label
+                    column.title = field.label || field.id
                     if (column.title.startsWith("#")) column.title = txtTitleCase(column.title)
                     column.title = column.title.toTitleCase()
                     column.deleted = !!field.deleted
@@ -17725,7 +17727,9 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
             draggable: true,
             align: "center",
             verticalAlign: "center",
-            width: "40rem",
+            width: "50rem",
+            headerStyle: "flat",
+            padding: "2rem",
 
             layout: "vertical",
             items: [
@@ -17771,8 +17775,8 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
                     type: "button",
                     text: txtTitleCase("export"),
                     icon: "fas fa-bolt",
-                    height: "4rem",
                     margin: "2rem 0 0 0",
+                    class: "button-ok",
 
                     action: async () => {
                         const exportType = $("export-type").getValue()
@@ -26562,7 +26566,6 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 
                     items: [
                         {
-                            type: "spacer",
                             flex: 2
                         },
                         // Cancel
@@ -26680,7 +26683,6 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 
                     items: [
                         {
-                            type: "spacer",
                             flex: 2
                         },
                         // Cancel
@@ -27185,6 +27187,7 @@ const createDatatable = (config) => document.createElement("a-datatable").init(c
  * @param {boolean} [config.canGroup] - false to hide the group button (default = true)
  * @param {boolean} [config.canSelectFields] - Can we select the fields (= columns) to display in the gallery? (default = true)
  * @param {boolean} [config.canCreateRecord] - Can we create new records from the gallery?
+ * @param {boolean} [config.canDeleteItems] - Can we delete items from the gallery? Default to false
  * @param {boolean} [config.createRecordText] - Optional text to insert in the button to create a new record, instead of the default model's name
  * @param {object[]} [config.actions] - Array of menu actions, where each menu entry is: {text: "abc", icon: "fas fa-check", action: function() {}}
  * @param {number|string} [config.width]
@@ -27283,6 +27286,7 @@ kiss.ui.Gallery = class Gallery extends kiss.ui.DataComponent {
         this.canGroup = (config.canGroup !== false)
         this.canSelect = (config.canSelect !== false)
         this.canSelectFields = (config.canSelectFields !== false)
+        this.canDeleteItems = (config.canDeleteItems === true)
         this.actions = config.actions || []
         this.buttons = config.buttons || []
         this.color = config.color || "#00aaee"
@@ -27298,6 +27302,7 @@ kiss.ui.Gallery = class Gallery extends kiss.ui.DataComponent {
                 <div id="gallery-toolbar:${id}" class="gallery-toolbar">
                     <div id="create:${id}"></div>
                     <div id="actions:${id}"></div>
+                    <div id="delete:${id}"></div>
                     <div id="setup:${id}"></div>
                     <div id="select:${id}"></div>
                     <div id="sort:${id}"></div>
@@ -27867,6 +27872,30 @@ kiss.ui.Gallery = class Gallery extends kiss.ui.DataComponent {
             checkbox.setAttribute("selected", "false")
             card.classList.remove("gallery-record-selected")
         }
+    }
+
+    /**
+     * Delete the selected items
+     */
+    _deleteSelectedItems() {
+        let ids = localStorage.getItem("config-selection-file-library")
+        if (!ids || ids.length == 0) return createNotification(txtTitleCase("#no selection"))
+        ids = ids.split(",")
+
+        createDialog({
+            title: txtTitleCase("delete selected items"),
+            type: "danger",
+            message: txtTitleCase("#warning delete items", null, {
+                n: ids.length
+            }),
+            action: async () => {
+                await kiss.db.deleteMany("file", {
+                    _id: {
+                        "$in": ids
+                    }
+                }, false)
+            }
+        })        
     }
 
     /**
@@ -28518,6 +28547,17 @@ kiss.ui.Gallery = class Gallery extends kiss.ui.DataComponent {
             width: "3.2rem",
             action: () => this._buildActionMenu()
         }).render()
+
+        // Delete button
+        createButton({
+            hidden: this.canDeleteItems !== true,
+            target: "delete:" + this.id,
+            tip: txtTitleCase("delete selected items"),
+            icon: "fas fa-trash",
+            iconColor: this.color,
+            width: "3.2rem",
+            action: () => this._deleteSelectedItems()
+        }).render()        
 
         // Setup the gallery
         createButton({
@@ -38209,7 +38249,7 @@ const createColorPicker = (config) => document.createElement("a-colorpicker").in
  * ## Generated markup
  * For all input fields:
  * ```
- * <a-field class="a-field a-field">
+ * <a-field class="a-field">
  *  <label class="field-label"></label>
  *  <input type="text|number|date" class="field-input"></input>
  * </a-field>
@@ -43914,8 +43954,7 @@ const createDataFieldsWindow = function (viewId, color = "#00aaee") {
                         }
                     },
                     {
-                        type: "spacer",
-                        width: "10px"
+                        width: "1rem"
                     },
                     // Button to show all fields
                     {
@@ -44761,7 +44800,6 @@ const createDataFilterGroup = function (viewId, color, config) {
                     },
                     // Space between filters and button
                     {
-                        type: "spacer",
                         height: "1rem"
                     },
                     // Button to add a new filter within this group
@@ -44784,7 +44822,6 @@ const createDataFilterGroup = function (viewId, color, config) {
                     },
                     // Space between button and border
                     {
-                        type: "spacer",
                         height: "1rem"
                     }
                 ],
@@ -45521,11 +45558,19 @@ const createRecordSelectionWindow = function(config) {
 }
 
 ;/**
- * Generates a window to browse the files stored as "file" records in the database.
+ * Generates a window to browse the files stored as "file" records in the database:
+ * - show only image files if config.type is "images"
+ * - 
  * 
  * @param {object} config - Configuration object
- * @param {string} [config.type] - If "images", restrict to image files only.
+ * @param {string} [config.type] - If "images", restrict to blog image files only, for the media library. Default is all files.
+ * @param {boolean} [config.showToolbar] - If false, hide the Toolbar. Default is true.
  * @param {boolean} [config.showActions] - If false, hide the Actions menu. Default is true.
+ * @param {boolean} [config.canFilter] - If false, disable the ability to filter files. Default is true.
+ * @param {boolean} [config.canGroup] - If false, disable the ability to group files. Default is true.
+ * @param {boolean} [config.canSelect] - If false, disable the ability to select a file. Default is true.
+ * @param {boolean} [config.canSelectFields] - If false, disable the ability to select specific fields. Default is true.
+ * @param {boolean} [config.canDeleteItems] - If true, enable the ability to delete files. Default is false.
  * @param {string} [config.actions] - Actions to add to the file library (will be inserted in the Actions menu)
  * @param {function} [config.callback] - Function to call when a file is selected. The select file Record will be passed as an argument.
  *
@@ -45541,7 +45586,7 @@ const createFileLibraryWindow = async function (config = {}) {
     let filter = {}
 
     if (type == "images") {
-        // Filter for images only
+        // Filter for blog images only
         filter = {
             type: "group",
             operator: "and",
@@ -45556,6 +45601,12 @@ const createFileLibraryWindow = async function (config = {}) {
                     fieldId: "mimeType",
                     operator: "contains",
                     value: "image/"
+                },
+                {
+                    type: "filter",
+                    fieldId: "modelId",
+                    operator: "=",
+                    value: "blog"
                 }
             ]
         }
@@ -45580,7 +45631,13 @@ const createFileLibraryWindow = async function (config = {}) {
         id: "file-library",
         canCreateRecord: false,
         showSetup: false,
-        showActions: (config.showActions === false) ? false : true,
+        showToolbar: !(config.showToolbar === false),
+        showActions: !(config.showActions === false),
+        canFilter: !(config.canFilter === false),
+        canGroup: !(config.canGroup === false),
+        canSelect: !(config.canSelect === false),
+        canSelectFields: !(config.canSelectFields === false),
+        canDeleteItems: (config.canDeleteItems === true),
         canSearch: false,
         collection: fileCollection,
         actions: actions || [],
@@ -45721,7 +45778,7 @@ const createPreviewWindow = function (files, fileId, recordId, fieldId) {
                     kiss.context.fileId = file.id
 
                     $("preview-content").setInnerHtml(viewHtml)
-                    $("preview-window").setTitle(file.filename + " (" + file.size.toFileSize() + ")")
+                    $("preview-window").setTitle(file.originalname + " (" + file.size.toFileSize() + ")")
                     $("preview-window").currentPreview = file.id
                     const iframe = $("preview-content").querySelector('iframe')
 
@@ -45808,7 +45865,6 @@ const createPreviewWindow = function (files, fileId, recordId, fieldId) {
                         class: "preview-navigation",
                         layout: "vertical",
                         items: [{
-                                type: "spacer",
                                 flex: 1
                             },
                             {
@@ -45820,7 +45876,6 @@ const createPreviewWindow = function (files, fileId, recordId, fieldId) {
                                 }
                             },
                             {
-                                type: "spacer",
                                 flex: 1
                             }
                         ]
@@ -45843,7 +45898,6 @@ const createPreviewWindow = function (files, fileId, recordId, fieldId) {
 
                         layout: "vertical",
                         items: [{
-                                type: "spacer",
                                 flex: 1
                             },
                             {
@@ -45855,7 +45909,6 @@ const createPreviewWindow = function (files, fileId, recordId, fieldId) {
                                 }
                             },
                             {
-                                type: "spacer",
                                 flex: 1
                             }
                         ]
@@ -46089,7 +46142,6 @@ const createFileUploadBox = function(ACL = "private", multiple = true) {
                 items: [
                     // Flex element to fill space
                     {
-                        type: "spacer",
                         flex: 1
                     },
                     // Button to upload the files
@@ -46429,7 +46481,6 @@ const createFileUploadDropbox = function(ACL = "private", multiple = true) {
                 items: [
                     // Flex element to fill space
                     {
-                        type: "spacer",
                         flex: 1
                     },
                     // Button to upload the files
@@ -46601,7 +46652,6 @@ const createFileUploadGoogleDrive = function(ACL = "private", multiple = true) {
                 items: [
                     // Flex element to fill space
                     {
-                        type: "spacer",
                         flex: 1
                     },
                     // Button to upload the files
@@ -46804,7 +46854,6 @@ const createFileUploadInstagram = function(ACL = "private", multiple = true) {
                 items: [
                     // Flex element to fill space
                     {
-                        type: "spacer",
                         flex: 1
                     },
                     // Button to select the files
@@ -47224,7 +47273,6 @@ const createFileUploadLocal = function(ACL = "private", multiple = true) {
                 items: [
                     // Flex element to fill space
                     {
-                        type: "spacer",
                         flex: 1
                     },
                     // Button to select the files
@@ -47352,7 +47400,6 @@ const createFileUploadOneDrive = function(ACL = "private", multiple = true) {
                 items: [
                     // Flex element to fill space
                     {
-                        type: "spacer",
                         flex: 1
                     },
                     // Button to upload the files
@@ -47497,7 +47544,6 @@ const createFileUploadTakePhoto = function(ACL = "private", multiple = true) {
                 items: [
                     // Flex element to fill space
                     {
-                        type: "spacer",
                         flex: 1
                     },
                     // Open Webcam Button
@@ -48356,7 +48402,6 @@ kiss.app.defineView({
                             action: () => $(id).close()
                         },
                         {
-                            type: "spacer",
                             width: "1rem"
                         },
                         // SEND INVITATION BUTTON
@@ -48643,7 +48688,6 @@ kiss.app.defineView({
 
                                     layout: "vertical",
                                     items: [{
-                                            type: "spacer",
                                             flex: 1
                                         },
                                         {
@@ -48652,7 +48696,6 @@ kiss.app.defineView({
                                             html: txtUpperCase("or")
                                         },
                                         {
-                                            type: "spacer",
                                             flex: 1
                                         }
                                     ]
@@ -49139,7 +49182,6 @@ kiss.app.defineView({
 
                                     layout: "vertical",
                                     items: [{
-                                            type: "spacer",
                                             flex: 1
                                         },
                                         {
@@ -49148,7 +49190,6 @@ kiss.app.defineView({
                                             html: txtUpperCase("or")
                                         },
                                         {
-                                            type: "spacer",
                                             flex: 1
                                         }
                                     ]

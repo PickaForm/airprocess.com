@@ -443,6 +443,9 @@ kiss.language.texts = {
     "#delete image": {
         es: "eliminar la imagen"
     },
+    "#delete image warning": {
+        es: "¿Estás seguro de querer eliminar esta imagen?\n            Esta operación es irreversible."
+    },
     "insert table": {
         es: "insertar tabla"
     },
@@ -1153,6 +1156,12 @@ kiss.language.texts = {
     },
     "#gallery show image": {
         es: "¿quieres mostrar una imagen?"
+    },
+    "delete selected items": {
+        es: "eliminar los elementos seleccionados"
+    },
+    "#warning delete items": {
+        es: "¿está seguro de que desea eliminar estos %n elemento(s)?\n\n        No podrá deshacer la operación."
     },
     "setup the map": {
         es: "configurar el mapa"
