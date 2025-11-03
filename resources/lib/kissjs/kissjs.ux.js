@@ -953,13 +953,15 @@ kiss.ux.RichTextField = class RichTextField extends kiss.ui.Component {
             maxSize: 5 * 1024 * 1024, // 5 MB
             ACL: "public",
             callback: (data) => {
-                let path = data[0].path.replaceAll("\\", "/")
+                const file = data[0]
+                let path = file.path.replaceAll("\\", "/")
                 if (!path.startsWith("http")) path = "/" + path
+
                 _this._insertImageFromURL({
                     mode: "create",
                     src: path,
-                    alt: data[0].originalname,
-                    caption: data[0].originalname
+                    alt: file.originalname,
+                    caption: file.originalname
                 })
             }
         })        
@@ -4641,6 +4643,7 @@ customElements.define("a-link", kiss.ux.Link)
 /**
  * Shorthand to create a new Link field. See [kiss.ux.Link](kiss.ux.Link.html)
  * 
+ * @ignore
  * @param {object} config
  * @returns HTMLElement
  */
@@ -5154,6 +5157,7 @@ customElements.define("a-selectviewcolumn", kiss.ux.SelectViewColumn)
 /**
  * Shorthand to create a new SelectViewColumn field. See [kiss.ux.SelectViewColumn](kiss.ux.SelectViewColumn.html)
  * 
+ * @ignore
  * @param {object} config
  * @returns HTMLElement
  */

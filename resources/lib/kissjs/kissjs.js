@@ -39,7 +39,7 @@ const kiss = {
     $KissJS: "KissJS - Keep It Simple Stupid Javascript",
 
     // Build number
-    version: 4900,
+    version: 4930,
     
     // Tell isomorphic code we're on the client side
     isClient: true,
@@ -159,6 +159,7 @@ const kiss = {
      * - [kiss.ux.AiImage](kiss.ux.AiImage.html): an attachment field connected to OpenAI to generate Dall-E images
      * - [kiss.ux.AiTextarea](kiss.ux.AiTextarea.html): a paragraph field connected to OpenAI to generate content
      * - [kiss.ux.CodeEditor](kiss.ux.CodeEditor.html): a field to write code, embedding the famous Ace Editor
+     * - [kiss.ux.HierarchyEditor](kiss.ux.HierarchyEditor.html): a component to manage a hierarchy of items (like a table of contents, etc...)
      * - [kiss.ux.MapField](kiss.ux.MapField.html): a map with a text field to enter an address or geo coordinates. Uses OpenLayers internally.
      * - [kiss.ux.RichTextField](kiss.ux.RichTextField.html): a rich text editor to manage formatted text. Uses Quill internally.
      * - [kiss.ux.Directory](kiss.ux.Directory.html): a field to select people from the address book | Used in airprocess project
@@ -504,7 +505,8 @@ const kiss = {
                 "richTextField/richTextField",
                 "selectViewColumn/selectViewColumn",
                 "selectViewColumns/selectViewColumns",
-                "wizardPanel/wizardPanel"
+                "wizardPanel/wizardPanel",
+                "hierarchyEditor/hierarchyEditor"
             ],
             styles: [
                 "codeEditor/codeEditor",
@@ -512,7 +514,8 @@ const kiss = {
                 "link/link",
                 "map/map",
                 "mapField/mapField",
-                "richTextField/richTextField"
+                "richTextField/richTextField",
+                "hierarchyEditor/hierarchyEditor"
             ]
         },
 
@@ -742,6 +745,7 @@ const kiss = {
      * KissJS service worker.
      * Mainly used for PWA at the moment.
      * 
+     * @ignore
      * @namespace
      */
     serviceWorker: {
@@ -5230,7 +5234,7 @@ kiss.directory = {
                     text: txtTitleCase("#button edit name"),
                     icon: "fas fa-check",
                     height: 40,
-                    margin: "20px 0px 10px 0px",
+                    margin: "2rem 0 1rem 0",
 
                     action: () => {
                         const success = $("edit-user-infos").validate()
@@ -7235,13 +7239,6 @@ kiss.router = {
         }
         kiss.router.updateUrlHash(newRoute, reset)
 
-        // Perform verifications before routing
-        // The routing can be interrupted if the method beforeRouting returns false
-
-
-        // const doRoute = await kiss.router._beforeRouting(newRoute)
-        // if (!doRoute) return
-
         // Propagate the hash change
         window.dispatchEvent(new HashChangeEvent("hashchange"))
     },
@@ -8134,7 +8131,7 @@ kiss.selection = {
                         roles, // directory
                         shape, // checkbox
                         iconColorOn, // checkbox
-                        iconSize: "20px", // checkbox
+                        iconSize: "2rem", // checkbox
                     }
                 }
             }
@@ -9627,8 +9624,8 @@ kiss.session = {
                 justifyContent: "center",
                 items: [{
                     type: "html",
-                    padding: 32,
-                    html: `<div style="font-size: 18px; text-align: center;">${txtTitleCase(message)}</div>`
+                    padding: "3.2rem",
+                    html: `<div style="font-size: 1.8rem; text-align: center;">${txtTitleCase(message)}</div>`
                 }]
             }]
         }).render()
@@ -10322,7 +10319,7 @@ kiss.theme = {
                         theme = theme.replace("\n}", ";\n}")
             
                         createDialog({
-                            type: "input",
+                            type: "text",
                             title: txtTitleCase("#theme name"),
                             message: txtTitleCase("#theme name help"),
                             autoClose: false,
@@ -10897,6 +10894,23 @@ kiss.tools = {
         const g = parseInt(hex.substring(2, 4), 16)
         const b = parseInt(hex.substring(4, 6), 16)
         return `rgba(${r}, ${g}, ${b}, ${opacity})`
+    },
+
+    /**
+     * Check if a value is a valid hex color
+     * 
+     * @param {string} value - The value to check, which can be like: #RGB, #RGBA, #RRGGBB
+     * @returns {boolean} - True if the value is a valid hex color, false otherwise
+     * 
+     * @example
+     * kiss.tools.isHexColor("#00aaee") // returns true
+     * kiss.tools.isHexColor("#ggg")    // returns false
+     * kiss.tools.isHexColor("00aaee")  // returns false
+     * kiss.tools.isHexColor("#1234")  // returns true
+     * kiss.tools.isHexColor("#12345")  // returns false
+     */
+    isHexColor(value) {
+        return /^#([A-Fa-f0-9]{3,4}|[A-Fa-f0-9]{6})$/.test(value.trim())
     },
 
     /**
@@ -30547,6 +30561,7 @@ customElements.define("a-list", kiss.ui.List)
 /**
  * Shorthand to create a new List. See [kiss.ui.List](kiss.ui.List.html)
  * 
+ * @ignore
  * @param {object} config
  * @returns HTMLElement
  */
@@ -34567,17 +34582,17 @@ const createButton = (config) => document.createElement("a-button").init(config)
  * The Dialog box is just a Panel with pre-defined items:
  * - OK button
  * - Cancel button, except when dialog type = "message"
- * - Field to input a value if type = "input" or "select"
+ * - Field to input a value if type = "text", "textarea", "select", or "directory"
  * - Clicking on the OK button triggers the specified action.
  * - Clicking on the Cancel button close the dialog.
  * 
  * @param {object|string} config - Configuration object, or a simple text to display in the dialog box
  * @param {string} [config.id] - optional id in case you need to manage this dialog by id
- * @param {string} config.type - dialog | message | danger | input | select. Default = "dialog"
+ * @param {string} config.type - dialog | message | danger | text | textarea | select | directory. Default = "dialog"
  * @param {string} [config.defaultValue] - Default value for input or select type
  * @param {string} config.message
  * @param {string} config.textAlign - use "center" to center the text in the dialog box
- * @param {function} config.action - Function called if the user clicks on the OK button. The function receives the input value if the dialog type is "input"
+ * @param {function} config.action - Function called if the user clicks on the OK button. The function receives the input value if the dialog collects a value.
  * @param {object[]} [config.options] - Only for "select" type: define the list of options. 
  * @param {boolean} [config.multiple] - Only for "select" type: allow to select multiple options.
  * @param {boolean} [config.users] - Only for "directory" type: allow to select users
@@ -34633,7 +34648,7 @@ const createButton = (config) => document.createElement("a-button").init(config)
  * 
  * // Display a dialog box with an input field: the callback catches the entered value
  * createDialog({
- *  type: "input",
+ *  type: "text",
  *  message: "Please enter your name:",
  *  action: (enteredValue) => console.log("You've entered " + enteredValue)
  * })
@@ -34776,8 +34791,8 @@ kiss.ui.Dialog = class Dialog {
                     html: config.message
                 } : null,
 
-                // INPUT FIELD
-                (dialogType == "input") ? {
+                // TEXT FIELD
+                (dialogType == "text") ? {
                     id: "input-box-field",
                     type: "text",
                     label: config.message,
@@ -34786,6 +34801,18 @@ kiss.ui.Dialog = class Dialog {
                     fieldWidth: "100%",
                     value: config.defaultValue || ""
                 } : null,
+
+                // TEXTAREA FIELD
+                (dialogType == "textarea") ? {
+                    id: "input-box-field",
+                    type: "textarea",
+                    label: config.message,
+                    labelPosition: "top",
+                    width: "100%",
+                    fieldWidth: "100%",
+                    value: config.defaultValue || "",
+                    rows: config.rows || 5
+                } : null,                
 
                 // SELECT FIELD
                 (dialogType == "select") ? {
@@ -34843,7 +34870,7 @@ kiss.ui.Dialog = class Dialog {
             methods: {
                 // Focus the panel or the input field so that keyboard events can be listened to
                 // _afterRender() {
-                //     if (dialogType == "input") {
+                //     if (dialogType == "text" || dialogType == "textarea" || dialogType == "select" || dialogType == "directory") {
                 //         setTimeout(() => $("input-box-field").focus(), 100)
                 //     } else {
                 //         setTimeout(() => this.panelBody.focus(), 100)
@@ -34854,7 +34881,7 @@ kiss.ui.Dialog = class Dialog {
                 async validate() {
                     if (config.action) {
                         // If there is an action to handle the entered value
-                        const newValue = ((dialogType == "input") || (dialogType == "select") || (dialogType == "directory")) ? $("input-box-field").getValue() : true
+                        const newValue = ((dialogType == "text") || dialogType == "textarea" || (dialogType == "select") || (dialogType == "directory")) ? $("input-box-field").getValue() : true
                         const result = await config.action(newValue)
                         if ((config.autoClose == null) || (config.autoClose == true) || (result == true)) this.close()
                     } else {
@@ -35261,7 +35288,7 @@ kiss.ui.Image = class Image extends kiss.ui.Component {
     setValue(newValue, rawUpdate) {
         if (newValue === "") newValue = this._emptyImage()
         
-            if (rawUpdate) {
+        if (rawUpdate) {
             this.imageContent.src = this.config.src = newValue
             return this
         }
@@ -35276,6 +35303,7 @@ kiss.ui.Image = class Image extends kiss.ui.Component {
                 }
                 else {
                     this.initialValue = newValue
+                    this.dispatchEvent(new Event("change"))
                 }
             })
         } else {
@@ -35612,7 +35640,7 @@ const createMenu = (config) => document.createElement("a-menu").init(config)
  * @param {number} [config.top] - Top position. Default = 100
  * @param {string|number} [config.width]
  * @param {string|number} [config.height]
- * @param {string|number} [config.padding] - Default 10px
+ * @param {string|number} [config.padding]
  * @param {number} [config.duration] - Duration in milliseconds. Default = 1000
  * @returns this
  */
@@ -42471,6 +42499,16 @@ const createForm = function (record) {
                 layout: "vertical",
                 flex: 1,
                 items: [
+                    // Header
+                    // {
+                    //     type: "html",
+                    //     height: "20rem",
+                    //     margin: "0 0 1rem 0",
+                    //     padding: "0 1rem",
+                    //     html: `<div class="form-header-image" style="background-image: url('https://images.unsplash.com/photo-1533656118793-f31053731265?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=6000');">
+                    //         <span class="form-header-title">${modelName.toTitleCase()}</span>
+                    //     </div>`
+                    // },
                     // Mobile exit button
                     {
                         hidden: true, //!isMobile,
@@ -43939,7 +43977,7 @@ const createDataFieldsWindow = function (viewId, color = "#00aaee") {
             // Buttons
             {
                 layout: "horizontal",
-                margin: "10px 0px 0px 0px",
+                margin: "1rem 0 0 0",
                 overflow: "unset",
 
                 items: [
@@ -44001,7 +44039,7 @@ const createDataFieldsWindow = function (viewId, color = "#00aaee") {
                         checked: !field.hidden,
 
                         shape: "switch",
-                        iconSize: "16px",
+                        iconSize: "1.6rem",
                         iconColorOn: color,
                         class: "switch-field",
                         draggable: true,
@@ -44029,20 +44067,20 @@ const createDataFieldsWindow = function (viewId, color = "#00aaee") {
 
                                 const dropTarget = event.target.closest("a-checkbox")
                                 if (dropTarget.id == kiss.context.draggedElement.id) return
-                                dropTarget.style.minHeight = "60px"
+                                dropTarget.style.minHeight = "6rem"
                                 dropTarget.style.alignItems = "unset"
                                 dropTarget.style.transition = "all 0.1s"
                             },
 
                             ondragleave: function(event) {
                                 const dropTarget = event.target.closest("a-checkbox")
-                                dropTarget.style.minHeight = "26px"
+                                dropTarget.style.minHeight = "2.6rem"
                                 dropTarget.style.alignItems = "center"
                             },
 
                             ondrop: function(event) {
                                 const dropTarget = event.target.closest("a-checkbox")
-                                dropTarget.style.minHeight = "26px"
+                                dropTarget.style.minHeight = "2.6rem"
                                 dropTarget.style.alignItems = "center"
                                 
                                 const sourceFieldId = kiss.context.draggedElement.id.split("checkbox-")[1]
@@ -45606,10 +45644,22 @@ const createFileLibraryWindow = async function (config = {}) {
                     value: "image/"
                 },
                 {
-                    type: "filter",
-                    fieldId: "modelId",
-                    operator: "=",
-                    value: "blog"
+                    type: "group",
+                    operator: "or",
+                    filters: [
+                        {
+                            type: "filter",
+                            fieldId: "modelId",
+                            operator: "=",
+                            value: "blog"
+                        },
+                        {
+                            type: "filter",
+                            fieldId: "modelId",
+                            operator: "=",
+                            value: kiss.context.modelId
+                        }
+                    ]
                 }
             ]
         }
@@ -46375,7 +46425,7 @@ kiss.app.defineView({
             items: [{
                 type: "html",
                 html: txt("<center>Thank you!<br>Your Box session has been restored.<br></center>"),
-                padding: "50px"
+                padding: "5rem"
             }],
 
             methods: {
@@ -47069,7 +47119,7 @@ kiss.app.defineView({
             items: [{
                 type: "html",
                 html: txt("<center>Thank you!<br>Your instagram session has been restored.<br>You can close this page.</center>"),
-                padding: "50px"
+                padding: "5rem"
             }]
         })
     }
@@ -47135,7 +47185,7 @@ const createFileUploadLink = function(ACL = "private", multiple = true) {
                         id: "upload-link-url",
                         type: "text",
                         placeholder: txtTitleCase("enter an URL here"),
-                        padding: "0px",
+                        padding: "0",
                         fieldWidth: "25rem"
                     },
                     // Button to select the files
@@ -47701,7 +47751,7 @@ const createFileUploadWebSearch = function(ACL = "private", multiple = true) {
                         id: "upload-websearch-url",
                         type: "text",
                         placeholder: txtTitleCase("enter your search term and press Enter"),
-                        padding: "0px",
+                        padding: "0",
                         fieldWidth: "25rem",
                         events: {
                             onkeypress: function (event) {
@@ -48338,7 +48388,7 @@ kiss.app.defineView({
                     items: [{
                             type: "html",
                             html: errorMessage,
-                            padding: "32px"
+                            padding: "3.2rem"
                         },
                         {
                             type: "button",
@@ -48549,6 +48599,8 @@ kiss.app.defineView({
             }
         }
 
+        const defaultBgColor = "linear-gradient(to right bottom, #1d1f25, #2c2f38)"
+
         /**
          * Generates the panel containing the login infos
          */
@@ -48567,7 +48619,7 @@ kiss.app.defineView({
                         {
                             class: "left-panel",
                             flex: 1,
-                            background: "black"
+                            background: defaultBgColor
                         },
                         // Matrix effect
                         {
@@ -48967,6 +49019,8 @@ kiss.app.defineView({
             }
         }
 
+        const defaultBgColor = "linear-gradient(to right bottom, #1d1f25, #2c2f38)"
+
         /**
          * Generates the panel containing the login infos
          */
@@ -48988,7 +49042,7 @@ kiss.app.defineView({
                         {
                             class: "left-panel",
                             flex: 1,
-                            background: "black"
+                            background: defaultBgColor
                         },
                         // Image
                         {
@@ -53751,8 +53805,8 @@ kiss.data.Model = class {
             ),
             top: () => kiss.screen.current.height - 50,
             left: 10,
-            height: "40px",
-            padding: "0px",
+            height: "4rem",
+            padding: 0,
             animation: "slideInUp",
             duration: 4000
         })
@@ -59302,6 +59356,8 @@ kiss.addToModule("global", {
 
     /**
      * All ISO 639-1 language codes
+     * 
+     * @ignore
      */
     languages: [
         {name: "Afaan Oromoo", code: "om"},
@@ -61511,7 +61567,7 @@ kiss.app.defineModel({
             let model = kiss.app.models[this.modelId]
 
             createDialog({
-                type: "input",
+                type: "text",
                 title: txtTitleCase("rename this view"),
                 icon: model.icon,
                 headerBackgroundColor: model.color,
@@ -61544,7 +61600,7 @@ kiss.app.defineModel({
             let model = kiss.app.models[this.modelId]
 
             createDialog({
-                type: "input",
+                type: "text",
                 title: txtTitleCase("duplicate this view"),
                 icon: "fas fa-copy",
                 headerBackgroundColor: model.color,

@@ -137,6 +137,9 @@ kiss.language.texts = {
     "#type": {
         fr: "type"
     },
+    "new title": {
+        fr: "nouveau titre"
+    },
     "name": {
         fr: "nom"
     },

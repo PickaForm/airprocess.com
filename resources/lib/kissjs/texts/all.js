@@ -213,6 +213,10 @@ kiss.language.texts = {
         fr: "type",
         es: "tipo"
     },
+    "new title": {
+        fr: "nouveau titre",
+        es: "nuevo título"
+    },
 
     /**
      * Authentication & Registration
