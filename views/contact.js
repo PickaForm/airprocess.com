@@ -2,9 +2,9 @@ kiss.app.defineView({
     id: "contact",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/contact",
-            fr: "https://airprocess.fr/fr/contact",
-            es: "https://airprocess.fr/es/contact"
+            en: "https://airprocess.com/en/contact",
+            fr: "https://airprocess.com/fr/contact",
+            es: "https://airprocess.com/es/contact"
         },
         title: {
             en: "Contact & FAQ | AirProcess",

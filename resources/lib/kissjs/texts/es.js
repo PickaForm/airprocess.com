@@ -140,6 +140,24 @@ kiss.language.texts = {
     "new title": {
         es: "nuevo título"
     },
+    "Bad Request": {
+        es: "el servidor no pudo entender la solicitud"
+    },
+    "Unauthorized": {
+        es: "esta operación no ha sido autorizada"
+    },
+    "Forbidden": {
+        es: "esta operación ha sido prohibida por el servidor"
+    },
+    "Not Found": {
+        es: "el recurso solicitado no fue encontrado"
+    },
+    "Method not allowed": {
+        es: "el método utilizado no está permitido para el recurso solicitado"
+    },
+    "Internal Server Error": {
+        es: "el servidor encontró una condición inesperada"
+    },
     "name": {
         es: "nombre"
     },
@@ -196,6 +214,12 @@ kiss.language.texts = {
     },
     "#copy register url": {
         es: "copiar el enlace a tu página de registro personalizada"
+    },
+    "userAlreadyExists": {
+        es: "El usuario ya existe"
+    },
+    "welcome onboard": {
+        es: "bienvenido a bordo"
     },
     "forgot password?": {
         es: "¿Olvidaste tu contraseña?"
@@ -350,6 +374,9 @@ kiss.language.texts = {
     "#select view columns": {
         es: "selección desde una vista"
     },
+    "#view-not-available": {
+        es: "La vista que intentas abrir no está disponible para tu nivel de acceso"
+    },
     "#select view": {
         es: "selecciona la vista de la fuente de datos"
     },
@@ -484,6 +511,9 @@ kiss.language.texts = {
     },
     "#image generator": {
         es: "tu asistente generador de imágenes IA"
+    },
+    "image quality": {
+        es: "calidad de la imagen"
     },
     "image format": {
         es: "formato de la imagen"
@@ -983,8 +1013,14 @@ kiss.language.texts = {
     "small": {
         es: "pequeño"
     },
+    "low": {
+        es: "bajo"
+    },
     "medium": {
         es: "mediano"
+    },
+    "high": {
+        es: "alto"
     },
     "large": {
         es: "grande"
@@ -997,6 +1033,9 @@ kiss.language.texts = {
     },
     "very tall": {
         es: "muy alto"
+    },
+    "standard": {
+        es: "estándar"
     },
     "interface size": {
         es: "tamaño de la interfaz"
@@ -1291,6 +1330,9 @@ kiss.language.texts = {
     },
     "#msg delete": {
         es: "el usuario <b> %user </b> eliminó <b> %object </b>"
+    },
+    "#msg restore": {
+        es: "el usuario <b> %user </b> restauró <b> %object </b>"
     },
     "#a record": {
         es: "un registro"

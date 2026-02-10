@@ -2,9 +2,9 @@ kiss.app.defineView({
     id: "cases",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/cases",
-            fr: "https://airprocess.fr/fr/cases",
-            es: "https://airprocess.fr/es/cases"
+            en: "https://airprocess.com/en/cases",
+            fr: "https://airprocess.com/fr/cases",
+            es: "https://airprocess.com/es/cases"
         },
         title: {
             en: "Case studies | AirProcess",

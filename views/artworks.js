@@ -2,9 +2,9 @@ kiss.app.defineView({
     id: "artworks",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/artworks",
-            fr: "https://airprocess.fr/fr/artworks",
-            es: "https://airprocess.fr/es/artworks",
+            en: "https://airprocess.com/en/artworks",
+            fr: "https://airprocess.com/fr/artworks",
+            es: "https://airprocess.com/es/artworks",
         },
         title: {
             en: "AirProcess | Midjourney integration",

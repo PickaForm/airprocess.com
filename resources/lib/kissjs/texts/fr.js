@@ -140,6 +140,24 @@ kiss.language.texts = {
     "new title": {
         fr: "nouveau titre"
     },
+    "Bad Request": {
+        fr: "le serveur n'a pas pu comprendre la requête demandée"
+    },
+    "Unauthorized": {
+        fr: "cette opération n'a pas été autorisée"
+    },
+    "Forbidden": {
+        fr: "cette opération a été interdite par le serveur"
+    },
+    "Not Found": {
+        fr: "la ressource demandée est introuvable"
+    },
+    "Method not allowed": {
+        fr: "la méthode utilisée n'est pas autorisée pour la ressource demandée"
+    },
+    "Internal Server Error": {
+        fr: "le serveur a rencontré une condition inattendue"
+    },
     "name": {
         fr: "nom"
     },
@@ -196,6 +214,12 @@ kiss.language.texts = {
     },
     "#copy register url": {
         fr: "copier le lien vers votre page d'inscription personnalisée"
+    },
+    "userAlreadyExists": {
+        fr: "L'utilisateur existe déjà"
+    },
+    "welcome onboard": {
+        fr: "bienvenue à bord"
     },
     "forgot password?": {
         fr: "mot de passe oublié ?"
@@ -350,6 +374,9 @@ kiss.language.texts = {
     "#select view columns": {
         fr: "sélection dans une vue"
     },
+    "#view-not-available": {
+        fr: "la vue que vous essayez d'ouvrir n'est pas disponible pour votre niveau d'accès"
+    },
     "#select view": {
         fr: "sélectionnez la vue source des données"
     },
@@ -484,6 +511,9 @@ kiss.language.texts = {
     },
     "#image generator": {
         fr: "votre assistant IA pour générer des images"
+    },
+    "image quality": {
+        fr: "qualité de l'image"
     },
     "image format": {
         fr: "format de l'image"
@@ -983,8 +1013,14 @@ kiss.language.texts = {
     "small": {
         fr: "petit"
     },
+    "low": {
+        fr: "bas"
+    },
     "medium": {
         fr: "moyen"
+    },
+    "high": {
+        fr: "haut"
     },
     "large": {
         fr: "grand"
@@ -997,6 +1033,9 @@ kiss.language.texts = {
     },
     "very tall": {
         fr: "très grand"
+    },
+    "standard": {
+        fr: "standard"
     },
     "interface size": {
         fr: "taille de l'interface"
@@ -1291,6 +1330,9 @@ kiss.language.texts = {
     },
     "#msg delete": {
         fr: "l'utilisateur <b> %user </b> a supprimé <b> %object </b>"
+    },
+    "#msg restore": {
+        fr: "l'utilisateur <b> %user </b> a restauré <b> %object </b>"
     },
     "#a record": {
         fr: "une donnée"

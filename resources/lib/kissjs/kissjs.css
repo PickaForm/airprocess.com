@@ -248,7 +248,8 @@ select:focus {
     --background-overlay: rgba(27, 11, 11, 0.3);
 }
 
-/* BASE CSS PARAMETERS *//* LIGHT THEME PARAMETERS */
+/* BASE CSS PARAMETERS */
+/* LIGHT THEME PARAMETERS */
 :root {
     --body: #555555;
     --body-alt: #dddddd;
@@ -316,6 +317,7 @@ select:focus {
     --shadow-4: 0 0.4rem 1rem rgba(0,0,0,0.25);
 }
 /* /LIGHT THEME PARAMETERS */
+
 /* DEFAULT GEOMETRY PARAMETERS */
 :root {
     /* Most important parameter: the fonts! */
@@ -412,6 +414,7 @@ select:focus {
     --tab-border-radius: 1rem 1rem 0 0;
 }
 /* /DEFAULT GEOMETRY PARAMETERS */
+
 /**
  * ANIMATE
  *
@@ -4805,6 +4808,7 @@ print {
   animation-name: slideOutUp
 }
 /* /ANIMATE */
+
 /* COMPONENT */
 .component-loader,
 .component-loader:after {
@@ -4858,6 +4862,7 @@ print {
     }
 }
 /* /COMPONENT */
+
 /* DATA COMPONENT */
 
 /* CHECKBOX */
@@ -4924,6 +4929,7 @@ print {
 }
 
 /* /DATA COMPONENT */
+
 /* BLOCK */
 .a-block {
     display: block;
@@ -4943,6 +4949,7 @@ print {
     background-color: #fafafa;
 }
 /* /BLOCK */
+
 /* PANEL (and derivatives) */
 .a-panel {
     display: flex;
@@ -4954,6 +4961,10 @@ print {
     border-radius: var(--panel-border-radius);
     box-shadow: var(--panel-box-shadow);
     user-select: none;
+}
+
+.a-panel:focus {
+    outline: none;
 }
 
 /* Panel mask for modal windows */
@@ -5056,6 +5067,7 @@ print {
     flex: 1;
 }
 /* /PANEL */
+
 /* CALENDAR */
 .a-calendar {
     display: flex;
@@ -5202,6 +5214,7 @@ print {
 }
 
 /* /CALENDAR */
+
 /* CHARTVIEW */
 .a-chartview {
     display: flex;
@@ -5370,6 +5383,7 @@ print {
     font-size: 2rem;
 }
 /* /CHARTVIEW */
+
 /* DASHBOARD */
 .a-dashboard {
     display: flex;
@@ -5539,7 +5553,8 @@ print {
     }
 } */
 
-/* /DASHBOARD *//* DATATABLE
+/* /DASHBOARD */
+/* DATATABLE
 
 It's the most compex UI component of KissJS library, so it deserves a few explanations.
 
@@ -6168,6 +6183,7 @@ The virtual scrollbar is achieved with a fixed positionned layer on top of the d
     opacity: 1;
 }
 /* /DATATABLE */
+
 /* GALLERY */
 .a-gallery {
     display: block;
@@ -6387,6 +6403,7 @@ The virtual scrollbar is achieved with a fixed positionned layer on top of the d
 }
 
 /* /GALLERY */
+
 /* KANBAN */
 .a-kanban {
     display: block;
@@ -6599,6 +6616,7 @@ The virtual scrollbar is achieved with a fixed positionned layer on top of the d
 }
 
 /* /KANBAN */
+
 /* LIST */
 .a-list {
     display: flex;
@@ -6690,6 +6708,7 @@ The virtual scrollbar is achieved with a fixed positionned layer on top of the d
 }
 
 /* /LIST */
+
 /* MAPVIEW */
 .a-mapview {
     display: block;
@@ -6771,6 +6790,7 @@ The virtual scrollbar is achieved with a fixed positionned layer on top of the d
 }
 
 /* /MAPVIEW */
+
 /* TIMELINE */
 .a-timeline {
     display: block;
@@ -6908,6 +6928,7 @@ The virtual scrollbar is achieved with a fixed positionned layer on top of the d
     display: flex;
     align-items: center;
     min-width: 0.3rem;
+    font-size: 2rem;
     height: 100%;
     cursor: ew-resize;
 }
@@ -7232,6 +7253,7 @@ The virtual scrollbar is achieved with a fixed positionned layer on top of the d
 }
 
 /* /TIMELINE */
+
 /* TREE LIST */
 .tree {
     margin: 0px;
@@ -7321,6 +7343,7 @@ ul .tree {
     color: var(--tree-leaf-menu-hover);
 }
 /* /TREE LIST */
+
 /* BUTTON */
 .a-button {
     display: inline-flex;
@@ -7395,6 +7418,7 @@ ul .tree {
 }
 
 /* /BUTTON */
+
 /* DIALOG */
 .panel-dialog .panel-header {
     height: 5rem;
@@ -7424,11 +7448,13 @@ ul .tree {
     height: 4rem;
 }
 /* /DIALOG */
+
 /* HTML */
 .a-html {
     display: block;
 }
 /* /HTML */
+
 /* IMAGE */
 .a-image {
     display: inline-flex;
@@ -7441,6 +7467,7 @@ ul .tree {
     text-align: center;
 }
 /* /IMAGE */
+
 /* MENU */
 .a-menu {
     overflow: auto;
@@ -7492,7 +7519,6 @@ ul .tree {
 .a-menu .menu-item-icon {
     width: 4rem;
     padding: 0 2rem 0 0;
-    
     color: inherit;
     font-size: var(--menu-font-size);
     text-align: center;
@@ -7524,6 +7550,7 @@ ul .tree {
     background: var(--menu-separator);
 }
 /* /MENU */
+
 /* NOTIFICATION */
 .a-notification {
     padding: 1rem;
@@ -7534,6 +7561,7 @@ ul .tree {
     box-shadow: var(--panel-box-shadow);
 }
 /* /NOTIFICATION */
+
 /* TIP */
 .a-tip {
     position: fixed;
@@ -7545,6 +7573,7 @@ ul .tree {
     z-index: 50000;
 }
 /* /TIP */
+
 /* ATTACHMENT FIELD */
 .a-attachment {
     display: block;
@@ -7739,6 +7768,7 @@ ul .tree {
 }
 
 /* /ATTACHMENT FIELD */
+
 /* CHECKBOX FIELD */
 .a-checkbox {
     display: flex;
@@ -7763,6 +7793,7 @@ ul .tree {
     cursor: default;
 }
 /* /CHECKBOX FIELD */
+
 /* COLOR FIELD */
 .a-color {
     display: inline-flex;
@@ -7829,6 +7860,7 @@ ul .tree {
     user-select: text;    
 }
 /* /COLOR FIELD */
+
 /* COLOR PICKER */
 .a-colorpicker {
     display: inline;
@@ -7850,6 +7882,7 @@ ul .tree {
     margin: 0.1rem;
 }
 /* /COLOR PICKER */
+
 /* INPUT FIELD */
 .a-field {
     display: inline-flex;
@@ -7962,6 +7995,7 @@ ul .tree {
     background-color: transparent;
 }
 /* /INPUT FIELD */
+
 /* ICON FIELD */
 .a-icon {
     display: inline-flex;
@@ -8013,6 +8047,7 @@ ul .tree {
     user-select: text;    
 }
 /* /ICON FIELD */
+
 /* ICON PICKER */
 .a-iconpicker {
     display: inline-block;
@@ -8033,6 +8068,7 @@ ul .tree {
     color: #ffffff !important;
 }
 /* /ICON PICKER */
+
 /* RATING FIELD */
 .a-rating {
     display: flex;
@@ -8057,7 +8093,8 @@ ul .tree {
 .rating:hover {
     transform: rotate(360deg) scale(1.5);
     transition: all 0.2s;
-}/* SELECT */
+}
+/* SELECT */
 .a-select {
     display: flex;
     flex-flow: row;
@@ -8229,6 +8266,7 @@ ul .tree {
     display: none;
 }
 /* /SELECT */
+
 /* PROGRESS BAR FIELD */
 .a-slider {
     display: flex;
@@ -8247,7 +8285,8 @@ ul .tree {
 
 .field-slider {
     width: 100%;
-}/* FORM */
+}
+/* FORM */
 /* .form-header-image {
     display: flex;
     align-items: center;
@@ -8360,6 +8399,11 @@ ul .tree {
     flex-flow: column;
 }
 
+.form-fields {
+    display: flex;
+    flex-flow: column;
+}
+
 /* Feature welcome/help text */
 .form-feature-arrow {
     width: 15rem;
@@ -8404,6 +8448,7 @@ ul .tree {
     padding: 1rem;
 }
 /* /FORM */
+
 /* WINDOW TO SELECT FIELDS */
 .switch-field {
     padding: 0;
@@ -8418,6 +8463,7 @@ ul .tree {
     cursor: grab;
 }
 /* /WINDOW TO SELECT FIELDS */
+
 /* DATA FILTER */
 
 /* Filter container */
@@ -8434,6 +8480,7 @@ ul .tree {
     margin: 0 2rem 0 1rem !important;
 }
 /* /DATA FILTER */
+
 /* DATA FILTER GROUP */
 
 /* Operator of the group: AND / OR */
@@ -8489,6 +8536,7 @@ ul .tree {
     }
 }
 /* /DATA FILTER GROUP */
+
 /* DATA SORTER */
 .data-sorter {
     padding: 0.5rem 0.8rem 0.5rem 1.6rem;
@@ -8509,6 +8557,7 @@ ul .tree {
     color: #999999;
 }
 /* /DATA SORTER */
+
 /* WINDOW TO PREVIEW ITEMS */
 
 /* Preview item */
@@ -8589,6 +8638,7 @@ ul .tree {
     border: solid 2px #ffffff;
 }
 /* /WINDOW TO PREVIEW ITEMS */
+
 /* FILE UPLOAD */
 .upload-window {
     width: 80rem;
@@ -8741,6 +8791,7 @@ ul .tree {
     height: 100%;
 }
 /* /FILE UPLOAD */
+
 /* AUTHENTICATION */
 .auth-logo {
     position: absolute;

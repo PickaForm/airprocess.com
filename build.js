@@ -157,9 +157,9 @@ function getNextLanguage() {
     id: "artworks",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/artworks",
-            fr: "https://airprocess.fr/fr/artworks",
-            es: "https://airprocess.fr/es/artworks",
+            en: "https://airprocess.com/en/artworks",
+            fr: "https://airprocess.com/fr/artworks",
+            es: "https://airprocess.com/es/artworks",
         },
         title: {
             en: "AirProcess | Midjourney integration",
@@ -608,9 +608,9 @@ function getNextLanguage() {
     id: "cases",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/cases",
-            fr: "https://airprocess.fr/fr/cases",
-            es: "https://airprocess.fr/es/cases"
+            en: "https://airprocess.com/en/cases",
+            fr: "https://airprocess.com/fr/cases",
+            es: "https://airprocess.com/es/cases"
         },
         title: {
             en: "Case studies | AirProcess",
@@ -1114,9 +1114,9 @@ function getNextLanguage() {
     id: "contact",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/contact",
-            fr: "https://airprocess.fr/fr/contact",
-            es: "https://airprocess.fr/es/contact"
+            en: "https://airprocess.com/en/contact",
+            fr: "https://airprocess.com/fr/contact",
+            es: "https://airprocess.com/es/contact"
         },
         title: {
             en: "Contact & FAQ | AirProcess",
@@ -1494,9 +1494,9 @@ function getNextLanguage() {
     id: "landing",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/landing",
-            fr: "https://airprocess.fr/fr/landing",
-            es: "https://airprocess.fr/es/landing"
+            en: "https://airprocess.com/en/landing",
+            fr: "https://airprocess.com/fr/landing",
+            es: "https://airprocess.com/es/landing"
         },
         title: {
             en: "AirProcess | Best no-code platform for your processes",
@@ -2406,9 +2406,9 @@ function getNextLanguage() {
     id: "pricing",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/pricing",
-            fr: "https://airprocess.fr/fr/pricing",
-            es: "https://airprocess.fr/es/pricing"
+            en: "https://airprocess.com/en/pricing",
+            fr: "https://airprocess.com/fr/pricing",
+            es: "https://airprocess.com/es/pricing"
         },
         title: {
             en: "Pricing | AirProcess",
@@ -2743,9 +2743,9 @@ function getNextLanguage() {
     id: "product",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/product",
-            fr: "https://airprocess.fr/fr/product",
-            es: "https://airprocess.fr/es/product"
+            en: "https://airprocess.com/en/product",
+            fr: "https://airprocess.com/fr/product",
+            es: "https://airprocess.com/es/product"
         },
         title: {
             en: "Product features | AirProcess",
@@ -3724,9 +3724,9 @@ function getNextLanguage() {
     id: "whoCanUse",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/whoCanUse",
-            fr: "https://airprocess.fr/fr/whoCanUse",
-            es: "https://airprocess.fr/es/whoCanUse"
+            en: "https://airprocess.com/en/whoCanUse",
+            fr: "https://airprocess.com/fr/whoCanUse",
+            es: "https://airprocess.com/es/whoCanUse"
         },
         title: {
             en: "Who can use | AirProcess",

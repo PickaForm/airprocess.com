@@ -2,9 +2,9 @@ kiss.app.defineView({
     id: "whoCanUse",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/whoCanUse",
-            fr: "https://airprocess.fr/fr/whoCanUse",
-            es: "https://airprocess.fr/es/whoCanUse"
+            en: "https://airprocess.com/en/whoCanUse",
+            fr: "https://airprocess.com/fr/whoCanUse",
+            es: "https://airprocess.com/es/whoCanUse"
         },
         title: {
             en: "Who can use | AirProcess",

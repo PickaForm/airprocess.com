@@ -38,6 +38,24 @@ kiss.language.texts = {
     "#type": {
         en: "type"
     },
+    "Bad Request": {
+        en: "the server could not understand the request"
+    },
+    "Unauthorized": {
+        en: "this operation was not authorized"
+    },
+    "Forbidden": {
+        en: "this operation has been forbidden by the server"
+    },
+    "Not Found": {
+        en: "the requested resource was not found"
+    },
+    "Method not allowed": {
+        en: "the method used is not allowed for the requested resource"
+    },
+    "Internal Server Error": {
+        en: "the server encountered an unexpected condition"
+    },
     "#no account": {
         en: "don't have an account? Sign up"
     },
@@ -61,6 +79,9 @@ kiss.language.texts = {
     },
     "#copy register url": {
         en: "copy the link to your custom register page"
+    },
+    "userAlreadyExists": {
+        en: "The user already exists"
     },
     "#password don't match": {
         en: "Your 2 passwords don't match"
@@ -112,6 +133,9 @@ kiss.language.texts = {
     },
     "#select view columns": {
         en: "select from a view"
+    },
+    "#view-not-available": {
+        en: "The view you are trying to open is not available for your access level"
     },
     "#select view": {
         en: "select the data source view"
@@ -454,6 +478,9 @@ kiss.language.texts = {
     },
     "#msg delete": {
         en: "user <b> %user </b> deleted <b> %object </b>"
+    },
+    "#msg restore": {
+        en: "user <b> %user </b> restored <b> %object </b>"
     },
     "#a record": {
         en: "a record"

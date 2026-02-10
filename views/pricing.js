@@ -2,9 +2,9 @@ kiss.app.defineView({
     id: "pricing",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/pricing",
-            fr: "https://airprocess.fr/fr/pricing",
-            es: "https://airprocess.fr/es/pricing"
+            en: "https://airprocess.com/en/pricing",
+            fr: "https://airprocess.com/fr/pricing",
+            es: "https://airprocess.com/es/pricing"
         },
         title: {
             en: "Pricing | AirProcess",

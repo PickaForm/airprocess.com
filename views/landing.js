@@ -2,9 +2,9 @@ kiss.app.defineView({
     id: "landing",
     meta: {
         url: {
-            en: "https://airprocess.fr/en/landing",
-            fr: "https://airprocess.fr/fr/landing",
-            es: "https://airprocess.fr/es/landing"
+            en: "https://airprocess.com/en/landing",
+            fr: "https://airprocess.com/fr/landing",
+            es: "https://airprocess.com/es/landing"
         },
         title: {
             en: "AirProcess | Best no-code platform for your processes",
