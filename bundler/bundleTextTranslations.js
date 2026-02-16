@@ -9,6 +9,11 @@ const fs = require('fs')
 const path = require('path')
 
 const sourceFile = path.join(__dirname, '..', 'resources', 'texts.js')
+if (!fs.existsSync(sourceFile)) {
+    console.log("Skipping translation split: resources/texts.js not found (legacy step).")
+    process.exit(0)
+}
+
 const rawContent = fs.readFileSync(sourceFile, 'utf-8')
 
 const match = rawContent.match(/kiss\.app\.defineTexts\(\s*(\{[\s\S]*\})\s*\)/)

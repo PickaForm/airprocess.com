@@ -58,7 +58,7 @@ kiss.theme.set({
 
 // Paths
 kiss.global.path = `https://${window.location.host}`
-kiss.global.pathImg = "./resources/img"
+kiss.global.pathImg = "/resources/img"
 kiss.global.pathAirProcess = `https://app.airprocess.com`
 
 // Blog
@@ -78,7 +78,8 @@ kiss.global.artModelId = "01889cf0-5878-7352-93b5-3a0fb88c852f"
 kiss.global.artTitle = "pJZ5QvWL"
 kiss.global.artPulished = "DgllE0KD"
 
-;/**
+;
+/**
  * Global functions for translation
  */
 
@@ -153,7 +154,98 @@ function getNextLanguage() {
     return languages[nextIndex]
 }
 
-;kiss.app.defineView({
+;// Shared router mapping for pathname mode (dev + prod)
+kiss.global.supportedLanguages = ["en", "fr", "es"]
+kiss.global.contentBySegment = {
+    landing: "landing",
+    product: "product",
+    cases: "cases",
+    contact: "contact",
+    pricing: "pricing",
+    blog: "blog"
+}
+
+kiss.global.getValidLanguage = function (language) {
+    if (kiss.global.supportedLanguages.includes(language)) return language
+    return "en"
+}
+
+kiss.global.pathnameToRoute = function (pathname) {
+    const parts = pathname.split("/").filter(Boolean)
+    const language = kiss.global.getValidLanguage(parts[0])
+    const firstSegment = parts[1]
+
+    // /:language
+    if (parts.length === 1 && kiss.global.supportedLanguages.includes(parts[0])) {
+        return {
+            ui: "start",
+            content: "landing",
+            language
+        }
+    }
+
+    // /:language/blog/:postId
+    if (firstSegment === "blog" && parts[2] && parts[2] !== "search") {
+        return {
+            ui: "start",
+            content: "blogPost",
+            language,
+            postId: decodeURIComponent(parts[2])
+        }
+    }
+
+    // /:language/blog/search/:category
+    if (firstSegment === "blog" && parts[2] === "search" && parts[3]) {
+        return {
+            ui: "start",
+            content: "blog",
+            language,
+            category: decodeURIComponent(parts[3])
+        }
+    }
+
+    // /:language/:content
+    if (kiss.global.supportedLanguages.includes(parts[0]) && kiss.global.contentBySegment[firstSegment]) {
+        return {
+            ui: "start",
+            content: kiss.global.contentBySegment[firstSegment],
+            language
+        }
+    }
+
+    // / or unknown path => default landing
+    return {
+        ui: "start",
+        content: "landing",
+        language
+    }
+}
+
+kiss.global.routeToPathname = function (route = {}) {
+    if (route.ui !== "start") return window.location.pathname || "/"
+
+    const language = kiss.global.getValidLanguage(route.language)
+    const content = route.content || "landing"
+
+    if (content === "blogPost" && route.postId) {
+        return `/${language}/blog/${encodeURIComponent(route.postId)}`
+    }
+
+    if (content === "blog" && route.category) {
+        return `/${language}/blog/search/${encodeURIComponent(route.category)}`
+    }
+
+    if (content === "blog") {
+        return `/${language}/blog`
+    }
+
+    if (kiss.global.contentBySegment[content]) {
+        return `/${language}/${content}`
+    }
+
+    return `/${language}/landing`
+}
+kiss.app.defineView({
     id: "artworks",
     meta: {
         url: {
@@ -593,7 +685,7 @@ function getNextLanguage() {
                     })
 
                     // Load marked prior to parsing post's body
-                    await kiss.loader.loadScript("./resources/lib/marked/marked.min")
+                    await kiss.loader.loadScript("/resources/lib/marked/marked.min")
                     post.Body = marked(post.Body)
 
                     $("blog-post-banner").setItems([kiss.templates.blogPostBanner(post)])
@@ -604,7 +696,8 @@ function getNextLanguage() {
     }
 })
 
-;kiss.app.defineView({
+;
+kiss.app.defineView({
     id: "cases",
     meta: {
         url: {
@@ -1983,7 +2076,7 @@ function getNextLanguage() {
                             items: [
                                 {
                                     type: "html",
-                                    html: `<img src="./resources/img/airprocess.webp" alt="airprocess logo" class="image-content" loading="lazy" style="width: 256px; height: 60px;">`
+                                    html: `<img src="/resources/img/airprocess.webp" alt="airprocess logo" class="image-content" loading="lazy" style="width: 256px; height: 60px;">`
                                 },
                                 {
                                     type: "html",
@@ -2080,7 +2173,8 @@ function getNextLanguage() {
     }
 })
 
-;kiss.app.defineView({
+;
+kiss.app.defineView({
     id: "navbar",
     renderer: function (id, target) {
         const nextLanguage = getNextLanguage()
@@ -2246,7 +2340,7 @@ function getNextLanguage() {
                 {
                     type: "image",
                     alt: "airprocess logo",
-                    src: "./resources/img/airprocess.webp",
+                    src: "/resources/img/airprocess.webp",
                     width: 256,
                     height: 60,
                     position: "absolute",
@@ -2402,7 +2496,8 @@ function getNextLanguage() {
     }
 })
 
-;kiss.app.defineView({
+;
+kiss.app.defineView({
     id: "pricing",
     meta: {
         url: {
