@@ -45,30 +45,79 @@ function translateTo(language) {
     })
 }
 
+function getLanguageFromRoute(route = {}) {
+    const routeLanguage = route.language
+    if (languages.includes(routeLanguage)) return routeLanguage
+    return null
+}
+
+function getLanguageFromStorage() {
+    const storedLanguage = localStorage.getItem("config-language")
+    if (languages.includes(storedLanguage)) return storedLanguage
+    return null
+}
+
+function applyLanguage(language) {
+    if (!languages.includes(language)) language = "en"
+    kiss.language.current = language
+    localStorage.setItem("config-language", language)
+}
+
+/**
+ * Router guard:
+ * Keep language synchronized with URL route before rendering views.
+ * Must return true to let routing continue.
+ */
+function syncLanguageWithRoute(route = {}) {
+    const routeLanguage = getLanguageFromRoute(route)
+    if (routeLanguage) {
+        applyLanguage(routeLanguage)
+        return true
+    }
+
+    const storedLanguage = getLanguageFromStorage()
+    if (storedLanguage) {
+        applyLanguage(storedLanguage)
+        return true
+    }
+
+    applyLanguage("en")
+    return true
+}
+
 /**
  * Translate navbar, content, footer
  */
-function translate() {
-    let newLanguage = getNextLanguage()
-    kiss.language.current = newLanguage
-    localStorage.setItem("config-language", newLanguage)
+async function translate() {
+    const currentRoute = kiss.router.getRoute()
+    const currentLanguage = getLanguageFromRoute(currentRoute) || kiss.language.current || "en"
+    const newLanguage = getNextLanguage(currentLanguage)
 
-    // Translate navbar, footer, content
-    $("navbar").translateTo(newLanguage)
-    $("footer").translateTo(newLanguage)
-    const currentContent = kiss.router.getRoute().content
-    $(currentContent).translateTo(newLanguage)
+    const nextRoute = {
+        ...currentRoute,
+        ui: currentRoute.ui || "start",
+        content: currentRoute.content || "landing",
+        language: newLanguage
+    }
+
+    await kiss.router.navigateTo(nextRoute, true)
+    applyLanguage(newLanguage)
+
+    // Keep instant UI feedback without full page reload
+    $("navbar")?.translateTo(newLanguage)
+    $("footer")?.translateTo(newLanguage)
+    $(nextRoute.content)?.translateTo(newLanguage)
 
     publish("EVT_LANGUAGE", {
-        language: getNextLanguage()
-    })    
+        language: getNextLanguage(newLanguage)
+    })
 }
 
 /**
  * Get the next available language
  */
-function getNextLanguage() {
-    const currentIndex = languages.indexOf(kiss.language.current)
+function getNextLanguage(currentLanguage = kiss.language.current) {
+    const currentIndex = languages.indexOf(currentLanguage)
     const nextIndex = (currentIndex + 1) % languages.length
     return languages[nextIndex]
 }

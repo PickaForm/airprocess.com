@@ -15,6 +15,7 @@ window.onload = async function () {
         routerMode: "pathname",
         pathnameToRoute: kiss.global.pathnameToRoute,
         routeToPathname: kiss.global.routeToPathname,
+        routerGuards: [syncLanguageWithRoute],
         startRoute: {
             ui: "start",
             content: "landing"
