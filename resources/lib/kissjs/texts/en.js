@@ -113,6 +113,15 @@ kiss.language.texts = {
     "#auto logout help": {
         en: "determine the idle time (in hours) before auto logout"
     },
+    "#translation help": {
+        en: "<b>Important</b>: to start, select the reference language and the target language for your translation.\n\t\tBe careful: If the reference language is the same as the target language, the translations below will overwrite the reference language."
+    },
+    "#existing translations": {
+        en: "existing translations for this form"
+    },
+    "#no translation": {
+        en: "no translation yet"
+    },
     "#switch language": {
         en: "language"
     },
@@ -379,6 +388,9 @@ kiss.language.texts = {
     },
     "#copy selection": {
         en: "copy selection to clipboard"
+    },
+    "#toggle selection": {
+        en: "deselect all.<br><br>To select multiple rows, hold down the SHIFT key between the first and last selected row."
     },
     "#move card": {
         en: "move to..."

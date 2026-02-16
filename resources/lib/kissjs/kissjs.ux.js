@@ -958,7 +958,7 @@ kiss.ux.RichTextField = class RichTextField extends kiss.ui.Component {
 		createFileUploadWindow({
 			modelId: _this.modelId || "blog",
 			multiple: false,
-			maxSize: 5 * 1024 * 1024, // 5 MB
+			maxSize: 10 * 1024 * 1024, // 10 MB
 			ACL: "public",
 			callback: (data) => {
 				const file = data[0]
@@ -4452,7 +4452,7 @@ kiss.ux.Link = class Link extends kiss.ui.Select {
 	 */
 	async _showForeignRecords() {
 		const foreignRecords = this.links.map(link => link.record)
-        
+
 		createRecordSelectionWindow({
 			model: this.foreignModel,
 			fieldId: this.id,
@@ -5158,8 +5158,12 @@ kiss.ux.SelectViewColumn = class SelectViewColumn extends kiss.ui.Select {
 		this.preloadData = (config.preloadData !== false)
 		this.minSearchLength = config.minSearchLength || 3
 		this.maxSearchResults = config.maxSearchResults || 50
+		this.searchDebounceMs = config.searchDebounceMs || 300
 		this._lastSearchTerm = ""
 		this._skipLoadOnce = false
+		this._debounceToken = 0
+		this._pendingSearchCount = 0
+		this._searchLoadingElement = null
 		return this
 	}
 
@@ -5178,6 +5182,120 @@ kiss.ux.SelectViewColumn = class SelectViewColumn extends kiss.ui.Select {
 		super._createOptions()
 	}
 
+	/**
+	 * Extract a field value from either a kiss.data.Record instance or a plain object.
+	 * 
+	 * @private
+	 * @ignore
+	 * @param {object} record
+	 * @returns {*}
+	 */
+	_getFieldValue(record) {
+		if (!record) return undefined
+		if (record[this.fieldId] !== undefined) return record[this.fieldId]
+		if (typeof record.getValue == "function") return record.getValue(this.fieldId)
+		return undefined
+	}
+
+	/**
+	 * Convert records to Select options.
+	 * 
+	 * @private
+	 * @ignore
+	 * @param {object[]} records
+	 * @returns {object[]}
+	 */
+	_recordsToOptions(records) {
+		const options = (records || [])
+			.filter(record => record && !record.$type)
+			.map(record => this._getFieldValue(record))
+			.filter(value => value !== undefined && value !== null && value !== "")
+			.map(value => {
+				return {
+					value: (Array.isArray(value)) ? value[0] : value
+				}
+			})
+			.filter(option => option.value !== undefined && option.value !== null && option.value !== "")
+			.uniqueObject("value")
+			.sortBy("value")
+
+		return options
+	}
+
+	/**
+	 * Filter records in memory (case-insensitive "contains" match).
+	 * 
+	 * @private
+	 * @ignore
+	 * @param {object[]} records
+	 * @param {string} searchTerm
+	 * @returns {object[]}
+	 */
+	_filterRecordsInMemory(records, searchTerm = "") {
+		const term = String(searchTerm || "").trim().toLowerCase()
+		if (!term) return records || []
+
+		return (records || []).filter(record => {
+			const value = this._getFieldValue(record)
+			if (value === undefined || value === null) return false
+			return String(Array.isArray(value) ? value[0] : value).toLowerCase().includes(term)
+		})
+	}
+
+	/**
+	 * Wait for a short typing pause before launching server search.
+	 * Resolves true only for the latest pending debounce call.
+	 * 
+	 * @private
+	 * @ignore
+	 * @returns {Promise<boolean>}
+	 */
+	async _waitForSearchDebounce() {
+		const token = ++this._debounceToken
+		return await new Promise((resolve) => {
+			setTimeout(() => {
+				resolve(token === this._debounceToken)
+			}, this.searchDebounceMs)
+		})
+	}
+
+	/**
+	 * Show/hide a local loading indicator inside the dropdown.
+	 * 
+	 * @private
+	 * @ignore
+	 * @param {boolean} state
+	 */
+	_setSearchLoading(state) {
+		if (!this.optionsWrapper) return
+
+		if (!this._searchLoadingElement) {
+			const element = document.createElement("div")
+			element.className = "field-select-search-loading"
+			element.innerHTML = `<i style="color: var(--red)" class="fas fa-circle-notch fa-spin"></i>`
+			element.style.position = "absolute"
+			element.style.top = "0"
+			element.style.height = "0"
+			element.style.right = "1rem"
+			element.style.fontSize = "1.2rem"
+			element.style.opacity = "0.8"
+			element.style.pointerEvents = "none"
+			element.style.zIndex = "5"
+			element.style.display = "none"
+			element.style.alignItems = "center"
+			element.style.justifyContent = "center"
+			this.optionsWrapper.append(element)
+			this._searchLoadingElement = element
+		}
+
+		// Anchor indicator to the actual input box position/height
+		if (this.fieldInput) {
+			this._searchLoadingElement.style.top = this.fieldInput.offsetTop + "px"
+			this._searchLoadingElement.style.height = this.fieldInput.offsetHeight + "px"
+		}
+
+		this._searchLoadingElement.style.display = state ? "flex" : "none"
+	}
 
 	/**
 	 * Get the list of possible values from the view column
@@ -5185,76 +5303,64 @@ kiss.ux.SelectViewColumn = class SelectViewColumn extends kiss.ui.Select {
 	 * @private
 	 * @ignore
 	 */
-	async _loadOptions(searchTerm = "") {
-		if (this.preloadData) {
-			if (this.isLoaded) return
-			if (!kiss.cache) kiss.cache = {}
-
-			if (kiss.cache[this.id]) {
-				this.options = kiss.cache[this.id]
-				this.isLoaded = true
-				return
-			}
-		} else if (!searchTerm || searchTerm.length < this.minSearchLength) {
+	async _loadOptions(searchTerm = "", requestId = null) {
+		const term = String(searchTerm || "").trim()
+		if (!this.preloadData && (!term || term.length < this.minSearchLength)) {
 			this.options = []
 			return
 		}
 
-		this.options = []
 		const viewRecord = kiss.app.collections.view.records.find(view => view.id == this.viewId)
-		const collection = viewRecord.getCollection()
+		if (!viewRecord) {
+			this.options = []
+			return
+		}
 
 		if (this.preloadData) {
-			// Load all options without search term (limited to 1000 to avoid performance issues)
-			await collection.find({
-				operation: "search",
-				filter: {},
-				filterSyntax: "normalized",
-				projection: {[this.fieldId]: 1}
-			})
+			// The view collection itself is the cache source.
+			// Reload from the view so we always read the freshest collection state.
+			const collection = await viewRecord.loadCollection()
+			const sourceRecords = collection.records || []
+			const filteredRecords = this._filterRecordsInMemory(sourceRecords, term)
+			this.options = this._recordsToOptions(filteredRecords)
 		} else {
-			// Load options matching the search term
-			await collection.find({
-				operation: "search",
-				filter: {
-					type: "filter",
-					fieldId: this.fieldId,
-					operator: "contains",
-					value: searchTerm
-				},
-				filterSyntax: "normalized",
-				limit: this.maxSearchResults,
-				projection: {[this.fieldId]: 1}
-			})
-		}
-
-		this.options = collection.records
-
-		// Exclude group records
-		if (collection.group.length > 0) {
-			this.options = this.options.filter(record => !record.$type)
-		}
-
-		// Exclude records with empty values
-		this.options = this.options.filter(record => !!record[this.fieldId])
-
-		// Convert records to options
-		this.options = this.options.map(record => {
-			const fieldValue = record[this.fieldId]
-			return {
-				value: (Array.isArray(fieldValue)) ? fieldValue[0] : fieldValue
+			// Query DB directly (no mutation of view collection).
+			const searchFilter = {
+				type: "filter",
+				fieldId: this.fieldId,
+				operator: "contains",
+				value: term
 			}
-		})
 
-		// Remove duplicates
-		this.options = this.options.uniqueObject("value")
+			let filter = searchFilter
+			if (viewRecord.filter && Object.keys(viewRecord.filter).length > 0) {
+				filter = {
+					type: "group",
+					operator: "and",
+					filters: [viewRecord.filter, searchFilter]
+				}
+			}
 
-		// Sort alphabetically
-		this.options = this.options.sortBy("value")
+			let records = []
+			this._pendingSearchCount++
+			this._setSearchLoading(true)
+			try {
+				records = await kiss.db.find(viewRecord.modelId, {
+					operation: "search",
+					filter,
+					filterSyntax: "normalized",
+					limit: this.maxSearchResults,
+					projection: {[this.fieldId]: 1}
+				})
+			} finally {
+				this._pendingSearchCount = Math.max(0, this._pendingSearchCount - 1)
+				if (this._pendingSearchCount == 0) this._setSearchLoading(false)
+			}
 
-		if (this.preloadData) {
-			kiss.cache[this.id] = this.options
-			this.isLoaded = true
+			// Ignore stale async responses when multiple searches overlap
+			if (requestId != null && requestId !== this._searchRequestId) return
+
+			this.options = this._recordsToOptions(records)
 		}
 	}
 
@@ -5265,12 +5371,18 @@ kiss.ux.SelectViewColumn = class SelectViewColumn extends kiss.ui.Select {
 	 * @ignore
 	 */
 	async _showOptions(enteredValue) {
-		const currentInputValue = this.fieldInput?.value ?? ""
 		if (!this.preloadData) {
-			const term = (enteredValue ?? this.fieldInput?.value ?? "").trim()
+			const typedTerm = (enteredValue ?? this.fieldInput?.value ?? "").trim()
+			const isOpen = this.optionsWrapper && this.optionsWrapper.style.display == "block"
 
-			if (term.length < this.minSearchLength) {
+			// Ignore navigation/selection keyups that don't change the search term.
+			if (isOpen && typedTerm === this._lastSearchTerm) return
+
+			if (typedTerm.length < this.minSearchLength) {
+				// Cancel any pending debounce from previous key events.
+				this._debounceToken++
 				this.options = []
+				this._lastSearchTerm = ""
 				this._prepareOptionsData()
 				this._optionsListReady = false
 				this._skipLoadOnce = true
@@ -5279,20 +5391,25 @@ kiss.ux.SelectViewColumn = class SelectViewColumn extends kiss.ui.Select {
 				return
 			}
 
+			const shouldSearch = await this._waitForSearchDebounce()
+			if (!shouldSearch) return
+
+			const term = (this.fieldInput?.value ?? typedTerm).trim()
+			if (term.length < this.minSearchLength) return
+
 			if (term !== this._lastSearchTerm) {
+				this._searchRequestId = (this._searchRequestId || 0) + 1
+				const requestId = this._searchRequestId
 				this._lastSearchTerm = term
-				await this._loadOptions(term)
+				await this._loadOptions(term, requestId)
+				if (requestId !== this._searchRequestId) return
 				this._prepareOptionsData()
 				this._optionsListReady = false
 				this._skipLoadOnce = true
 			}
 		}
 
-		const result = await super._showOptions(enteredValue)
-		if (!this.preloadData && this.fieldInput && this.fieldInput.value !== currentInputValue) {
-			this.fieldInput.value = currentInputValue
-		}
-		return result
+		return await super._showOptions(enteredValue)
 	}
 }
 
@@ -5307,7 +5424,6 @@ customElements.define("a-selectviewcolumn", kiss.ux.SelectViewColumn)
  * @returns HTMLElement
  */
 const createSelectViewColumn = (config) => document.createElement("a-selectviewcolumn").init(config)
-
 
 /**
  * 

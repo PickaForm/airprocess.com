@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- MAIN -->
+  <!-- LANDING -->
   <url>
     <loc>https://airprocess.com/en/landing</loc>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.com/fr/landing" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://airprocess.com/es/landing" />
   </url>
   <url>
     <loc>https://airprocess.com/fr/landing</loc>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.com/en/landing" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://airprocess.com/es/landing" />
+  </url>
+  <url>
+    <loc>https://airprocess.com/es/landing</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.com/en/landing" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.com/fr/landing" />
   </url>
 
   <!-- PRODUCT -->
@@ -18,11 +26,19 @@
     <loc>https://airprocess.com/en/product</loc>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.com/fr/product" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://airprocess.com/es/product" />
   </url>
   <url>
     <loc>https://airprocess.com/fr/product</loc>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.com/en/product" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://airprocess.com/es/product" />
+  </url>
+  <url>
+    <loc>https://airprocess.com/es/product</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.com/en/product" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.com/fr/product" />
   </url>
 
   <!-- CASES -->
@@ -30,11 +46,19 @@
     <loc>https://airprocess.com/en/cases</loc>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.com/fr/cases" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://airprocess.com/es/cases" />
   </url>
   <url>
     <loc>https://airprocess.com/fr/cases</loc>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.com/en/cases" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://airprocess.com/es/cases" />
+  </url>
+  <url>
+    <loc>https://airprocess.com/es/cases</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.com/en/cases" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.com/fr/cases" />
   </url>
 
   <!-- PRICING -->
@@ -42,22 +66,38 @@
     <loc>https://airprocess.com/en/pricing</loc>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.com/fr/pricing" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://airprocess.com/es/pricing" />
   </url>
   <url>
     <loc>https://airprocess.com/fr/pricing</loc>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.com/en/pricing" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://airprocess.com/es/pricing" />
+  </url>
+  <url>
+    <loc>https://airprocess.com/es/pricing</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.com/en/pricing" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.com/fr/pricing" />
   </url>
 
-  <!-- BLOG -->
+  <!-- CONTACT -->
   <url>
-    <loc>https://blog.airprocess.com/command/blog/~/0198f787-2fbb-71c2-bca7-9a9647cb01b5/list/en/1/index.html</loc>
-    <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://blog.airprocess.com/command/blog/~/0198f787-2fbb-71c2-bca7-9a9647cb01b5/list/fr/1/index.html" />
+    <loc>https://airprocess.com/en/contact</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.com/fr/contact" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://airprocess.com/es/contact" />
   </url>
   <url>
-    <loc>https://blog.airprocess.com/command/blog/~/0198f787-2fbb-71c2-bca7-9a9647cb01b5/list/fr/1/index.html</loc>
-    <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://blog.airprocess.com/command/blog/~/0198f787-2fbb-71c2-bca7-9a9647cb01b5/list/en/1/index.html" />
+    <loc>https://airprocess.com/fr/contact</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.com/en/contact" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://airprocess.com/es/contact" />
+  </url>
+  <url>
+    <loc>https://airprocess.com/es/contact</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://airprocess.com/en/contact" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://airprocess.com/fr/contact" />
   </url>
 </urlset>

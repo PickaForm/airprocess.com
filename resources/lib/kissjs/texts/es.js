@@ -296,6 +296,9 @@ kiss.language.texts = {
     "#auto logout help": {
         es: "determina el tiempo de inactividad (en horas) antes de cerrar sesión automáticamente"
     },
+    "#translation help": {
+        es: "<b>Importante</b>: para comenzar, seleccione el idioma de referencia y el idioma objetivo para su traducción.\n\t\tTenga cuidado: Si el idioma de referencia es el mismo que el idioma objetivo, las traducciones a continuación sobrescribirán el idioma de referencia."
+    },
     "translation": {
         es: "traducción"
     },
@@ -305,8 +308,11 @@ kiss.language.texts = {
     "reference language": {
         es: "idioma de referencia"
     },
-    "existing translations": {
-        es: "traducciones existentes"
+    "#existing translations": {
+        es: "traducciones existentes para este formulario"
+    },
+    "#no translation": {
+        es: "sin traducción todavía"
     },
     "left column": {
         es: "columna izquierda"
@@ -1063,6 +1069,9 @@ kiss.language.texts = {
     },
     "#copy selection": {
         es: "copiar la selección en el portapapeles"
+    },
+    "#toggle selection": {
+        es: "deseleccionar todo.<br><br>Para seleccionar varias filas, mantén presionada la tecla SHIFT entre la primera y la última fila seleccionada."
     },
     "january": {
         es: "enero"

@@ -482,6 +482,14 @@ kiss.language.texts = {
 	/**
 	 * Languages
 	 */
+	"#translation help": {
+		en: `<b>Important</b>: to start, select the reference language and the target language for your translation.
+		Be careful: If the reference language is the same as the target language, the translations below will overwrite the reference language.`,
+		fr: `<b>Important</b> : pour commencer, sélectionnez la langue de référence et la langue cible de votre traduction.
+		Attention : si la langue de référence est la même que la langue cible, les traductions ci-dessous écraseront la langue de référence.`,
+		es: `<b>Importante</b>: para comenzar, seleccione el idioma de referencia y el idioma objetivo para su traducción.
+		Tenga cuidado: Si el idioma de referencia es el mismo que el idioma objetivo, las traducciones a continuación sobrescribirán el idioma de referencia.`
+	},
 	"translation": {
 		fr: "traduction",
 		es: "traducción"
@@ -494,9 +502,15 @@ kiss.language.texts = {
 		fr: "langue de référence",
 		es: "idioma de referencia"
 	},
-	"existing translations": {
-		fr: "traductions existantes",
-		es: "traducciones existentes"
+	"#existing translations": {
+		en: "existing translations for this form",
+		fr: "traductions existantes pour ce formulaire",
+		es: "traducciones existentes para este formulario",
+	},
+	"#no translation": {
+		en: "no translation yet",
+		fr: "pas encore de traduction",
+		es: "sin traducción todavía"
 	},
 	"left column": {
 		fr: "colonne de gauche",
@@ -1657,6 +1671,11 @@ kiss.language.texts = {
 		en: "copy selection to clipboard",
 		fr: "copier la sélection dans le presse-papier",
 		es: "copiar la selección en el portapapeles"
+	},
+	"#toggle selection": {
+		en: "deselect all.<br><br>To select multiple rows, hold down the SHIFT key between the first and last selected row.",
+		fr: "tout désélectionner.<br><br>Pour sélectionner plusieurs lignes, maintenez la touche SHIFT entre la 1ère et la dernière ligne sélectionnée.",
+		es: "deseleccionar todo.<br><br>Para seleccionar varias filas, mantén presionada la tecla SHIFT entre la primera y la última fila seleccionada."
 	},
 
 	/**

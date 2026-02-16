@@ -39,7 +39,7 @@ const kiss = {
 	$KissJS: "KissJS - Keep It Simple Stupid Javascript",
 
 	// Build number
-	version: 5180,
+	version: 5250,
     
 	// Tell isomorphic code we're on the client side
 	isClient: true,
@@ -925,6 +925,7 @@ kiss.db = {
 	 */
 	async deleteFakeRecords(modelId) {
 		return await kiss.db[this.mode].deleteMany(modelId, {
+			modelId,
 			isFake: true
 		})
 	},
@@ -2695,7 +2696,7 @@ kiss.db.offline = {
 			}
 		})
 
-		this.collections[modelId] = null
+		delete this.collections[modelId]
 	},
 
 	/**
@@ -3233,8 +3234,30 @@ kiss.db.offline = {
 	 * @returns {object} The records copied to the trash with extra informations
 	 */
 	async copyManyToTrash(modelId, query, dbMode = "offline") {
-		// Get the records to move
-		const records = await this.find(modelId, query, dbMode)
+		// Get the records to move.
+		// Supports both:
+		// - KissJS "search" query format: {filter, filterSyntax, sort, ...}
+		// - raw NeDB/Mongo query format: {_id: {$in: [...]}, ...}
+		let records
+		const isSearchQuery = !!(query && (
+			query.filter !== undefined ||
+			query.filterSyntax !== undefined ||
+			query.sort !== undefined ||
+			query.sortSyntax !== undefined ||
+			query.group !== undefined ||
+			query.projection !== undefined ||
+			query.skip !== undefined ||
+			query.limit !== undefined
+		))
+
+		if (isSearchQuery) {
+			records = await this.find(modelId, query, dbMode)
+		} else {
+			const collection = await this.getCollection(modelId, dbMode)
+			records = await collection.find(query || {})
+			records = this.toIds(records)
+		}
+
 		const data = []
 
 		for (let record of records) {
@@ -4611,6 +4634,10 @@ kiss.app = {
 	 * @param {string[]} [config.loginMethods] - The list of login methods to use. Default is ["internal", "google", "microsoft365"]
 	 * @param {string|object} [config.startRoute] - The route to start with. Can be a string (= viewId) or an object (check router documentation).
 	 * @param {string[]} [config.publicRoutes] - The list of public routes which doesn't require authentication
+	 * @param {string} [config.routerMode] - "hash" (default) or "pathname"
+	 * @param {boolean} [config.usePathRouting] - Shortcut to activate pathname routing
+	 * @param {function} [config.pathnameToRoute] - Mapper: pathname => route object (used when hash is not exploitable)
+	 * @param {function} [config.routeToPathname] - Mapper: route object => pathname
 	 * @param {object} [config.undoRedo] - The undo/redo configuration object
 	 * @param {function} [config.loader] - The async function used to load your custom resources at startup. Must *absolutely* return a boolean to indicate success.
 	 * @param {boolean} [config.useDirectory] - Set to true if your app uses KissJS directory to manage users, groups and apiClients. Default is false.
@@ -4637,6 +4664,15 @@ kiss.app = {
 	 *  publicRoutes: [
 	 *      "form-public"
 	 *  ],
+	 *  routerMode: "pathname",
+	 *  pathnameToRoute(pathname) {
+	 *      if (pathname == "/fr/landing") return {ui: "start", content: "landing", language: "fr"}
+	 *      return {}
+	 *  },
+	 *  routeToPathname(route) {
+	 *      if (route.ui == "start" && route.content == "landing" && route.language == "fr") return "/fr/landing"
+	 *      return "/"
+	 *  },
 	 *  undoRedo: {
 	 *      async undo() {
 	 *          // Undo code here
@@ -4734,7 +4770,12 @@ kiss.app = {
 		kiss.screen.init()
 
 		// Init the application router
-		kiss.router.init()
+		kiss.router.init({
+			routerMode: config.routerMode,
+			usePathRouting: config.usePathRouting,
+			pathnameToRoute: config.pathnameToRoute,
+			routeToPathname: config.routeToPathname
+		})
 
 		if (config.publicRoutes) {
 			if (Array.isArray(config.publicRoutes) && config.publicRoutes.length > 0) {
@@ -6274,18 +6315,53 @@ kiss.fields = {
 
 			// Check if there are available translations
 			if (field.optionsTranslations && kiss.language.currentDynamic && field.optionsTranslations[kiss.language.currentDynamic]) {
+				const translatedOptions = field.optionsTranslations[kiss.language.currentDynamic]
+				const translatedOptionsById = {}
+				const hasSourceOptionIds = options.some(option => typeof option == "object" && !!option.id)
+				
+				const hasTranslationIds = Array.isArray(translatedOptions)
+					? translatedOptions.some((translatedOption) => translatedOption && typeof translatedOption == "object" && !!translatedOption.id)
+					: (!!translatedOptions && typeof translatedOptions == "object")
+				
+					const useLegacyIndexFallback = !hasSourceOptionIds && !hasTranslationIds
+
+				if (!Array.isArray(translatedOptions) && translatedOptions && typeof translatedOptions == "object") {
+					Object.keys(translatedOptions).forEach((optionId) => {
+						const translatedOption = translatedOptions[optionId]
+						translatedOptionsById[optionId] = (translatedOption && typeof translatedOption == "object") ? translatedOption.value : translatedOption
+					})
+				} else if (Array.isArray(translatedOptions)) {
+					translatedOptions.forEach((translatedOption) => {
+						if (translatedOption && translatedOption.id) translatedOptionsById[translatedOption.id] = translatedOption.value
+					})
+				}
+
 				options = options.map((option, index) => {
+					const translatedByIndex = Array.isArray(translatedOptions) ? translatedOptions[index] : null
+					const translatedByIndexValue = useLegacyIndexFallback ? ((translatedByIndex && typeof translatedByIndex == "object") ? translatedByIndex.value : translatedByIndex) : undefined
+
 					if (typeof option == "object") {
+						const translatedById = (option.id && Object.prototype.hasOwnProperty.call(translatedOptionsById, option.id)) ? translatedOptionsById[option.id] : undefined
+						const translatedValue = (translatedById !== undefined && translatedById !== null) ? translatedById : translatedByIndexValue
+						
+						if (translatedValue === undefined || translatedValue === null) return option
+
 						let finalOption = {
-							label: field.optionsTranslations[kiss.language.currentDynamic][index].value,
+							label: translatedValue,
 							value: option.value
 						}
+						
+						if (option.id) finalOption.id = option.id
 						if (option.color) finalOption.color = option.color
 						return finalOption
 					}
 					else {
+						if (translatedByIndexValue === undefined || translatedByIndexValue === null) return {
+							value: option
+						}
+
 						return {
-							label: field.optionsTranslations[kiss.language.currentDynamic][index].value,
+							label: translatedByIndexValue,
 							value: option
 						}
 					}
@@ -7851,6 +7927,25 @@ const unsubscribe = kiss.pubsub.unsubscribe
  */
 kiss.router = {
 	/**
+	 * Routing mode.
+	 * - "hash" (default): route is read/written from URL hash
+	 * - "pathname": route is read/written from URL pathname using mapping functions
+	 */
+	routerMode: "hash",
+
+	/**
+	 * Optional mapper used in pathname mode to convert a pathname to a route object.
+	 * Signature: pathnameToRoute(pathname) => routeObject
+	 */
+	pathnameToRoute: null,
+
+	/**
+	 * Optional mapper used in pathname mode to convert a route object to a pathname.
+	 * Signature: routeToPathname(routeObject) => pathname
+	 */
+	routeToPathname: null,
+
+	/**
 	 * Default list of public routes which doesn't require authentication.
 	 * 
 	 * Add custom public routes using addPublicRoutes([...]) method.
@@ -7875,8 +7970,39 @@ kiss.router = {
 	 * - perform a custom action before triggering the new route
 	 * - perform a custom action after the routing
 	 * 
+	 * Routing modes:
+	 * - "hash" (default): route is stored in URL hash (example: /index.html#ui=homepage&applicationId=123)
+	 * - "pathname": route is stored in URL pathname using 2 optional mapping functions
+	 *   (example: /fr/landing mapped to {ui: "start", content: "landing", language: "fr"})
+	 * 
+	 * In pathname mode, you can inject:
+	 * - pathnameToRoute(pathname): converts current URL pathname to a route object
+	 * - routeToPathname(route): converts a route object to a pathname for navigation
+	 * 
+	 * Example:
+	 * ```js
+	 * kiss.router.init({
+	 *   routerMode: "pathname",
+	 *   pathnameToRoute(pathname) {
+	 *     if (pathname === "/fr/landing") return {ui: "start", content: "landing", language: "fr"}
+	 *     if (pathname === "/en/landing") return {ui: "start", content: "landing", language: "en"}
+	 *     return {}
+	 *   },
+	 *   routeToPathname(route) {
+	 *     if (route.ui === "start" && route.content === "landing") {
+	 *       return `/${route.language || "en"}/landing`
+	 *     }
+	 *     return "/"
+	 *   }
+	 * })
+	 * ```
+	 * 
 	 * @param {object} config - The router config, containing the 2 methods:
 	 * @param {string[]} [config.publicRoutes] - Define public routes (skip login)
+	 * @param {string} [config.routerMode] - "hash" (default) or "pathname"
+	 * @param {boolean} [config.usePathRouting] - Shortcut to set routerMode to "pathname"
+	 * @param {function} [config.pathnameToRoute] - Mapper: pathname => route object
+	 * @param {function} [config.routeToPathname] - Mapper: route object => pathname
 	 */
 	init(config = {}) {
 		// Set public routes
@@ -7884,19 +8010,27 @@ kiss.router = {
 			kiss.router.publicRoutes = config.publicRoutes
 		}
 
+		// Configure routing mode
+		kiss.router.routerMode = (
+			config.routerMode == "pathname" ||
+			config.usePathRouting === true
+		) ? "pathname" : "hash"
+		kiss.router.pathnameToRoute = (typeof config.pathnameToRoute == "function") ? config.pathnameToRoute : null
+		kiss.router.routeToPathname = (typeof config.routeToPathname == "function") ? config.routeToPathname : null
+
 		// Observe hash changes
 		window.onhashchange = async function () {
-			// Update the application context
-			const newRoute = kiss.router.getRoute()
+			if (kiss.router.routerMode == "pathname") {
+				const hashRoute = kiss.router._toRoute(window.location.hash.slice(1))
+				if (!kiss.router._isRouteExploitable(hashRoute)) return
+			}
+			await kiss.router._route()
+		}
 
-			// Perform verifications before routing
-			const doRoute = await kiss.router._beforeRouting(newRoute)
-			if (!doRoute) return
-            
-			kiss.context.update(newRoute)
-
-			// Execute router actions after routing
-			await kiss.router._afterRouting()
+		// Observe browser history navigation for pathname routing
+		window.onpopstate = async function () {
+			if (kiss.router.routerMode != "pathname") return
+			await kiss.router._route()
 		}
 	},
 
@@ -7959,8 +8093,11 @@ kiss.router = {
 	},
 
 	/**
-	 * Navigate to a new hash
-	 * It indirectly triggers the new route by dispatching the window's *hashchange* event.
+	 * Navigate to a new route.
+	 * 
+	 * URL update strategy depends on router mode:
+	 * - hash mode: write to URL hash
+	 * - pathname mode: write to URL pathname if routeToPathname is provided
 	 * 
 	 * @param {object|string} newRoute
 	 * @param {boolean} [reset] - Set to true to reset the previous route before routing to a new one
@@ -7978,13 +8115,17 @@ kiss.router = {
 			ui: newRoute
 		}
 		kiss.router.updateUrlHash(newRoute, reset)
-
-		// Propagate the hash change
-		window.dispatchEvent(new HashChangeEvent("hashchange"))
+		await kiss.router._route()
 	},
 
 	/**
-	 * Get the current application route from the url hash.
+	 * Get the current application route from the current URL.
+	 * 
+	 * Route priority:
+	 * - if URL hash is exploitable, it's always used
+	 * - otherwise, if pathname mode is enabled, pathnameToRoute(pathname) is used
+	 * 
+	 * A route is considered exploitable when it contains a non-empty "ui" string.
 	 * 
 	 * For example:
 	 * - if current url is: http://.../...#ui=homepage&applicationId=123&viewId=456
@@ -7993,11 +8134,30 @@ kiss.router = {
 	 * @returns {object}
 	 */
 	getRoute() {
-		return kiss.router._toRoute(window.location.hash.slice(1))
+		const hashRoute = kiss.router._toRoute(window.location.hash.slice(1))
+
+		// Priority: if hash is present and exploitable, always use it
+		if (kiss.router._isRouteExploitable(hashRoute)) return hashRoute
+
+		// Otherwise, if pathname routing is enabled, parse pathname with the injected mapper
+		if (kiss.router.routerMode == "pathname" && typeof kiss.router.pathnameToRoute == "function") {
+			try {
+				const pathnameRoute = kiss.router.pathnameToRoute(window.location.pathname)
+				if (kiss.router._isRouteExploitable(pathnameRoute)) return pathnameRoute
+			} catch (err) {
+				log.err("kiss.router - pathnameToRoute error", err)
+			}
+		}
+
+		return hashRoute
 	},
 
 	/**
-	 * Update URL hash according to new route params.
+	 * Update URL according to new route params.
+	 * 
+	 * Kept as updateUrlHash for backward compatibility.
+	 * In pathname mode, if reset is true, it uses history.replaceState to avoid
+	 * creating a new browser history entry.
 	 * 
 	 * @param {object} newRoute 
 	 * @param {boolean} [reset] - True to reset the current hash
@@ -8007,9 +8167,63 @@ kiss.router = {
 	 */
 	updateUrlHash(newRoute, reset) {
 		const currentRoute = kiss.router.getRoute()
-		const toRoute = (reset) ? newRoute : Object.assign(currentRoute, newRoute)
+		const toRoute = (reset) ? Object.assign({}, newRoute) : Object.assign({}, currentRoute, newRoute)
+
+		// Pathname mode with injected mapper
+		if (kiss.router.routerMode == "pathname" && typeof kiss.router.routeToPathname == "function") {
+			try {
+				let pathname = kiss.router.routeToPathname(toRoute)
+				if (typeof pathname == "string" && pathname) {
+					if (!pathname.startsWith("/")) pathname = "/" + pathname
+					const newUrl = pathname + window.location.search
+					const historyMethod = (reset === true) ? "replaceState" : "pushState"
+					window.history[historyMethod](toRoute, toRoute.ui, newUrl)
+					return
+				}
+			} catch (err) {
+				log.err("kiss.router - routeToPathname error", err)
+			}
+		}
+
 		const newHash = "#" + kiss.router._toHash(toRoute)
 		window.history.pushState(toRoute, toRoute.ui, newHash)
+	},
+
+	/**
+	 * Check whether a parsed route can be used for routing.
+	 * 
+	 * Strict mode:
+	 * - route must be an object
+	 * - route.ui must be a non-empty string
+	 * 
+	 * @private
+	 * @ignore
+	 * @param {object} route
+	 * @returns {boolean}
+	 */
+	_isRouteExploitable(route) {
+		if (!route || typeof route != "object") return false
+		return (typeof route.ui == "string" && route.ui.trim() != "")
+	},
+
+	/**
+	 * Execute a full routing cycle from current URL.
+	 * 
+	 * @private
+	 * @ignore
+	 */
+	async _route() {
+		const newRoute = kiss.router.getRoute()
+
+		// Perform verifications before routing
+		const doRoute = await kiss.router._beforeRouting(newRoute)
+		if (!doRoute) return
+
+		// Update the application context
+		kiss.context.update(newRoute)
+
+		// Execute router actions after routing
+		await kiss.router._afterRouting()
 	},
 
 	/**
@@ -9384,6 +9598,13 @@ kiss.session = {
 	getWebsocketHost: () => localStorage.getItem("session-ws.host"),
 
 	/**
+	 * Get websocket port
+	 *
+	 * @ignore
+	 */
+	getWebsocketPort: () => localStorage.getItem("session-ws.port"),
+
+	/**
 	 * Get the date/time of the last user activity which was tracked
 	 * 
 	 * @returns {date} The date/time of the last user activity
@@ -9535,6 +9756,12 @@ kiss.session = {
 		// Init the account owner & managers
 		this.initAccountOwner()
 		this.initAccountManagers()
+
+		// Enable local cache if the user has it enabled in their account settings
+		if (kiss.session.account.localCache !== false && !kiss.session.isCacheEnabled) {
+			kiss.session.isCacheEnabled = true
+			kiss.app.enableLocalCache()
+		}
 	},
 
 	/**
@@ -9914,11 +10141,13 @@ kiss.session = {
 		localStorage.setItem("session-isOwner", this.isAccountOwner())
 		localStorage.setItem("session-ws.mode", sessionData.ws.clientMode)
 		localStorage.setItem("session-ws.host", sessionData.ws.host)
+		localStorage.setItem("session-ws.port", sessionData.ws.port)
 
 		// Init or re-init websocket
 		await kiss.websocket.init({
 			clientMode: sessionData.ws.clientMode,
-			socketHost: sessionData.ws.host
+			socketHost: sessionData.ws.host,
+			port: sessionData.ws.port,
 		})
 			.then(() => {
 				log("kiss.session - restore - Websocket connected")
@@ -9972,13 +10201,15 @@ kiss.session = {
 		this.isOwner = this.isAccountOwner()
 		this.ws = {
 			clientMode: this.getWebsocketMode(),
-			host: this.getWebsocketHost()
+			host: this.getWebsocketHost(),
+			port: this.getWebsocketPort(),
 		}
 
 		// Restore websocket connection
 		await kiss.websocket.init({
 			clientMode: this.ws.clientMode,
-			socketHost: kiss.app.socketHost
+			socketHost: kiss.app.socketHost,
+			port: this.ws.port,
 		})
 			.then(() => {
 				log("kiss.session - restore - Websocket connected")
@@ -13006,7 +13237,7 @@ kiss.views = {
 		if (type == "canonical") {
 			linkTag = document.querySelector("link[rel=\"canonical\"]")
 		} else if (type == "alternate") {
-			linkTag = document.querySelector("link[rel=\"alternate\"][hreflang=\"" + language + "\"")
+			linkTag = document.querySelector(`link[rel="alternate"][hreflang="${language}"]`)
 		}
 
 		if (linkTag) {
@@ -14576,7 +14807,7 @@ kiss.websocket = {
 				timeout: heartbeatTimeout = 35000
 			} = {}
 		} = config
-		
+
 		if (!socketHost) socketHost = kiss.session.getWebsocketHost()
 					
 		// Connect to WS or WSS depending on the current client mode
@@ -17237,8 +17468,25 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
 
 			// TODO: Update the view => mostly used for ACL change, but redundant most of the time with EVT_DB_UPDATE:VIEW
 			// TODO: Remove this and add an ACL change event (less generic than a model update)
-			subscribe("EVT_DB_UPDATE:MODEL", (msgData) => {
+			subscribe("EVT_DB_UPDATE:MODEL", async (msgData) => {
 				if (msgData.id == this.model.id) {
+					// Re-check create/delete permissions when model ACL changes
+					const aclFields = ["authenticatedCanCreate", "accessCreate", "authenticatedCanDelete", "accessDelete"]
+					const hasAclChange = aclFields.some(field => msgData.data.hasOwnProperty(field))
+
+					if (hasAclChange) {
+						const fakeRecord = this.model.create()
+
+						// Update create button
+						const canCreate = await kiss.acl.check({action: "create", record: fakeRecord})
+						this.canCreateRecord = (canCreate !== false)
+						this._updateToolbar()
+
+						// Update delete action
+						const canDelete = await kiss.acl.check({action: "delete", record: fakeRecord})
+						this._updateDeleteAction(canDelete)
+					}
+
 					this.reload()
 				}
 			}),
@@ -17620,6 +17868,7 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
 	 * @param {object} config
 	 * @param {boolean} config.excludeSystemFields - Exclude system fields from the list. Default to false
 	 * @param {boolean} config.excludePluginFields - Exclude plugin fields from the list. Default to false
+	 * @param {boolean} config.excludeMultiValueFields - Exclude multi-value fields from the list. Default to false
 	 */
 	_groupGetModelFields(config = {}) {
 		const isDynamicModel = kiss.tools.isUid(this.model.id)
@@ -17629,6 +17878,7 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
 
 		if (config.excludeSystemFields) modelFields = modelFields.filter(field => !field.isSystem)
 		if (config.excludePluginFields) modelFields = modelFields.filter(field => !field.isFromPlugin)
+		if (config.excludeMultiValueFields) modelFields = modelFields.filter(field => !field.multiple == true)
 
 		return modelFields.map(field => {
 			return {
@@ -17870,7 +18120,39 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
 	}
 
 	/**
-	 * 
+	 * Add or remove the delete action from the actions menu based on permissions.
+	 * The delete action is identified by its id "delete-{viewId}".
+	 *
+	 * @param {boolean} canDelete - Whether the user can delete records
+	 */
+	_updateDeleteAction(canDelete) {
+		if (!this.actions) return
+
+		const deleteActionId = "delete-" + this.id
+		const deleteIndex = this.actions.findIndex(action => action && action.id === deleteActionId)
+
+		if (canDelete && deleteIndex === -1) {
+			// Add the delete action
+			this.actions.push("-")
+			this.actions.push({
+				id: deleteActionId,
+				text: txtTitleCase("delete selected documents"),
+				icon: "fas fa-trash",
+				iconColor: "var(--red)",
+				action: () => kiss.selection.deleteSelectedRecords()
+			})
+		} else if (!canDelete && deleteIndex !== -1) {
+			// Remove the delete action and its separator
+			if (deleteIndex > 0 && this.actions[deleteIndex - 1] === "-") {
+				this.actions.splice(deleteIndex - 1, 2)
+			} else {
+				this.actions.splice(deleteIndex, 1)
+			}
+		}
+	}
+
+	/**
+	 *
 	 * COLUMNS MANAGEMENT
 	 * 
 	 */
@@ -18579,14 +18861,18 @@ kiss.ui.DataComponent = class DataComponent extends kiss.ui.Component {
 
 	/**
 	 * Select / Deselect records
+	 * 
+	 * TODO: at the moment, the toggleSelection function only deselects all records.
 	 */
 	toggleSelection() {
-		if (this._pageHasUnselectedRows()) {
-			const ids = this._getVisibleIds()
-			kiss.selection.insertMany(this.id, ids)
-		} else {
-			kiss.selection.reset(this.id)
-		}
+		// if (this._pageHasUnselectedRows()) {
+		// 	const ids = this._getVisibleIds()
+		// 	kiss.selection.insertMany(this.id, ids)
+		// } else {
+		// 	kiss.selection.reset(this.id)
+		// }
+
+		kiss.selection.reset(this.id)
 		this._renderSelectionRestore()
 	}
 
@@ -21637,7 +21923,7 @@ kiss.ui.ChartView = class ChartView extends kiss.ui.DataComponent {
 					id: "valueField",
 					label: txtTitleCase("#summary field"),
 					multiple: false,
-					options: this.model.getFieldsAsOptions(["number", "slider"]),
+					options: this.model.getFieldsAsOptions(["number", "slider", "rating"]),
 					value: this.valueField,
 					autocomplete: "off",
 					width: "100%",
@@ -24192,7 +24478,8 @@ const createDashboard = (config) => document.createElement("a-dashboard").init(c
  * @param {boolean} [config.canEditField] - Can we edit an existing field (= column)?
  * @param {boolean} [config.canCreateRecord] - Can we create new records from the datatable?
  * @param {boolean} [config.createRecordText] - Optional text to insert in the button to create a new record, instead of the default model's name
- * @param {boolean} [config.iconAction] - Font Awesome icon class to display the "open record" symbol. Defaults to "far fa-file-alt"
+ * @param {string} [config.iconAction] - Font Awesome icon class to display for the "open record" symbol. Defaults to "far fa-file-alt"
+ * @param {string} [config.iconHeaderMenu] - Font Awesome icon class to display for the header menu. Defaults to "fas fa-chevron-down"
  * @param {object[]} [config.actions] - Array of menu actions, where each menu entry is: {text: "abc", icon: "fas fa-check", action: function() {}}
  * @param {object[]} [config.buttons] - Array of custom buttons, where each button is: {position: 3, text: "button 3", icon: "fas fa-check", action: function() {}}
  * @param {number|string} [config.width]
@@ -24329,6 +24616,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 		this.canGroup = (config.canGroup !== false)
 		this.color = config.color || "var(--body)"
 		this.iconAction = config.iconAction || "far fa-file-alt"
+		this.iconHeaderMenu = config.iconHeaderMenu || "fas fa-chevron-down"
 		this.defaultRowHeight = 4 // in rem
 		this.resizerWidth = 1.5 // in rem
 
@@ -24539,6 +24827,23 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 			if (!width) width = this.defaultColumnWidth.default
 			this._columnsSetWidth(column.id, width)
 		})
+
+		const firstColumnWidth = this._getFirstColumnDefaultWidth()
+		if (firstColumnWidth != null) localStorage.setItem("config-view-datatable-" + this.id + "-1st-column", firstColumnWidth)
+	}
+
+	/**
+	 * Get default width of 1st column from CSS variable.
+	 * Returns a number without unit (assumed rem).
+	 * 
+	 * @private
+	 * @ignore
+	 * @returns {number|null}
+	 */
+	_getFirstColumnDefaultWidth() {
+		const cssWidth = getComputedStyle(document.documentElement).getPropertyValue("--datacomponent-1st-column-width").trim()
+		const firstColumnWidth = parseFloat(cssWidth)
+		return Number.isNaN(firstColumnWidth) ? null : firstColumnWidth
 	}
 
 	/**
@@ -25330,6 +25635,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 	 */
 	_initColumnsDefaultWidth() {
 		this.defaultColumnWidth = {
+			firstColumn: this._getFirstColumnDefaultWidth(),
 			text: 18,
 			number: 18,
 			date: 18,
@@ -25340,7 +25646,6 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 			icon: 10,
 			attachment: 15,
 			directory: 20,
-			firstColumn: (kiss.screen.isMobile) ? 5 : 9,
 			default: 18
 		}
 		return this
@@ -25737,6 +26042,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
             this.visibleColumns.map(this._renderColumnHeader.bind(this)).join("") +
             `<span class="datatable-column-header datatable-header-last-column">${(this.canAddField) ? "<span class=\"fas fa-plus\"></span>" : ""}</span>` // Button to create a new column
 
+		this.querySelector(".datatable-header-checkbox").attachTip(txtTitleCase("#toggle selection"))
 		return this
 	}
 
@@ -26082,7 +26388,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
                     >
                         ${columnTitle}
                     </span>
-                    <span id="header-properties-for:${column.id}" class="datatable-column-header-properties fas fa-chevron-down">&nbsp</span>
+                    <span id="header-properties-for:${column.id}" class="datatable-column-header-properties fas ${this.iconHeaderMenu}">&nbsp</span>
                     <span id="header-resizer-for:${column.id}" class="datatable-column-header-resizer">&nbsp</span>
                 </div>`.removeExtraSpaces()
 	}
@@ -26825,7 +27131,8 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 		let newWidth
 
 		//  Set minimum column size
-		let columnMinSize = (columnId == "1stColumn") ? 9 : 5
+		const defaultFirstColumnWidth = this._getFirstColumnDefaultWidth()
+		let columnMinSize = (columnId == "1stColumn") ? defaultFirstColumnWidth : 5
 
 		// !!!
 		// TODO: memory leak to solve here => listeners seem to not be garbage collected properly
@@ -27863,6 +28170,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 		const record = this._cellGetRecord(cell)
 		const column = this._cellGetColumn(cell)
 		let initialValue = record[field.id]
+		const selectId = "datatable-edit-select:" + field.id + ":" + kiss.tools.shortUid()
 
 		createPanel({
 			id: "panel-edit-select",
@@ -27879,14 +28187,14 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 			items: [
 				// Select
 				{
-					id: field.id,
+					id: selectId,
 					type: field.type,
 					value: initialValue,
 					required: field.required,
 					fieldWidth: "100%",
-					maxHeight: "40rem",
 					flex: 1,
 					options: field.options,
+					optionsTranslations: field.optionsTranslations,
 					users: (field.users === false) ? false : true,
 					groups: (field.groups === false) ? false : true,
 					roles: field.roles,
@@ -27898,7 +28206,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 					allowClickToDelete: field.multiple,
 					allowSwitchOnOff: field.multiple,
 					allowValuesNotInList: field.allowValuesNotInList,
-					maxHeight: "30rem",
+					preloadData: field.preloadData,
 
 					// Options for <Select View Column> field
 					viewId: field.viewId,
@@ -27906,7 +28214,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 
 					events: {
 						onkeydown: (event) => $("panel-edit-select").keydown(event, "field"),
-						onchange: () => $("panel-edit-select").focus()
+						onchange: () => $("panel-edit-select").applyValueAndClose("change")
 					}
 				},
 
@@ -27942,7 +28250,11 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 				}
 			],
 			events: {
-				onclose: () => $("panel-edit-select").beforeClose(),
+				onclose: () => {
+					const panel = $("panel-edit-select")
+					if (!panel) return
+					panel.beforeClose()
+				},
 				onkeydown: (event) => {
 					if (!$("panel-edit-select")) return
 					$("panel-edit-select").keydown(event, "panel")
@@ -27953,8 +28265,8 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 					setTimeout(() => this.focus(), 50)
 				},
 				beforeClose() {
-					if ($("panel-edit-select").doNotModifyValue) return
-					const selectField = $(field.id)
+					if (this.doNotModifyValue) return
+					const selectField = $(selectId)
 
 					// Exit if the value didn't change
 					let newValue = selectField.getValue()
@@ -27970,10 +28282,47 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 					// Update the record
 					record.updateFieldDeep(field.id, newValue)
 				},
+				async applyValueAndClose(source) {
+					const panel = this
+					const selectField = $(selectId)
+					let newValue = selectField.getValue()
+					if (newValue == initialValue) return
+
+					const success = selectField.validate()
+					if (!success) {
+						createNotification(txtTitleCase("this field is required"))
+						return
+					}
+
+					await record.updateFieldDeep(field.id, newValue)
+					panel.doNotModifyValue = true
+					panel.close()
+				},
 				async keydown(event, source) {
+					// If panel has focus and user types, forward to select search input
+					if (source == "panel" && event.key && event.key.length == 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+						const selectField = $(selectId)
+						if (selectField && selectField.fieldInput) {
+							// If input already has focus, keep native input behavior
+							// (selection replacement, caret position, etc.)
+							if (document.activeElement === selectField.fieldInput) return
+
+							event.preventDefault()
+							selectField._showOptions()
+							selectField.fieldInput.value = (selectField.fieldInput.value || "") + event.key
+							selectField.fieldInput.focus()
+							selectField._showOptions(selectField.fieldInput.value)
+						}
+						return
+					}
+
 					// Validate on 'Enter' key
 					if (event.key == "Enter") {
-						const selectField = $(field.id)
+						
+						// Let the select input handle Enter and trigger change
+						if (source == "field") return
+
+						const selectField = $(selectId)
 
 						// Exit if the value didn't change
 						let newValue = selectField.getValue()
@@ -27988,12 +28337,13 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 
 						// Update the record
 						await record.updateFieldDeep(field.id, newValue)
-						$("panel-edit-select").close()
+						const panel = $("panel-edit-select")
+						if (panel) panel.close()
 					}
 
 					// Abort with 'Escape' key
 					if (event.key == "Escape") {
-						$(field.id).setValue(initialValue)
+						$(selectId).setValue(initialValue)
 						$("panel-edit-select").doNotModifyValue = true
 						$("panel-edit-select").close()
 					}
@@ -28003,7 +28353,7 @@ kiss.ui.Datatable = class Datatable extends kiss.ui.DataComponent {
 
 						if (source == "panel") {
 							$("panel-edit-select").blur()
-							const selectField = $(field.id)
+							const selectField = $(selectId)
 							selectField._showOptions()
 							selectField.focus()
 						}
@@ -31033,7 +31383,8 @@ kiss.ui.Kanban = class Kanban extends kiss.ui.DataComponent {
 		// Grouping
 		let groupingFields = this._groupGetModelFields({
 			excludeSystemFields: true,
-			excludePluginFields: true
+			excludePluginFields: true,
+			excludeMultiValueFields: true
 		})
 		let groupingFieldValues = []
 
@@ -41721,7 +42072,7 @@ const createRating = (config) => document.createElement("a-rating").init(config)
  * @param {string} [config.display] - flex | inline flex
  * @param {string|number} [config.width]
  * @param {string|number} [config.height]
- * @param {string|number} [config.maxHeight] - Max height of the options list
+ * @param {string|number} [config.maxHeight] - Max height of the options list. Default 30rem.
  * @param {number|string} [config.optionHeight] - Fixed height in rem for each option (virtual scrolling). Default 3.2rem
  * @param {number} [config.optionsOverscan] - Number of extra options rendered above/below the viewport
  * @param {object} [config.record] - The record to bind the field to. This will automatically update the record when the field value changes, and the field will listen to database changes on the record.
@@ -41819,6 +42170,7 @@ kiss.ui.Select = class Select extends kiss.ui.Component {
 		this.inputSeparator = config.inputSeparator || ","
 		this.valueSeparator = config.valueSeparator || ","
 		this.stackValues = !!config.stackValues
+		this.maxHeight = config.maxHeight || "30rem"
 		this.allowValuesNotInList = !!config.allowValuesNotInList
 		this.allowDuplicates = !!config.allowDuplicates
 		this.allowClickToDelete = !!config.allowClickToDelete && (this.readOnly !== true)
@@ -41866,17 +42218,51 @@ kiss.ui.Select = class Select extends kiss.ui.Component {
 					// Check if there are available translations
 					let sourceOptions = config.options || []
 					if (config.optionsTranslations && kiss.language.currentDynamic && config.optionsTranslations[kiss.language.currentDynamic]) {
+						const translatedOptions = config.optionsTranslations[kiss.language.currentDynamic]
+						const translatedOptionsById = {}
+						const hasSourceOptionIds = sourceOptions.some(option => typeof option == "object" && !!option.id)
+						const hasTranslationIds = Array.isArray(translatedOptions)
+							? translatedOptions.some((translatedOption) => translatedOption && typeof translatedOption == "object" && !!translatedOption.id)
+							: (!!translatedOptions && typeof translatedOptions == "object")
+						const useLegacyIndexFallback = !hasSourceOptionIds && !hasTranslationIds
+
+						if (!Array.isArray(translatedOptions) && translatedOptions && typeof translatedOptions == "object") {
+							Object.keys(translatedOptions).forEach((optionId) => {
+								const translatedOption = translatedOptions[optionId]
+								translatedOptionsById[optionId] = (translatedOption && typeof translatedOption == "object") ? translatedOption.value : translatedOption
+							})
+						} else if (Array.isArray(translatedOptions)) {
+							translatedOptions.forEach((translatedOption) => {
+								if (translatedOption && translatedOption.id) translatedOptionsById[translatedOption.id] = translatedOption.value
+							})
+						}
+
 						sourceOptions = sourceOptions.map((option, index) => {
+							const translatedByIndex = Array.isArray(translatedOptions) ? translatedOptions[index] : null
+							const translatedByIndexValue = useLegacyIndexFallback ? ((translatedByIndex && typeof translatedByIndex == "object") ? translatedByIndex.value : translatedByIndex) : undefined
+
 							if (typeof option == "object") {
+								const translatedById = (option.id && Object.prototype.hasOwnProperty.call(translatedOptionsById, option.id)) ? translatedOptionsById[option.id] : undefined
+								const translatedValue = (translatedById !== undefined && translatedById !== null) ? translatedById : translatedByIndexValue
+								if (translatedValue === undefined || translatedValue === null) return option
+
 								let finalOption = {
-									label: config.optionsTranslations[kiss.language.currentDynamic][index].value,
+									label: translatedValue,
 									value: option.value
 								}
+
+								if (option.id) finalOption.id = option.id
 								if (option.color) finalOption.color = option.color
 								return finalOption
 							} else {
+								if (translatedByIndexValue === undefined || translatedByIndexValue === null) {
+									return {
+										value: option
+									}
+								}
+
 								return {
-									label: config.optionsTranslations[kiss.language.currentDynamic][index].value,
+									label: translatedByIndexValue,
 									value: option
 								}
 							}
@@ -41963,10 +42349,6 @@ kiss.ui.Select = class Select extends kiss.ui.Component {
 			[
 				["fieldWidth=width", "minWidth"],
 				[this.optionsWrapper.style]
-			],
-			[
-				["maxHeight"],
-				[this.optionsList.style]
 			],
 			[
 				["placeholder"],
@@ -42628,13 +43010,22 @@ kiss.ui.Select = class Select extends kiss.ui.Component {
 	 */
 	_manageKeyboard() {
 		this.fieldInput.onkeydown = (event) => {
-			if (event.key == "Enter") event.preventDefault()
+			if (event.key == "Enter") {
+				event.preventDefault()
+				// Trigger value add on keydown to avoid panel handlers stealing keyup
+				this.fieldInput.onkeyup(event)
+			}
 		}
 
 		this.fieldInput.onkeyup = (event) => {
 			event.stop()
 
 			let enteredValue = event.target.value
+			const nonValueKeys = [
+				"Shift", "Control", "Alt", "Meta",
+				"CapsLock", "Tab", "Home", "End",
+				"PageUp", "PageDown", "Escape"
+			]
 
 			// ARROW DOWN (navigate down the list of options)
 			if (event.which == 40) {
@@ -42660,13 +43051,22 @@ kiss.ui.Select = class Select extends kiss.ui.Component {
 
 			// ENTER or the SEPARATOR character (comma by default) add the selected value
 			if ((event.key == "Enter") || (event.key == this.inputSeparator)) {
+				let newValue = (event.key == "Enter") ? enteredValue : enteredValue.slice(0, enteredValue.length - 1)
+
+				// If values not in list are allowed, prioritize raw input when it doesn't match any option
+				if (this.allowValuesNotInList && newValue != "") {
+					const checkedValue = this._findValue(newValue)
+					if (!checkedValue) {
+						this.addValue(newValue)
+						return
+					}
+				}
+
 				if (this.selectedOption != null) {
 					// An option was selected in the list
 					this._addValueFromOption(this.selectedOption)
 				} else {
 					// No options was selected, we use the input field
-					let newValue = (event.key == "Enter") ? enteredValue : enteredValue.slice(0, enteredValue.length - 1)
-
 					if (newValue != "") {
 						if (!this.allowValuesNotInList) {
 							let checkedValue = this._findValue(newValue)
@@ -42680,6 +43080,11 @@ kiss.ui.Select = class Select extends kiss.ui.Component {
 						}
 					}
 				}
+				return
+			}
+
+			// Ignore keyups that do not alter the input value (selection/navigation shortcuts)
+			if (enteredValue == this.lastEnteredValue && (nonValueKeys.includes(event.key) || event.ctrlKey || event.altKey || event.metaKey)) {
 				return
 			}
 
@@ -42899,24 +43304,25 @@ kiss.ui.Select = class Select extends kiss.ui.Component {
 	 * @param {string} enteredValue 
 	 */
 	async _showOptions(enteredValue) {
-		const loadingId = kiss.loadingSpinner.show()
+		const shouldShowLoading = (
+			this.config?.showLoadingOnOpen === true ||
+			this.type == "selectViewColumn"
+		)
+		const loadingId = shouldShowLoading ? kiss.loadingSpinner.show() : null
+		try {
+			if (this.optionsWrapper && this.optionsWrapper.style.display == "block") {
+				this._filterOptions(enteredValue || "")
+				return
+			}
 
-		if (this.optionsWrapper && this.optionsWrapper.style.display == "block") {
-			this._filterOptions(enteredValue || "")
-			kiss.loadingSpinner.hide(loadingId)
-			return
-		}
+			// Let the browser paint the spinner before heavy work.
+			await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
 
-		// Let the browser paint the spinner before heavy work
-		await new Promise(requestAnimationFrame)
+			// Create the list of options when it's opened for the 1st time
+			if (!this._optionsListReady) await this._createOptions()
 
-		// Create the list of options when it's opened for the 1st time
-		if (!this._optionsListReady) await this._createOptions()
-
-		// Show the options
-		this.optionsWrapper.style.position = "fixed"
-
-		setTimeout(() => {
+			// Show the options
+			this.optionsWrapper.style.position = "fixed"
 			this.optionsWrapper.style.display = "block"
 
 			if (this.fieldInput) {
@@ -42930,13 +43336,13 @@ kiss.ui.Select = class Select extends kiss.ui.Component {
 			this._adjustSizeAndPosition()
 			this._filterOptions(enteredValue || "")
 
-			kiss.loadingSpinner.hide(loadingId)
-		}, 100)
-
-		this.optionsList.onmousewheel = (event) => {
-			event.preventDefault()
-			const direction = event.deltaY < 0 ? -1 : 1
-			this.optionsList.scrollTop += direction * 50
+			this.optionsList.onmousewheel = (event) => {
+				event.preventDefault()
+				const direction = event.deltaY < 0 ? -1 : 1
+				this.optionsList.scrollTop += direction * 50
+			}
+		} finally {
+			if (loadingId) kiss.loadingSpinner.hide(loadingId)
 		}
 	}
 
@@ -42961,9 +43367,11 @@ kiss.ui.Select = class Select extends kiss.ui.Component {
 		this.optionsWrapper.style.width = this.field.getBoundingClientRect().width + "px"
 
 		// Adjust max height
-		if (this.config.maxHeight) {
-			this.optionsWrapper.style.maxHeight = Math.min(this.config.maxHeight, kiss.screen.current.height - 20) + "px"
-			this.optionsList.style.maxHeight = Math.min(this.config.maxHeight - 55, kiss.screen.current.height - 55) + "px"
+		if (this.maxHeight) {
+			const hasUnit = (typeof this.maxHeight == "string") && /[a-z%]/i.test(this.maxHeight)
+			const cssMaxHeight = hasUnit ? this.maxHeight : `${this.maxHeight}px`
+			this.optionsWrapper.style.maxHeight = `min(${cssMaxHeight}, calc(100vh - 20px))`
+			this.optionsList.style.maxHeight = `min(calc(${cssMaxHeight} - 55px), calc(100vh - 55px))`
 		} else {
 			this.optionsWrapper.style.maxHeight = kiss.screen.current.height - 20 + "px"
 			this.optionsList.style.maxHeight = kiss.screen.current.height - 55 + "px"
@@ -44655,7 +45063,7 @@ const createForm = function (record) {
  * 
  * @ignore
  */
-const createFormActions = function (form, activeFeatures) {
+const createFormActions = async function (form, activeFeatures) {
 	const record = form.record
 	const isMobile = kiss.screen.isMobile
 
@@ -44731,6 +45139,10 @@ const createFormActions = function (form, activeFeatures) {
 		})
 	}
 
+	// Check if the user can delete records created with this model
+	const fakeRecord = record.model.create()
+	const canDeleteRecord = await kiss.acl.check({action: "delete", record: fakeRecord})
+
 	return [
 		// Actions to switch navigation side (left/tabs)
 		{
@@ -44760,10 +45172,21 @@ const createFormActions = function (form, activeFeatures) {
 		{
 			hidden: !form.canEditModel || isMobile,
 			icon: "fas fa-cog",
-			text: txtTitleCase("form properties"),
+			text: txtTitleCase("table properties"),
 			action: () => {
 				kiss.context.modelId = record.model.id
 				kiss.views.show("model-properties")
+			}
+		},
+
+		// Action to edit form access
+		{
+			hidden: !form.canEditModel || isMobile,
+			icon: "fas fa-key",
+			text: txtTitleCase("secure table"),
+			action: () => {
+				kiss.context.modelId = record.model.id
+				kiss.views.show("model-access")
 			}
 		},
 
@@ -44798,17 +45221,6 @@ const createFormActions = function (form, activeFeatures) {
 			action: () => {
 				kiss.context.modelId = record.model.id
 				kiss.views.show("model-features")
-			}
-		},
-
-		// Action to edit form access
-		{
-			hidden: !form.canEditModel || isMobile,
-			icon: "fas fa-key",
-			text: txtTitleCase("#secure table"),
-			action: () => {
-				kiss.context.modelId = record.model.id
-				kiss.views.show("model-access")
 			}
 		},
 
@@ -44848,6 +45260,7 @@ const createFormActions = function (form, activeFeatures) {
 
 		// Action to delete a record
 		{
+			hidden: !canDeleteRecord,
 			icon: "fas fa-trash",
 			iconColor: "var(--red)",
 			text: txtTitleCase("delete this record"),
@@ -45260,11 +45673,11 @@ const createFormSideBar = function (form, activeFeatures, formHeaderFeatures, fo
 					textAlign: "left",
 					icon: "fas fa-bars",
 					margin: "0 0 0 0.5rem",
-					action: function () {
+					action: async function () {
 						createMenu({
 							left: this.getBoundingClientRect().x,
 							top: this.getBoundingClientRect().y,
-							items: createFormActions(form, activeFeatures)
+							items: await createFormActions(form, activeFeatures)
 						}).render()
 					}
 				}
@@ -45343,11 +45756,11 @@ const createFormTabBar = function (form, activeFeatures) {
 			height: formTabHeight,
 			borderRadius: formTabBorderRadius,
 			backgroundColorHover: "transparent",
-			action: function () {
+			action: async function () {
 				createMenu({
 					left: this.getBoundingClientRect().x,
 					top: this.getBoundingClientRect().y,
-					items: createFormActions(form, activeFeatures)
+					items: await createFormActions(form, activeFeatures)
 				}).render()
 			}
 		}
@@ -46905,7 +47318,6 @@ const createRecordSelectionWindow = function(config) {
 	const isMobile = kiss.screen.isMobile
 	let tempModel = {}
 	let tempCollection
-	const useMemory = (records) ? true : false
 	const tempDatatableId = kiss.tools.shortUid()
 
 	// Defines a default behavior when selecting a record.
@@ -46976,7 +47388,7 @@ const createRecordSelectionWindow = function(config) {
 		events: {
 			onclose: function () {
 				$("tmp-" + tempDatatableId).hideSearchBar()
-				if (!staticId && records) tempCollection.destroy(useMemory)
+				if (!staticId && records) tempCollection.destroy(true)
 			}
 		},
 
@@ -46985,9 +47397,11 @@ const createRecordSelectionWindow = function(config) {
 
 				// To insert temp documents in offline mode, we need to build a temporary duplicate in-memory model with a different id,
 				// otherwise, working with the temp collection alters the source NeDb collection
-				if (records && kiss.session.isOffline()) {
+				// if (records && kiss.session.isOffline()) {
+				if (records) {
 					Object.assign(tempModel, model)
 					tempModel.id = kiss.tools.uid()
+					tempModel.mode = "memory"
 					tempModel = (new kiss.data.Model(tempModel)).init()
 				}
 				else {
@@ -47022,7 +47436,7 @@ const createRecordSelectionWindow = function(config) {
 					else {
 						tempCollection = new kiss.data.Collection({
 							id: tmpViewId,
-							mode: (useMemory) ? "memory" : kiss.db.mode,
+							mode: (records) ? "memory" : kiss.db.mode,
 							model: tempModel,
 							sort,
 							filter
@@ -47032,7 +47446,7 @@ const createRecordSelectionWindow = function(config) {
 				else {
 					tempCollection = new kiss.data.Collection({
 						id: "tmp-" + uid(),
-						mode: (useMemory) ? "memory" : kiss.db.mode,
+						mode: (records) ? "memory" : kiss.db.mode,
 						model: tempModel,
 						sort,
 						filter
@@ -51673,7 +52087,7 @@ kiss.data.Collection = class {
         // Hook before
         this._hookInsert("before", record)
 
-        if (this.isLocalCache) {
+        if (this.isLocalCache && this.model.mode == "online") {
             await this.localCacheCollection.db.insertOne(this.modelId, record)
         }
 
@@ -52014,7 +52428,7 @@ kiss.data.Collection = class {
                 this.hasChanged = true
             }
 
-            // If the collection records haven't changed, query is the same, and cache is allowed, we return its current records
+            // If the collection records haven't changed, and query is the same, and cache is allowed, we return its current records
             if (this.isLoaded && this.hasChanged == false && nocache != true) {
                 log(`kiss.data.Collection - find - ${this.id} (${this.mode}) - Got ${this.records.length} record(s) from CACHE`, 2)
                 return this.records
@@ -52034,7 +52448,7 @@ kiss.data.Collection = class {
             }
 
             // Init the local cache collection if not yet loaded
-            this._initLocalCacheCollection()
+            await this._initLocalCacheCollection()
 
             log(`kiss.data.Collection - find - ${this.id} (${this.mode})`)
             if (this.showLoadingSpinner && nospinner != true) loadingId = kiss.loadingSpinner.show()
@@ -53360,13 +53774,14 @@ kiss.data.Model = class {
         // Init the Record factory
         this._initRecordFactory()
 
-        // Init client methods & subscriptions
+        // Init client collections & subscriptions
         if (kiss.isClient) {
+            if (this.mode == "online" && this.useLocalCache) {
+                this._initLocalCacheCollection()
+            }
+
             this._initMasterCollection()
             this._initSubscriptions()
-
-            // Init local cache collection
-            if (this.mode == "online" && this.useLocalCache) this._initLocalCacheCollection()
         }
 
         // Init server methods: set accepted fields
@@ -53895,6 +54310,7 @@ kiss.data.Model = class {
             mode: this.mode,
             model: this,
             isLocalCache: false,
+            localCacheCollection: this.useLocalCache ? this.localCacheCollection : null,
             sortSyntax: "normalized",
             isDefault: true,
             sort: [{
@@ -62821,6 +63237,7 @@ kiss.app.defineModel({
 				if (kiss.isServer) {
 					req.path_0 = record.mX
 					req.path_1 = record.rX
+					req.targetCollectionId = "data" // Links always target a record in the "data" collection
 					return await kiss.acl.check({action: "update", req})
 				}
 				else {
@@ -63366,6 +63783,23 @@ kiss.app.defineModel({
 		},
 
 		/**
+		 * Load the collection of records associated to this view, with the view filters, sorts, groups, and projection
+		 */
+		async loadCollection() {
+			const collection = this.getCollection()
+			await collection.find({
+				operation: "search",
+				filter: this.filter,
+				filterSyntax: "normalized",
+				sort: this.sort,
+				sortSyntax: "normalized",
+				group: this.group,
+				projection: this.projection
+			})
+			return collection
+		},
+
+		/**
 		 * Synchronize the view parameters with the model fields:
 		 * - clean up filters
 		 * - clean up sorts
@@ -63470,6 +63904,7 @@ kiss.app.defineModel({
 			let model = kiss.app.models[this.modelId]
 
 			createDialog({
+				id: "view-rename",
 				type: "text",
 				title: txtTitleCase("rename this view"),
 				icon: model.icon,
@@ -63490,6 +63925,13 @@ kiss.app.defineModel({
 						name: viewName
 					}, true) // Force update
 					return true
+				},
+
+				methods: {
+					_afterRender() {
+						// Focus the input after a delay to let the dialog open and render
+						setTimeout(() => $("view-rename").querySelector("input").focus(), 500)
+					}
 				}
 			})
 		},
@@ -63503,6 +63945,7 @@ kiss.app.defineModel({
 			let model = kiss.app.models[this.modelId]
 
 			createDialog({
+				id: "view-duplicate",
 				type: "text",
 				title: txtTitleCase("duplicate this view"),
 				icon: "fas fa-copy",
@@ -63534,7 +63977,14 @@ kiss.app.defineModel({
 						viewId: newView.id
 					})
 					return true
-				}
+				},
+
+				methods: {
+					_afterRender() {
+						// Focus the input after a delay to let the dialog open and render
+						setTimeout(() => $("view-duplicate").querySelector("input").focus(), 500)
+					}
+				}				
 			})
 		},
 

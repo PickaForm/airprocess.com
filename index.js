@@ -11,6 +11,9 @@ window.onload = async function () {
         debug: false,
         name: "airprocess.com",
         mode: "memory",
+        routerMode: "pathname",
+        pathnameToRoute: kiss.global.pathnameToRoute,
+        routeToPathname: kiss.global.routeToPathname,
         startRoute: {
             ui: "start",
             content: "landing"

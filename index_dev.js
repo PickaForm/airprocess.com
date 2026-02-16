@@ -1,6 +1,7 @@
 // Load application scripts
 kiss.loader.loadScripts([
     "utils/init",
+    "utils/routing",
     "utils/localization",
     "utils/animations",
 
@@ -46,6 +47,9 @@ window.onload = async function () {
         debug: true,
         name: "airprocess.com",
         mode: "memory",
+        routerMode: "pathname",
+        pathnameToRoute: kiss.global.pathnameToRoute,
+        routeToPathname: kiss.global.routeToPathname,
         startRoute: {
             ui: "start",
             content: "landing"
