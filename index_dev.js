@@ -36,7 +36,6 @@ kiss.loader.loadScripts([
 
 // Load styles
 kiss.loader.loadStyles([
-    // "https://kissjs.net/resources/lib/kissjs/kissjs",
     "/resources/lib/kissjs/kissjs",
     "/resources/lib/kissjs/webfonts/fontawesome-all.min",
     "/styles"
