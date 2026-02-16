@@ -12,7 +12,7 @@ kiss.theme.set({
 
 // Paths
 kiss.global.path = `https://${window.location.host}`
-kiss.global.pathImg = "./resources/img"
+kiss.global.pathImg = "/resources/img"
 kiss.global.pathAirProcess = `https://app.airprocess.com`
 
 // Blog

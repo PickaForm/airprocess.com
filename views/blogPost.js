@@ -35,7 +35,7 @@ kiss.app.defineView({
                     })
 
                     // Load marked prior to parsing post's body
-                    await kiss.loader.loadScript("./resources/lib/marked/marked.min")
+                    await kiss.loader.loadScript("/resources/lib/marked/marked.min")
                     post.Body = marked(post.Body)
 
                     $("blog-post-banner").setItems([kiss.templates.blogPostBanner(post)])

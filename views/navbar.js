@@ -164,7 +164,7 @@ kiss.app.defineView({
                 {
                     type: "image",
                     alt: "airprocess logo",
-                    src: "./resources/img/airprocess.webp",
+                    src: "/resources/img/airprocess.webp",
                     width: 256,
                     height: 60,
                     position: "absolute",
