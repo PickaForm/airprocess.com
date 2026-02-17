@@ -4336,6 +4336,19 @@ kiss.ux.Link = class Link extends kiss.ui.Select {
 			})
 		)
 
+		// React to bulk link creations
+		this.subscriptions.push(
+			subscribe("EVT_DB_INSERT_MANY:LINK", (msgData) => {
+				if (!Array.isArray(msgData.data)) return
+				const isRelatedToRecord = msgData.data.some(link =>
+					(link.rX == this.record.id) || (link.rY == this.record.id)
+				)
+				if (isRelatedToRecord) {
+					this._renderValues()
+				}
+			})
+		)
+
 		// React to changes on link deletions
 		this.subscriptions.push(
 			subscribe("EVT_DB_DELETE:LINK", (msgData) => {

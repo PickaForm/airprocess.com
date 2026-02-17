@@ -39,7 +39,7 @@ const kiss = {
 	$KissJS: "KissJS - Keep It Simple Stupid Javascript",
 
 	// Build number
-	version: 5275,
+	version: 5250,
     
 	// Tell isomorphic code we're on the client side
 	isClient: true,
@@ -58476,24 +58476,6 @@ kiss.data.relations = {
         // They are kept in cache to improve lookup performances
         let links
         if (kiss.isClient) {
-            const linkCollection = linkModel.collection
-            const localCacheCollection = linkCollection?.localCacheCollection
-
-            // When local cache reload is in progress, wait for completion before reading links.
-            // Otherwise a freshly duplicated record can be opened while links are still transiently stale.
-            if (localCacheCollection?._cacheReloadPromise) await localCacheCollection._cacheReloadPromise
-            if (localCacheCollection?._cacheInitPromise) await localCacheCollection._cacheInitPromise
-
-            // Also wait for collection reload if it is currently in-flight.
-            if (linkCollection?.isLoading) {
-                await new Promise(resolve => {
-                    const subscriptionId = subscribe("EVT_COLLECTION_LOADED:" + linkCollection.id, () => {
-                        kiss.pubsub.unsubscribe(subscriptionId)
-                        resolve()
-                    })
-                })
-            }
-
             links = linkModel.collection.records
         } else if (cache?.links?.[accountId]) {
             links = cache.links[accountId]
@@ -58755,7 +58737,6 @@ kiss.data.relations = {
 }
 
 ;
-
 /**
  * 
  * kiss.data.Transaction
