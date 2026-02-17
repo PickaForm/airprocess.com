@@ -7419,6 +7419,108 @@ ul .tree {
 
 /* /BUTTON */
 
+/* CAROUSEL */
+.a-carousel {
+    position: relative;
+    display: block;
+    overflow: hidden;
+}
+
+.carousel-zoom-mask {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--background-overlay);
+    z-index: 9998;
+}
+
+.carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.carousel-image-active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+.a-carousel.carousel-zoomable .carousel-image-active {
+    cursor: zoom-in;
+}
+
+.a-carousel.carousel-zoomed .carousel-zoom-mask {
+    display: block;
+}
+
+.a-carousel.carousel-zoomed .carousel-image-active {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--carousel-zoom-width, 100%);
+    height: var(--carousel-zoom-height, 100%);
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: auto;
+    z-index: 9999;
+    object-fit: contain;
+    box-shadow: var(--carousel-zoom-shadow, var(--shadow-4));
+    cursor: zoom-out;
+}
+
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    width: 3.2rem;
+    height: 3.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    color: var(--body-background);
+    background: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    user-select: none;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    transition: var(--transition-fast);
+}
+
+.a-carousel:hover .carousel-arrow {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.carousel-arrow-left {
+    left: 1rem;
+}
+
+.carousel-arrow-right {
+    right: 1rem;
+}
+
+.a-carousel.carousel-zoomed .carousel-arrow {
+    display: none;
+}
+/* /CAROUSEL */
+
 /* DIALOG */
 .panel-dialog .panel-header {
     height: 5rem;

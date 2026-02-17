@@ -491,7 +491,7 @@ kiss.app.defineView({
                             items: [
                                 {
                                     type: "html",
-                                    html: `<img src="/resources/img/airprocess.webp" alt="airprocess logo" class="image-content" loading="lazy" style="width: 256px; height: 60px;">`
+                                    html: `<img src="${kiss.global.pathImg}/airprocess.webp" alt="airprocess logo" class="image-content" loading="lazy" style="width: 256px; height: 60px;">`
                                 },
                                 {
                                     type: "html",

@@ -384,6 +384,7 @@ const kiss = {
 				"elements/spacer",
 				"elements/html",
 				"elements/image",
+				"elements/carousel",
 				"elements/button",
 				"elements/menu",
 				"elements/tip",
@@ -465,6 +466,7 @@ const kiss = {
 				"elements/button",
 				"elements/html",
 				"elements/image",
+				"elements/carousel",
 				"elements/menu",
 				"elements/tip",
 				"elements/notification",
@@ -36081,6 +36083,315 @@ const createButton = (config) => document.createElement("a-button").init(config)
 
 
 /**
+ *
+ * The Carousel component derives from [Component](kiss.ui.Component.html).
+ *
+ * It displays a list of images with automatic sliding.
+ *
+ * @param {object} config
+ * @param {string[]} config.images - List of image src
+ * @param {string|number} [config.width] - Any valid CSS width value
+ * @param {string|number} [config.height] - Any valid CSS height value
+ * @param {number} [config.delay] - Auto slide delay in milliseconds (default = 3000)
+ * @param {boolean} [config.showArrows] - Display left/right arrows on hover
+ * @param {boolean} [config.zoomable] - Enable zoom on active image click
+ * @param {string|number} [config.zoomWidth] - Zoomed image width (default = 100%)
+ * @param {string|number} [config.zoomHeight] - Zoomed image height (default = 100%)
+ * @param {string} [config.zoomShadow] - Box shadow applied to zoomed image
+ * @returns this
+ *
+ * ## Generated markup
+ * ```
+ * <a-carousel class="a-carousel">
+ *  <div class="carousel-track">
+ *      <img class="carousel-image carousel-image-active">
+ *  </div>
+ *  <span class="carousel-arrow carousel-arrow-left fas fa-chevron-left"></span>
+ *  <span class="carousel-arrow carousel-arrow-right fas fa-chevron-right"></span>
+ * </a-carousel>
+ * ```
+ */
+kiss.ui.Carousel = class Carousel extends kiss.ui.Component {
+	constructor() {
+		super()
+	}
+
+	/**
+	 * Generates a Carousel from a JSON config
+	 *
+	 * @ignore
+	 * @param {object} config - JSON config
+	 * @returns {HTMLElement}
+	 */
+	init(config = {}) {
+		super.init(config)
+
+		this.images = Array.isArray(config.images) ? config.images.filter(Boolean) : []
+		this.currentIndex = 0
+		this.delay = (typeof config.delay == "number" && config.delay > 0) ? config.delay : 3000
+		this.showArrows = config.showArrows === true
+		this.zoomable = config.zoomable === true
+		this.zoomWidth = this._computeCssSize(config.zoomWidth, "100%")
+		this.zoomHeight = this._computeCssSize(config.zoomHeight, "100%")
+		this.zoomShadow = config.zoomShadow || "var(--shadow-4)"
+		this.isZoomed = false
+
+		this.innerHTML = `
+            ${(this.zoomable) ? '<div class="carousel-zoom-mask"></div>' : ""}
+            <div class="carousel-track"></div>
+            ${(this.showArrows) ? '<span class="carousel-arrow carousel-arrow-left fas fa-chevron-left"></span><span class="carousel-arrow carousel-arrow-right fas fa-chevron-right"></span>' : ""}
+        `.removeExtraSpaces()
+
+		this.zoomMask = this.querySelector(".carousel-zoom-mask")
+		this.track = this.querySelector(".carousel-track")
+		this.arrowLeft = this.querySelector(".carousel-arrow-left")
+		this.arrowRight = this.querySelector(".carousel-arrow-right")
+
+		this._renderImages()
+
+		this._setProperties(config, [
+			[
+				["display", "position", "width", "height", "minWidth", "minHeight", "maxWidth", "maxHeight", "margin", "border", "borderStyle", "borderWidth", "borderColor", "borderRadius", "boxShadow", "overflow", "background", "backgroundColor"],
+				[this.style]
+			]
+		])
+
+		if (!config.display) this.style.display = "block"
+
+		if (this.zoomable) {
+			this.classList.add("carousel-zoomable")
+			this.style.setProperty("--carousel-zoom-width", this.zoomWidth)
+			this.style.setProperty("--carousel-zoom-height", this.zoomHeight)
+			this.style.setProperty("--carousel-zoom-shadow", this.zoomShadow)
+
+			this.track.onclick = (event) => {
+				const clickedImage = event.target.closest(".carousel-image")
+				if (!clickedImage || clickedImage != this.currentImage) return
+				this.toggleZoom()
+			}
+
+			if (this.zoomMask) this.zoomMask.onclick = () => this.setZoom(false)
+		}
+
+		if (this.arrowLeft && this.arrowRight) {
+			this.arrowLeft.onclick = (event) => {
+				event.stopPropagation()
+				this.previous()
+			}
+			this.arrowRight.onclick = (event) => {
+				event.stopPropagation()
+				this.next()
+			}
+		}
+
+		this.start()
+		return this
+	}
+
+	/**
+	 * Start the automatic image rotation
+	 *
+	 * @returns this
+	 */
+	start() {
+		this.stop()
+		if (this.images.length <= 1) return this
+		this.timer = setInterval(() => this.next(true), this.delay)
+		return this
+	}
+
+	/**
+	 * Stop the automatic image rotation
+	 *
+	 * @returns this
+	 */
+	stop() {
+		if (this.timer) clearInterval(this.timer)
+		this.timer = null
+		return this
+	}
+
+	/**
+	 * Go to the next image
+	 *
+	 * @param {boolean} [isAuto] - True when called by automatic rotation
+	 * @returns this
+	 */
+	next(isAuto = false) {
+		return this.goTo(this.currentIndex + 1, isAuto, "slideInRight")
+	}
+
+	/**
+	 * Go to the previous image
+	 *
+	 * @returns this
+	 */
+	previous() {
+		return this.goTo(this.currentIndex - 1, false, "slideInLeft")
+	}
+
+	/**
+	 * Go to an image by index
+	 *
+	 * @param {number} index - Target index
+	 * @param {boolean} [isAuto] - True when called by automatic rotation
+	 * @param {string} [transitionAnimation]
+	 * @returns this
+	 */
+	goTo(index, isAuto = false, transitionAnimation) {
+		if (this.images.length == 0) return this
+		if (isAuto && this.isZoomed) return this
+		if (!isAuto && this.isZoomed) this.setZoom(false)
+
+		const imageCount = this.images.length
+		const nextIndex = (index % imageCount + imageCount) % imageCount
+		const previousImage = this.currentImage
+		const nextImage = this.imageNodes[nextIndex]
+
+		if (previousImage) previousImage.classList.remove("carousel-image-active")
+		if (nextImage) {
+			nextImage.classList.add("carousel-image-active")
+			if (transitionAnimation) nextImage.setAnimation(transitionAnimation)
+			this.currentImage = nextImage
+		}
+
+		this.currentIndex = nextIndex
+
+		if (!isAuto) this.start()
+
+		return this
+	}
+
+	/**
+	 * Update images list
+	 *
+	 * @param {string[]} images
+	 * @returns this
+	 */
+	setImages(images = []) {
+		if (this.isZoomed) this.setZoom(false)
+		this.config.images = images
+		this.images = Array.isArray(images) ? images.filter(Boolean) : []
+		this.currentIndex = 0
+		this._renderImages()
+		this.start()
+		return this
+	}
+
+	/**
+	 * Update auto slide delay
+	 *
+	 * @param {number} delay
+	 * @returns this
+	 */
+	setDelay(delay) {
+		if (typeof delay != "number" || delay <= 0) return this
+		this.config.delay = delay
+		this.delay = delay
+		this.start()
+		return this
+	}
+
+	/**
+	 * Set zoom state
+	 *
+	 * @param {boolean} [zoomState=true]
+	 * @returns this
+	 */
+	setZoom(zoomState = true) {
+		if (!this.zoomable) return this
+		if (this.isZoomed == zoomState) return this
+
+		this.isZoomed = zoomState
+
+		if (zoomState) {
+			this.classList.add("carousel-zoomed")
+			this.stop()
+		} else {
+			this.classList.remove("carousel-zoomed")
+			this.start()
+		}
+
+		return this
+	}
+
+	/**
+	 * Toggle zoom state
+	 *
+	 * @returns this
+	 */
+	toggleZoom() {
+		return this.setZoom(!this.isZoomed)
+	}
+
+	/**
+	 * Set carousel width
+	 *
+	 * @param {*} width - A valid CSS width value
+	 * @returns this
+	 */
+	setWidth(width) {
+		this.config.width = width
+		this.style.width = this._computeSize("width")
+		return this
+	}
+
+	/**
+	 * Set carousel height
+	 *
+	 * @param {*} height - A valid CSS height value
+	 * @returns this
+	 */
+	setHeight(height) {
+		this.config.height = height
+		this.style.height = this._computeSize("height")
+		return this
+	}
+
+	/**
+	 * @private
+	 * @ignore
+	 */
+	_afterDisconnected() {
+		this.stop()
+	}
+
+	/**
+	 * @private
+	 * @ignore
+	 */
+	_renderImages() {
+		this.track.innerHTML = this.images.map((src, index) => {
+			return `<img class="carousel-image ${(index == this.currentIndex) ? "carousel-image-active" : ""}" src="${src}" loading="lazy">`
+		}).join("")
+
+		this.imageNodes = Array.from(this.querySelectorAll(".carousel-image"))
+		this.currentImage = this.imageNodes[this.currentIndex] || null
+	}
+
+	/**
+	 * @private
+	 * @ignore
+	 */
+	_computeCssSize(value, defaultValue) {
+		if (value == null) return defaultValue
+		if (typeof value == "number") return value + "px"
+		return value
+	}
+}
+
+// Create a Custom Element and add a shortcut to create it
+customElements.define("a-carousel", kiss.ui.Carousel)
+
+/**
+ * Shorthand to create a new Carousel. See [kiss.ui.Carousel](kiss.ui.Carousel.html)
+ *
+ * @param {object} config
+ * @returns HTMLElement
+ */
+const createCarousel = (config) => document.createElement("a-carousel").init(config)
+
+/**
  * 
  * The Dialog box is just a Panel with pre-defined items:
  * - OK button
@@ -52447,11 +52758,11 @@ kiss.data.Collection = class {
                 return this.records
             }
 
-            // Init the local cache collection if not yet loaded
-            await this._initLocalCacheCollection()
-
             log(`kiss.data.Collection - find - ${this.id} (${this.mode})`)
             if (this.showLoadingSpinner && nospinner != true) loadingId = kiss.loadingSpinner.show()
+
+            // Init the local cache collection if not yet loaded
+            await this._initLocalCacheCollection()
 
             this.isLoading = true
             this.isLoaded = false
@@ -52607,21 +52918,37 @@ kiss.data.Collection = class {
      */
     async _reloadCache() {
         if (!this.localCacheCollection || this.isLocalCache || this.isDefault) return
-        if (this.localCacheCollection.isCacheLoaded) return
-        if (this.localCacheCollection.isLoading == true) return
+        const localCacheCollection = this.localCacheCollection
+        if (localCacheCollection.isCacheLoaded) return
+        if (localCacheCollection._cacheReloadPromise) return await localCacheCollection._cacheReloadPromise
 
-        this.localCacheCollection.isLoading = true
-        log(`kiss.data.Collection - Reloading local cache for ${this.model.name} - ${this.id} (${this.mode})`)
+        localCacheCollection._cacheReloadPromise = (async () => {
+            localCacheCollection.isLoading = true
+            log(`kiss.data.Collection - Reloading local cache for ${this.model.name} - ${this.id} (${this.mode})`)
 
-        // Reset the local cache collection
-        await this.localCacheCollection.db.deleteCollection(this.modelId)
-        this.localCacheCollection.records = []
-        this.localCacheCollection.isLoaded = false
-        this.localCacheCollection.isCacheLoaded = false
-        this.localCacheCollection.isLoading = false
+            try {
+                // Reset the local cache collection
+                await localCacheCollection.db.deleteCollection(this.modelId)
+                localCacheCollection.records = []
+                localCacheCollection.isLoaded = false
+                localCacheCollection.isCacheLoaded = false
 
-        // Reload the local cache collection
-        await this._initLocalCacheCollection()
+                // Rebuild the local cache collection from online database
+                const records = await kiss.db.online.find(this.modelId, {})
+                await localCacheCollection.insertMany(records)
+
+                const Records = records.map(record => this.model.create(record))
+                localCacheCollection.records = Records
+                localCacheCollection.isLoaded = true
+                localCacheCollection.isCacheLoaded = true
+            }
+            finally {
+                localCacheCollection.isLoading = false
+                localCacheCollection._cacheReloadPromise = null
+            }
+        })()
+
+        return await localCacheCollection._cacheReloadPromise
     }
 
     /**
@@ -52633,23 +52960,34 @@ kiss.data.Collection = class {
      */
     async _initLocalCacheCollection() {
         if (!this.localCacheCollection || this.isLocalCache || this.isDefault) return
-        if (this.localCacheCollection.isCacheLoaded) return
-        if (this.localCacheCollection.isLoading == true) return
+        const localCacheCollection = this.localCacheCollection
+        if (localCacheCollection.isCacheLoaded) return
+        if (localCacheCollection._cacheReloadPromise) return await localCacheCollection._cacheReloadPromise
+        if (localCacheCollection._cacheInitPromise) return await localCacheCollection._cacheInitPromise
 
-        this.localCacheCollection.isLoading = true
-        log(`kiss.data.Collection - Initializing local cache for ${this.model.name} - ${this.id} (${this.mode})`)
+        localCacheCollection._cacheInitPromise = (async () => {
+            localCacheCollection.isLoading = true
+            log(`kiss.data.Collection - Initializing local cache for ${this.model.name} - ${this.id} (${this.mode})`)
 
-        // Get all records from the online database into the local cache collection
-        const records = await kiss.db.online.find(this.modelId, {})
-        await this.localCacheCollection.insertMany(records)
+            try {
+                // Get all records from the online database into the local cache collection
+                const records = await kiss.db.online.find(this.modelId, {})
+                await localCacheCollection.insertMany(records)
 
-        // Create model instances for each record
-        const Records = records.map(record => this.model.create(record))
+                // Create model instances for each record
+                const Records = records.map(record => this.model.create(record))
 
-        this.localCacheCollection.records = Records
-        this.localCacheCollection.isLoaded = true
-        this.localCacheCollection.isCacheLoaded = true
-        this.localCacheCollection.isLoading = false
+                localCacheCollection.records = Records
+                localCacheCollection.isLoaded = true
+                localCacheCollection.isCacheLoaded = true
+            }
+            finally {
+                localCacheCollection.isLoading = false
+                localCacheCollection._cacheInitPromise = null
+            }
+        })()
+
+        return await localCacheCollection._cacheInitPromise
     }    
 
     /**
@@ -53359,6 +53697,7 @@ kiss.data.Collection = class {
 }
 
 ;
+
 /**
  * 
  * Represents a **Model**.
@@ -57990,6 +58329,13 @@ kiss.data.relations = {
         transaction,
         cache,
     ) {
+
+        // Init blank cache if not provided
+        cache = cache || { models: {}, deletedRecords: [], links: {} }
+        cache.models = cache.models || {}
+        cache.deletedRecords = cache.deletedRecords || []
+        cache.links = cache.links || {}
+
         const links = await kiss.data.relations.getLinksFromField(modelId, recordId, linkFieldId, cache)
         if (links.length == 0) {
             return []
@@ -62320,6 +62666,7 @@ kiss.addToModule("tools", {
     /**
      * Check if a variable is a plain object (object literal)
      * 
+     * @ignore
      * @param {*} variable 
      * @returns {boolean} true if the variable is a plain object
      */
