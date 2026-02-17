@@ -76,14 +76,6 @@ kiss.global.path = `https://${window.location.host}`
 kiss.global.pathImg = "/resources/img"
 kiss.global.pathAirProcess = `https://app.airprocess.com`
 
-// Blog
-kiss.global.blogEndPoint = "https://app.airprocess.com/command/blog"
-kiss.global.blogModelId = "0187ed51-d3a5-70ea-869c-6c538d786fb7"
-kiss.global.blogPostTitle = "y9yVRPEQ"
-kiss.global.blogPostDescription = "BedquzD8"
-kiss.global.blogPostPublicationDate = "floopJiS"
-kiss.global.blogPostPublished = "rhI4E1iH"
-
 // Contact
 kiss.global.contactModelId = "0187b40b-0061-7f65-af86-982a361afcf3"
 
@@ -226,8 +218,7 @@ kiss.global.contentBySegment = {
     product: "product",
     cases: "cases",
     contact: "contact",
-    pricing: "pricing",
-    blog: "blog"
+    pricing: "pricing"
 }
 
 kiss.global.getValidLanguage = function (language) {
@@ -246,26 +237,6 @@ kiss.global.pathnameToRoute = function (pathname) {
             ui: "start",
             content: "landing",
             language
-        }
-    }
-
-    // /:language/blog/:postId
-    if (firstSegment === "blog" && parts[2] && parts[2] !== "search") {
-        return {
-            ui: "start",
-            content: "blogPost",
-            language,
-            postId: decodeURIComponent(parts[2])
-        }
-    }
-
-    // /:language/blog/search/:category
-    if (firstSegment === "blog" && parts[2] === "search" && parts[3]) {
-        return {
-            ui: "start",
-            content: "blog",
-            language,
-            category: decodeURIComponent(parts[3])
         }
     }
 
@@ -291,18 +262,6 @@ kiss.global.routeToPathname = function (route = {}) {
 
     const language = kiss.global.getValidLanguage(route.language)
     const content = route.content || "landing"
-
-    if (content === "blogPost" && route.postId) {
-        return `/${language}/blog/${encodeURIComponent(route.postId)}`
-    }
-
-    if (content === "blog" && route.category) {
-        return `/${language}/blog/search/${encodeURIComponent(route.category)}`
-    }
-
-    if (content === "blog") {
-        return `/${language}/blog`
-    }
 
     if (kiss.global.contentBySegment[content]) {
         return `/${language}/${content}`
@@ -565,204 +524,6 @@ kiss.app.defineView({
 })
 
 ;kiss.app.defineView({
-    id: "blog",
-    renderer: function (id, target) {
-        const postEndpoint = kiss.global.blogEndPoint + "/list"
-
-        const t = defineTexts(id, {
-            title: {
-                en: `Your resources to
-                <span class="text-highlight" style="background-color: #00aaee">save time</span>`,
-                fr: `Vos ressources pour
-                <br><span class="text-highlight" style="background-color: #00aaee">gagner du temps</span>`,
-                es: `Sus recursos para
-                <br><span class="text-highlight" style="background-color: #00aaee">ahorrar tiempo</span>`
-            },
-            subtitle: {
-                en: "News, stories and tips on project management, collaboration & productivity",
-                fr: "News et conseils sur la gestion de projet, la collaboration et la productivité",
-                es: "Noticias, historias y consejos sobre gestión de proyectos, colaboración y productividad"
-            }
-        })
-
-        return createBlock({
-            id: id,
-            target,
-            layout: "vertical",
-            alignItems: "center",
-            overflowY: "auto",
-
-            items: [
-                // Blog header
-                kiss.templates.title({
-                    title: t("title"),
-                    subtitle: t("subtitle")
-                }),
-                // Search field
-                {
-                    type: "text",
-                    width: "256px",
-                    fieldWidth: "100%",
-                    fieldHeight: "4vh",
-                    fontSize: "2vh",
-                    placeholder: "Search",
-                    events: {
-                        change() {
-                            $(id).search(this.getValue())
-                        }
-                    }
-                },
-                // List of posts
-                {
-                    id: "blog-content",
-                    class: "blog-content"
-                },
-                // Pager
-                {
-                    id: "blog-pager",
-                    class: "blog-pager"
-                }
-            ],
-
-            methods: {
-                async load() {
-                    this.getPosts(0, 6)
-                },
-
-                _afterConnected() {
-                    this.translateTo(kiss.language.current)
-                },
-                translateTo,
-
-                async getPosts(skip, limit) {
-                    const response = await kiss.ajax.request({
-                        url: postEndpoint,
-                        method: "post",
-                        body: JSON.stringify({
-                            modelId: kiss.global.blogModelId,
-                            filterSyntax: "mongo",
-                            filter: {
-                                [kiss.global.blogPostPublished]: true
-                            },
-                            sortSyntax: "mongo",
-                            sort: {
-                                [kiss.global.blogPostPublicationDate]: -1
-                            }, // Sort by publication date
-                            skip,
-                            limit
-                        })
-                    })
-
-                    const items = response.posts.map(kiss.templates.blogPostEntry)
-
-                    $("blog-content").setItems(items)
-                    $(id).createPager(response.totalCount, skip, response.limit)
-                },
-
-                async search(term, skip = 0, limit = 6) {
-                    const response = await kiss.ajax.request({
-                        url: postEndpoint,
-                        method: "post",
-                        showLoading: true,
-                        body: JSON.stringify({
-                            modelId: kiss.global.blogModelId,
-                            skip,
-                            limit,
-                            sortSyntax: "mongo",
-                            sort: {
-                                [kiss.global.blogPostPublicationDate]: -1
-                            }, // Sort by publication date
-                            filterSyntax: "normalized",
-                            filter: {
-                                type: "group",
-                                operator: "or",
-                                filters: [
-                                    // Search in title
-                                    {
-                                        type: "filter",
-                                        fieldId: kiss.global.blogPostTitle,
-                                        operator: "contains",
-                                        value: term
-                                    },
-                                    // Search in description
-                                    {
-                                        type: "filter",
-                                        fieldId: kiss.global.blogPostDescription,
-                                        operator: "contains",
-                                        value: term
-                                    }
-                                ]
-                            }
-                        })
-                    })
-
-                    const items = response.posts.map(kiss.templates.blogPostEntry)
-
-                    $("blog-content").setItems(items)
-                    $(id).createPager(response.totalCount, response.skip, response.limit, term)
-                },
-
-                createPager(count, skip, limit, searchTerm) {
-                    const searchFunction = $(id).search
-                    const getItemsFunction = $(id).getPosts
-                    const pagerButtons = kiss.templates.pager(count, skip, limit, searchTerm, searchFunction, getItemsFunction)
-                    $("blog-pager").setItems(pagerButtons)
-                }
-            }
-        })
-    }
-})
-
-;kiss.app.defineView({
-    id: "blogPost",
-    renderer: function (id, target) {
-        const postEndpoint = kiss.global.blogEndPoint + "/get"
-
-        return createBlock({
-            id: id,
-            target,
-            layout: "vertical",
-            alignItems: "center",
-            overflowY: "auto",
-
-            items: [{
-                    id: "blog-post-banner",
-                    class: "blog-post-banner",
-                },
-                {
-                    id: "blog-post-content",
-                    class: "blog-post-content",
-                    layout: "vertical",
-                    alignItems: "center"
-                }
-            ],
-
-            methods: {
-                async load() {
-                    const postId = kiss.context.postId
-                    const post = await kiss.ajax.request({
-                        url: postEndpoint,
-                        method: "post",
-                        body: JSON.stringify({
-                            modelId: kiss.global.blogModelId,
-                            postId
-                        })
-                    })
-
-                    // Load marked prior to parsing post's body
-                    await kiss.loader.loadScript("/resources/lib/marked/marked.min")
-                    post.Body = marked(post.Body)
-
-                    $("blog-post-banner").setItems([kiss.templates.blogPostBanner(post)])
-                    $("blog-post-content").setItems([kiss.templates.blogPost(post)])
-                }
-            }
-        })
-    }
-})
-
-;
-kiss.app.defineView({
     id: "cases",
     meta: {
         url: {
@@ -2243,7 +2004,7 @@ kiss.app.defineView({
     id: "navbar",
     renderer: function (id, target) {
         const nextLanguage = getNextLanguage()
-        const BLOG_URL = "https://blog.airprocess.com/command/blog/~/0198f787-2fbb-71c2-bca7-9a9647cb01b5/list/fr/1/index.html"
+        const BLOG_URL = `https://blog.airprocess.com/${kiss.language.current}`
 
         const t = defineTexts(id, {
             "Home": {
@@ -4052,98 +3813,6 @@ kiss.app.defineView({
         })
     }
 })
-
-;kiss.templates.blogPostBanner = function (post) {
-    return {
-        type: "html",
-        html: `<img class="blog-post-banner-image" src="${post.Image[0].path}">`
-    }
-}
-
-kiss.templates.blogPost = function (post) {
-    return {
-        layout: "vertical",
-        items: [
-            {
-                type: "html",
-                html: kiss.templates.breadcrumb(post)
-            },
-            {
-                type: "html",
-                html: `
-                    <h1 class="blog-post-title">${post.Title}</h1>
-                    <p class="blog-post-description">${post.Description}</p>
-                    <p class="blog-post-body">${post.Body}</p>
-                `
-            },
-            ...post.Sections.map(section => {
-                return {
-                    type: "html",
-                    html: `
-                        <h2 class="blog-post-title">${section.Title}</h2>
-                        <p class="blog-post-body">${section.Body.replaceAll("\n", "<br>")}</p>
-                    `
-                }
-            })
-        ]
-    }
-}
-
-kiss.templates.breadcrumb = function(post) {
-    const blogUrl = kiss.global.path + "/" + kiss.language.current + "/blog"
-
-    return /*html*/`
-        <nav aria-label="breadcrumb">
-            <div itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb">
-                <div class="container">
-                    <span itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem" class="breadcrumb-item">
-                        <a href="${blogUrl}" itemprop="item">
-                            <span itemprop="name">Blog</span>
-                            <meta itemprop="position" content="1">
-                        </a>
-                    </span>
-                    ➤
-                    <span itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem" class="breadcrumb-item">
-                        <a href="${blogUrl}/search/${post.Category}" itemprop="item">
-                            <span itemprop="name">${post.Category}</span>
-                            <meta itemprop="position" content="2">
-                        </a>
-                    </span>
-                    ➤
-                    <span itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem" class="breadcrumb-item  active">
-                        <a href="${blogUrl}/${post.Slug}" itemprop="item">
-                            <span itemprop="name">${post.Title}</span>
-                            <meta itemprop="position" content="3">
-                        </a>
-                    </span>
-                </div>
-            </div>
-        </nav>`
-}
-
-;kiss.templates.blogPostEntry = function (post) {
-    const postUrl = kiss.global.path + "/" + kiss.language.current + "/blog/" + post.slug
-    const image = (post.image && Array.isArray(post.image) && post.image.length > 0) ? post.image[0] : ""
-    const tags = post.tags.map(tag => `<span class="blog-entry-tag">${tag}</span>`).join("")
-
-    return {
-        id: post.slug,
-        layout: "vertical",
-        class: "blog-entry",
-        items: [{
-            type: "html",
-            html:
-                `
-                <a href="${postUrl}" class="no-underline">
-                    <img loading="lazy" class="blog-entry-banner-image" src="${image.path}"></img>
-                    <span class="blog-entry-category">${post.category}</span>
-                    ${tags}
-                    <h3 class="blog-entry-title no-underline">${post.title}</h3>
-                    <p class="blog-entry-description">${post.description}</p>
-                </a>`
-        }]
-    }
-}
 
 ;/**
  * Generate a CTA button

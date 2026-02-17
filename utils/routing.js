@@ -5,8 +5,7 @@ kiss.global.contentBySegment = {
     product: "product",
     cases: "cases",
     contact: "contact",
-    pricing: "pricing",
-    blog: "blog"
+    pricing: "pricing"
 }
 
 kiss.global.getValidLanguage = function (language) {
@@ -25,26 +24,6 @@ kiss.global.pathnameToRoute = function (pathname) {
             ui: "start",
             content: "landing",
             language
-        }
-    }
-
-    // /:language/blog/:postId
-    if (firstSegment === "blog" && parts[2] && parts[2] !== "search") {
-        return {
-            ui: "start",
-            content: "blogPost",
-            language,
-            postId: decodeURIComponent(parts[2])
-        }
-    }
-
-    // /:language/blog/search/:category
-    if (firstSegment === "blog" && parts[2] === "search" && parts[3]) {
-        return {
-            ui: "start",
-            content: "blog",
-            language,
-            category: decodeURIComponent(parts[3])
         }
     }
 
@@ -70,18 +49,6 @@ kiss.global.routeToPathname = function (route = {}) {
 
     const language = kiss.global.getValidLanguage(route.language)
     const content = route.content || "landing"
-
-    if (content === "blogPost" && route.postId) {
-        return `/${language}/blog/${encodeURIComponent(route.postId)}`
-    }
-
-    if (content === "blog" && route.category) {
-        return `/${language}/blog/search/${encodeURIComponent(route.category)}`
-    }
-
-    if (content === "blog") {
-        return `/${language}/blog`
-    }
 
     if (kiss.global.contentBySegment[content]) {
         return `/${language}/${content}`

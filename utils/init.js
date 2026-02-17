@@ -15,14 +15,6 @@ kiss.global.path = `https://${window.location.host}`
 kiss.global.pathImg = "/resources/img"
 kiss.global.pathAirProcess = `https://app.airprocess.com`
 
-// Blog
-kiss.global.blogEndPoint = "https://app.airprocess.com/command/blog"
-kiss.global.blogModelId = "0187ed51-d3a5-70ea-869c-6c538d786fb7"
-kiss.global.blogPostTitle = "y9yVRPEQ"
-kiss.global.blogPostDescription = "BedquzD8"
-kiss.global.blogPostPublicationDate = "floopJiS"
-kiss.global.blogPostPublished = "rhI4E1iH"
-
 // Contact
 kiss.global.contactModelId = "0187b40b-0061-7f65-af86-982a361afcf3"
 
