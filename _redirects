@@ -1,6 +1,6 @@
 /:language /index.html 200
-/:language/blog https://blog.airprocess.com/:language 301
-/:language/blog/* https://blog.airprocess.com/:language/:splat 301
+/:language/blog https://blog.airprocess.com 301
+/:language/blog/* https://blog.airprocess.com 301
 /:language/landing /index.html 200
 /:language/product /index.html 200
 /:language/cases /index.html 200

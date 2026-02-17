@@ -2004,7 +2004,7 @@ kiss.app.defineView({
     id: "navbar",
     renderer: function (id, target) {
         const nextLanguage = getNextLanguage()
-        const BLOG_URL = `https://blog.airprocess.com/${kiss.language.current}`
+        const BLOG_URL = "https://blog.airprocess.com"
 
         const t = defineTexts(id, {
             "Home": {
